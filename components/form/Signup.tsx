@@ -19,15 +19,16 @@ import { cn } from "@/utils";
 import Button from "../ui/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useStateCtx } from "@/context/StateCtx";
 import FormError from "./Error";
 import FormSuccess from "./Success";
 import { register } from "@/actions/auth";
 import Link from "next/link";
 
 function SignupForm() {
-  const router = useRouter();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+  const { setOTPModal } = useStateCtx();
 
   const [isLoading, startTransition] = useTransition();
 
@@ -48,6 +49,9 @@ function SignupForm() {
 
     startTransition(() => {
       register(values).then((data) => {
+        if (data?.success) {
+          setOTPModal(true);
+        }
         setSuccess(data?.success);
         setError(data?.error);
       });
@@ -82,7 +86,7 @@ function SignupForm() {
                       {...field}
                       placeholder="Enter Full Name"
                       aria-placeholder="Enter Full Name"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary-light pr-10 sm:pr-9"
+                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>

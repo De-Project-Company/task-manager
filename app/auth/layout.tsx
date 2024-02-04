@@ -1,4 +1,5 @@
 import RightSection from "@/components/auth/Right";
+// import 
 
 export default function AuthLayout({
   children,
