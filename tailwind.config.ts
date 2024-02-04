@@ -36,6 +36,6 @@ const config: Config = {
       inter: ["Inter", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
