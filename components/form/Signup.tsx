@@ -103,7 +103,7 @@ function SignupForm() {
                       type="email"
                       {...field}
                       placeholder="Enter Business Email Address"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary-light pr-10 sm:pr-9 "
+                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -126,7 +126,7 @@ function SignupForm() {
                       type="text"
                       {...field}
                       placeholder="Enter your company name"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary-light pr-10 sm:pr-9 "
+                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -146,24 +146,12 @@ function SignupForm() {
                       disabled={isLoading}
                       {...field}
                       name="password"
+                      type="password"
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary-light pr-10 sm:pr-9"
+                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
-                <button
-                  disabled={isLoading}
-                  type="button"
-                  className="mb-4 text-xs "
-                >
-                  Forgot password?{" "}
-                  <Link
-                    href="/forgot-password"
-                    className="text-primary-light font-medium"
-                  >
-                    Reset
-                  </Link>
-                </button>
                 <FormMessage />
               </FormItem>
             )}
@@ -182,8 +170,9 @@ function SignupForm() {
                       disabled={isLoading}
                       {...field}
                       name="password"
+                      type="password"
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary-light pr-10 sm:pr-9"
+                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -192,7 +181,7 @@ function SignupForm() {
                   type="button"
                   className="mb-4 text-xs "
                 >
-                  Forgot password?{" "}
+                  Forgot password?
                   <Link
                     href="/forgot-password"
                     className="text-primary-light font-medium"

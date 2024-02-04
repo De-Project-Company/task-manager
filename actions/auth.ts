@@ -42,3 +42,120 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
     }
   }
 };
+
+export const login = async (values: z.infer<typeof LoginSchema>) => {
+  const cookie = cookies();
+  const validatedFields = LoginSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {
+      error: "Login Failed. Please check your email and password.",
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  try {
+    const data = await fetch(`${BaseUrl}/signin`, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        credentials: "include",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    console.log(data.status);
+    const res = await data.json();
+    console.log(res);
+    if (data.status === 200 || res.ok) {
+      cookie.set("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+
+      console.log(res.data);
+      const user = {
+        id: res.data.user._id,
+        name: res.data.user.name,
+        email: res.data.user.email,
+        companyName: res.data.user.companyName,
+        website: res.data.user.website,
+        role: res.data.user.role,
+        // createdAt: res.user.createdAt,
+      };
+
+      cookie.set("user", JSON.stringify(user), {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+
+      return {
+        success: "Login successful!",
+        redirect: DEFAULT_LOGIN_REDIRECT,
+        // user: decodedToken,
+      };
+    }
+    if (data.status === 400) {
+      return {
+        error: "Email or Phone number already exist",
+      };
+    }
+    if (data.status === 404) {
+      return {
+        error: "User not found, sign up instead!",
+      };
+    }
+    if (data.status === 500) {
+      return {
+        error: "Something went wrong.",
+      };
+    }
+
+    return {
+      error: res.message,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      error: "Something went wrong.",
+    };
+  }
+};
+
+export const activateUser = async (licence: string) => {
+  console.log(licence);
+  try {
+    const res = await $http.post("/activate", licence);
+
+    if (res.status === 201) {
+      console.log("Activation successful");
+      console.log("Activation response", res);
+      return { success: "User activated successfully" };
+    } else {
+      throw new Error("Unexpected response from server");
+    }
+  } catch (e: any) {
+    console.log("Activate call error from API call", e);
+    if (e?.response?.status === 401) {
+      return { error: "Unauthorized. Invalid license." };
+    } else if (e?.response?.status === 404) {
+      return { error: "Unable to activate. License not found." };
+    } else if (e?.response?.status === 500) {
+      return { error: "Internal server error" };
+    } else {
+      return {
+        error:
+          e?.response?.data ??
+          "Unknown error occurred. Please try again later.",
+      };
+    }
+  }
+};

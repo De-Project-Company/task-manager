@@ -20,7 +20,7 @@ const SplashScreen = () => {
           textAnchor="middle"
           className="text-body text-7xl"
         >
-          Traverse
+          Traverse 
         </text>
         <text
           x="45%"
