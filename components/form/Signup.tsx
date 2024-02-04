@@ -249,18 +249,12 @@ function SignupForm() {
         Continue with Google
       </Button>
 
-      <button
-        disabled={isLoading}
-        className=" w-full text-header  mt-5 md:mt-8 text-sm  relative block text-center md:text-black z-10"
-      >
+      <span className=" w-full text-header  mt-5 md:mt-8 text-sm  relative block text-center md:text-black z-10">
         Already have an account?
-        <span
-          onClick={() => router.push("/login")}
-          className="ml-1 underline font-medium"
-        >
+        <Link href="/auth/signin" className="ml-1 underline font-medium">
           Log in
-        </span>
-      </button>
+        </Link>
+      </span>
     </div>
   );
 }
