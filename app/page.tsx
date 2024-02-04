@@ -4,6 +4,7 @@ import { Nav } from "@/components/home/NavBar";
 import Servicees from "@/components/home/Servicees";
 import About from "@/components/home/About";
 import Stories from "@/components/home/Stories";
+import Footer from "@/components/home/Footer";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Servicees />
       <About />
       <Stories />
+      <Footer />
     </>
   );
 };
