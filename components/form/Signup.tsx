@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import * as z from "zod";
 import { RegistrationSchema } from "@/schemas";
@@ -24,6 +25,7 @@ import { register } from "@/actions/auth";
 import Link from "next/link";
 
 function SignupForm() {
+  const router = useRouter();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
 
@@ -57,7 +59,7 @@ function SignupForm() {
         Let us know you better
       </h1>
       <span className="block text-center font-[400] text-[14px] mt-2 ">
-        Fil the following to continue
+        Fill the following to continue
       </span>
 
       <Form {...form}>
@@ -227,6 +229,38 @@ function SignupForm() {
           </div>
         </form>
       </Form>
+      <div className="seperator flex items-center space-x-2 my-2 min-[850px]:my-10">
+        <span className="seperate h-[1px] bg-[#C7C7C7] w-full" />
+        <h4 className="text-gray/80"> Or</h4>
+        <span className="seperate h-[1px] bg-[#C7C7C7] w-full" />
+      </div>
+
+      <Button
+        className=" text-black flex items-center w-full my-3 border-[#C7C7C7]  transition-colors duration-300	border rounded-md bg-[#fff] py-1"
+        leftIcon={
+          <Image
+            src="/assets/google.svg"
+            alt="google_logo_icon"
+            width={20}
+            height={20}
+          />
+        }
+      >
+        Continue with Google
+      </Button>
+
+      <button
+        disabled={isLoading}
+        className=" w-full text-header  mt-5 md:mt-8 text-sm  relative block text-center md:text-black z-10"
+      >
+        Already have an account?
+        <span
+          onClick={() => router.push("/login")}
+          className="ml-1 underline font-medium"
+        >
+          Log in
+        </span>
+      </button>
     </div>
   );
 }
