@@ -126,3 +126,11 @@ svg circle {
     stroke-dasharray: 32% 0;
   }
 }
+
+.active {
+  background: linear-gradient(
+    92deg,
+    rgba(140, 49, 255, 0.05) 0%,
+    rgba(140, 49, 255, 0.22) 100%
+  );
+}
