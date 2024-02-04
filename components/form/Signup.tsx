@@ -115,7 +115,7 @@ function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold ">
-                  Company Name (if none add NULL)
+                  Company Name (if none add NILL)
                 </FormLabel>
                 <FormControl>
                   <div className="flex items-center w-full relative">
