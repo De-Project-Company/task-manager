@@ -1,13 +1,14 @@
 "use server";
 
-import { RegistrationSchema, LoginSchema } from "@/schemas";
+import { RegistrationSchema, LoginSchema, activateASchema } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { jwtDecode } from "jwt-decode";
-
+import { UserDetails } from "@/types";
 import Calls from "./calls";
 
+const cookie = cookies();
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
 
@@ -44,7 +45,6 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  const cookie = cookies();
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return {
@@ -68,9 +68,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         password,
       }),
     });
-    console.log(data.status);
     const res = await data.json();
-    console.log(res);
+
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 1, // 1 day
@@ -79,7 +78,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
-      console.log(res.data);
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -97,10 +95,22 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
+      const decodedToken = jwtDecode(res.token) as UserDetails;
+      if (decodedToken) {
+        const userId = {
+          UserId: decodedToken.UserId,
+          token: res.token,
+        };
+        cookie.set("user", JSON.stringify(userId), {
+          maxAge: 60 * 60 * 24 * 1, // 1 day
+          path: "/",
+          priority: "high",
+        });
+      }
+
       return {
         success: "Login successful!",
         redirect: DEFAULT_LOGIN_REDIRECT,
-        // user: decodedToken,
       };
     }
     if (data.status === 400) {
@@ -130,22 +140,33 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 };
 
-export const activateUser = async (licence: string) => {
-  console.log(licence);
-  try {
-    const res = await $http.post("/activate", licence);
+export const activateUser = async (values: z.infer<typeof activateASchema>) => {
+  const validatedFields = activateASchema.safeParse(values);
 
-    if (res.status === 201) {
-      console.log("Activation successful");
-      console.log("Activation response", res);
-      return { success: "User activated successfully" };
-    } else {
-      throw new Error("Unexpected response from server");
+  if (!validatedFields.success) {
+    return {
+      error: "Validation failed. Please check your input.",
+    };
+  }
+
+  try {
+    const res = await $http.post("/auth/activate", values);
+
+    if (res?.status === 200) {
+      cookie.set("activation_token", res.data.token, {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+      return {
+        success: "Account created successfully, check your email!",
+      };
     }
   } catch (e: any) {
     console.log("Activate call error from API call", e);
     if (e?.response?.status === 401) {
-      return { error: "Unauthorized. Invalid license." };
+      return { error: "Invalid license." };
     } else if (e?.response?.status === 404) {
       return { error: "Unable to activate. License not found." };
     } else if (e?.response?.status === 500) {

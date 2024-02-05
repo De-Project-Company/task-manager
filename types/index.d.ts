@@ -4,3 +4,7 @@ export type SidebarProps = {
   icon: Icon;
   link: string;
 };
+
+export interface UserDetails {
+  UserId: string;
+}
