@@ -25,3 +25,9 @@ export const RegistrationSchema = z.object({
     message: "Password confirmation must be at least 5 characters long",
   }),
 });
+
+export const activateASchema = z.object({
+  licence: z
+    .string()
+    .min(3, { message: "license must be at least 3 characters long" }),
+});

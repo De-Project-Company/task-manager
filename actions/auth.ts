@@ -1,13 +1,13 @@
 "use server";
 
-import { RegistrationSchema, LoginSchema } from "@/schemas";
+import { RegistrationSchema, LoginSchema, activateASchema } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { jwtDecode } from "jwt-decode";
-
 import Calls from "./calls";
 
+const cookie = cookies();
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
 
@@ -44,7 +44,6 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  const cookie = cookies();
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return {
@@ -130,22 +129,33 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 };
 
-export const activateUser = async (licence: string) => {
-  console.log(licence);
-  try {
-    const res = await $http.post("/activate", licence);
+export const activateUser = async (values: z.infer<typeof activateASchema>) => {
+  const validatedFields = activateASchema.safeParse(values);
 
-    if (res.status === 201) {
-      console.log("Activation successful");
-      console.log("Activation response", res);
-      return { success: "User activated successfully" };
-    } else {
-      throw new Error("Unexpected response from server");
+  if (!validatedFields.success) {
+    return {
+      error: "Validation failed. Please check your input.",
+    };
+  }
+
+  try {
+    const res = await $http.post("/auth/activate", values);
+
+    if (res?.status === 200) {
+      cookie.set("activation_token", res.data.token, {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+      return {
+        success: "Account created successfully, check your email!",
+      };
     }
   } catch (e: any) {
     console.log("Activate call error from API call", e);
     if (e?.response?.status === 401) {
-      return { error: "Unauthorized. Invalid license." };
+      return { error: "Invalid license." };
     } else if (e?.response?.status === 404) {
       return { error: "Unable to activate. License not found." };
     } else if (e?.response?.status === 500) {
