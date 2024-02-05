@@ -55,7 +55,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const { email, password } = validatedFields.data;
 
   try {
-    const data = await fetch(`${BaseUrl}/signin`, {
+    const data = await fetch(`${BaseUrl}/auth/signin`, {
       method: "POST",
 
       headers: {
