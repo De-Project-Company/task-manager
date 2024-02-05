@@ -23,7 +23,7 @@ const OTPModal = () => {
           role="dialog"
           aria-labelledby="OTP"
           className={cn(
-            "py-6  flex flex-col min-w-[360px] max-w-[400px]  min-h-[300px] max-h-[500px] justify-between items-center bg-white backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none -translate-x-1/2",
+            "py-6  flex flex-col min-w-[360px] max-w-[450px]  min-h-[300px] max-h-[500px] justify-between items-center bg-white backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none -translate-x-1/2",
             OTPModal
               ? "scale-100  duration-700 opacity-100 rounded-xl md:rounded-2xl"
               : "scale-0 translate-y-full duration-300 pointer-events-none"
