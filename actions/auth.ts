@@ -5,6 +5,7 @@ import * as z from "zod";
 import { cookies } from "next/headers";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { jwtDecode } from "jwt-decode";
+import { UserDetails } from "@/types";
 import Calls from "./calls";
 
 const cookie = cookies();
@@ -67,9 +68,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         password,
       }),
     });
-    console.log(data.status);
     const res = await data.json();
-    console.log(res);
+
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 1, // 1 day
@@ -78,7 +78,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
-      console.log(res.data);
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -96,10 +95,22 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
+      const decodedToken = jwtDecode(res.token) as UserDetails;
+      if (decodedToken) {
+        const userId = {
+          UserId: decodedToken.UserId,
+          token: res.token,
+        };
+        cookie.set("user", JSON.stringify(userId), {
+          maxAge: 60 * 60 * 24 * 1, // 1 day
+          path: "/",
+          priority: "high",
+        });
+      }
+
       return {
         success: "Login successful!",
         redirect: DEFAULT_LOGIN_REDIRECT,
-        // user: decodedToken,
       };
     }
     if (data.status === 400) {
