@@ -23,7 +23,7 @@ export const HeroSection = () => {
       </section>
       <div className="flex items-center justify-center px-5 md:px-0 pb-14 md:pb-28">
         <Image
-          src="/assets/Heroimage.png"
+          src="/assets/HeroImage.png"
           alt="Hero Image"
           width={1200}
           height={700}
