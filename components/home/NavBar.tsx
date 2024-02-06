@@ -18,9 +18,9 @@ export const Nav = () => {
           <button className="text-purple-600 bg-purple-50 px-5 py-3 hover:bg-purple-600 hover:text-purple-50 border border-[#ECEBFF] rounded-lg">
             Employer
           </button>
-          <button className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:bg-white hover:border hover:border-purple-600 hover:text-purple-600">
+          <Link href="/author/sign up" className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:bg-white hover:border hover:border-purple-600 hover:text-purple-600">
             Signup as User
-          </button>
+          </Link>
         </div>
       </header>
       <div className="flex flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5">
