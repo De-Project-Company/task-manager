@@ -107,7 +107,7 @@ function SignupForm() {
                     />
                   </div>
                 </FormControl>
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />

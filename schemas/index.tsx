@@ -25,3 +25,9 @@ export const RegistrationSchema = z.object({
     message: "Password confirmation must be at least 5 characters long",
   }),
 });
+
+export const RequestADemoSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  message: z.string().min(15, {message: "Must be atleast 15 characters long"})
+})

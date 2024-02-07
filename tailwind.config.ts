@@ -22,6 +22,7 @@ const config: Config = {
         "soft-bg": "#f7f8fa",
         "trend-down": "#ed544e",
         purple: {
+          25:"#F9F8FB",
           50: "#ECEBFF",
           600: "#574EFA",
           900: "#33059F",
