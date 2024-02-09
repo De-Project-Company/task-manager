@@ -22,10 +22,14 @@ const config: Config = {
         "soft-bg": "#f7f8fa",
         "trend-down": "#ed544e",
         purple: {
+          25:"#F9F8FB",
           50: "#ECEBFF",
           600: "#574EFA",
           900: "#33059F",
           950: "#1B0354",
+        },
+       grey: {
+          700: '#272D37'
         },
         sh: "rgba(16,24,40,0.05)",
         neutraly: "#6B7B8F",
