@@ -27,6 +27,7 @@ import FormSuccess from "./Success";
 import { CreateProject } from "@/actions/project";
 import Link from "next/link";
 import { TextArea } from "../ui/Textarea";
+import axios from "axios";
 
 function CreateProjectForm() {
   const [success, setSuccess] = useState<string | undefined>("");
@@ -70,9 +71,16 @@ function CreateProjectForm() {
   //   });
   // };
 
-  const handleSubmit = () => {
-    // Handle form submission logic
-    console.log("Submitted Project Data:", projectData);
+  const handleSubmit = async () => {
+    const values = projectData;
+    setError("");
+    setSuccess("");
+    startTransition(() => {
+      CreateProject(values).then((data) => {
+        setSuccess(data?.success);
+        setError(data?.error);
+      });
+    });
   };
 
   const datePickerStyles = {
@@ -167,6 +175,8 @@ function CreateProjectForm() {
               className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
             />
           </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
 
           <div className="flex relative items-center [perspective:300px] transform-gpu max-sm:w-full">
             <Button

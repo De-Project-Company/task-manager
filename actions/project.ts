@@ -11,16 +11,7 @@ const BaseUrl =
 
 const $http = Calls(BaseUrl);
 
-
-export const CreateProject = async (values: z.infer<typeof ProjectSchema>) => {
-  const validatedFields = ProjectSchema.safeParse(values);
-
-  if (!validatedFields.success) {
-    return {
-      error: "Validation failed. Please check your input.",
-    };
-  }
-
+export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
 
   if (!authToken) {
