@@ -1,8 +1,18 @@
 "use client";
+
 import React from "react";
+import DashNav from "@/components/dashboard/nav";
+import { useRouter } from "next/navigation";
+import { ArrowSquareLeft } from "iconsax-react";
 
 const Dashboard = () => {
-  return <div>dashboard</div>;
+  const router = useRouter();
+  return (
+    <>
+    
+      <DashNav />
+    </>
+  );
 };
 
 export default Dashboard;
