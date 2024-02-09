@@ -12,6 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 
 interface StateContextProps {
+  currentPath: string;
   openSidebar: boolean;
   setOpenSidebar: Dispatch<SetStateAction<boolean>>;
   OTPModal: boolean;
@@ -27,6 +28,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [OTPModal, setOTPModal] = useState(false);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
+  const [currentPath, setCurrentPath] = useState("");
 
   const pathname = usePathname();
 
@@ -139,6 +141,17 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    if (pathname.startsWith("/")) {
+      setCurrentPath(pathname.replace(/^\/([^\/]+).*$/, "$1"));
+      return;
+    }
+    if (pathname.startsWith("/")) {
+      setCurrentPath(pathname.replace("/", ""));
+      return;
+    }
+  }, [pathname]);
+
   const value = useMemo(
     () => ({
       openSidebar,
@@ -147,8 +160,9 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setOTPModal,
       swipeIndicator,
       setSwipeIndicator,
+      currentPath,
     }),
-    [openSidebar, OTPModal, swipeIndicator]
+    [openSidebar, OTPModal, swipeIndicator, currentPath]
   );
 
   return (
