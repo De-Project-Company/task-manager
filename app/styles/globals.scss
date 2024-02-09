@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'react-datepicker/dist/react-datepicker.css';
+
 
 :root {
   --loader-text-color: #f6e9fe;

@@ -1,10 +1,10 @@
 import * as z from "zod";
 
 type requestDemoData = {
-  name: string,
-  email: string,
-  message: string
-}
+  name: string;
+  email: string;
+  message: string;
+};
 
 export const LoginSchema = z.object({
   email: z.string().email(),
@@ -31,14 +31,35 @@ export const RegistrationSchema = z.object({
     message: "Password confirmation must be at least 5 characters long",
   }),
 });
-export const RequestADemoSchema:z.ZodType<requestDemoData> = z.object({
-  name: z.string().min(3,{message:"Minimum of 3 characters required"}),
+
+export const RequestADemoSchema: z.ZodType<requestDemoData> = z.object({
+  name: z.string().min(3, { message: "Minimum of 3 characters required" }),
   email: z.string().email(),
-  message: z.string().min(15, {message: "Must be atleast 15 characters long"})
-})
+  message: z
+    .string()
+    .min(15, { message: "Must be atleast 15 characters long" }),
+});
+
 export const activateASchema = z.object({
   licence: z
     .string()
     .min(3, { message: "license must be at least 3 characters long" }),
 });
 
+
+export const ProjectSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  price: z.number(),
+  teamMembers: z.array(z.string()),
+  startDate: z
+    .date()
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
+      message: "Invalid date format.",
+    }),
+  endDate: z
+    .date()
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
+      message: "Invalid date format.",
+    }),
+});

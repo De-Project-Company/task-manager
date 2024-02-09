@@ -4,8 +4,9 @@ import React from "react";
 import DashNav from "@/components/dashboard/nav";
 import { useRouter } from "next/navigation";
 import { ArrowSquareLeft } from "iconsax-react";
+import CreateProjectForm from "@/components/form/CreateProjectForm";
 
-const Page = () => {
+const CreateProject = () => {
   const router = useRouter();
   return (
     <>
@@ -25,8 +26,11 @@ const Page = () => {
           </div>
         </div>
       </>
+      <div className="px-[20px] md:px-[40px]">
+        <CreateProjectForm />
+      </div>
     </>
   );
 };
 
-export default Page;
+export default CreateProject;
