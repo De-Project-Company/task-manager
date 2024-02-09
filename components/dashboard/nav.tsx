@@ -32,7 +32,7 @@ const DashNav = () => {
 
       <Link
         href="/create-project"
-        className="justify-center px-5 py-3 text-base font-semibold leading-6 text-white whitespace-nowrap bg-primary rounded-lg border border-solid shadow-sm border-[color:var(--purple-secondary-900,#33059F)]"
+        className="justify-center px-5 py-3 text-base font-semibold leading-6 text-white whitespace-nowrap bg-[#33059F] rounded-lg border border-solid shadow-sm border-[color:var(--purple-secondary-900,#33059F)]"
       >
         Create Project
       </Link>
