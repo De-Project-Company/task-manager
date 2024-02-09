@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowSquareLeft } from "iconsax-react";
 import CreateProjectForm from "@/components/form/CreateProjectForm";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   return (
     <>
@@ -33,4 +33,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
