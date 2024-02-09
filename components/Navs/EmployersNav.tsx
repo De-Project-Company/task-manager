@@ -64,7 +64,7 @@ const EmployersNav = () => {
       <Input
         type="text"
         placeholder="Search..."
-        className="h-[46px] w-[360px] rounded-2xl border-black text-black"
+        className="h-[46px] w-[360px] rounded-2xl border-gray-500 text-black"
       />
       <div className="flex gap-8 justify-between items-center text-sm font-medium tracking-normal leading-5 text-slate-900">
         <div className="rotate-90 hidden md:flex">
