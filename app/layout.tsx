@@ -7,7 +7,7 @@ import ThemeProvider from "@/context/ThemeCtx";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Taverse",
+  title: "Traverse",
   description: "Opem source task manager",
 };
 
