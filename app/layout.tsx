@@ -10,7 +10,7 @@ import SwipeIndicator from "@/components/SwiperIndicator";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Taverse",
+  title: "Traverse",
   description: "Opem source task manager",
 };
 

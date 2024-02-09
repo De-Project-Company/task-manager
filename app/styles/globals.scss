@@ -126,7 +126,16 @@ svg circle {
     stroke-dasharray: 32% 0;
   }
 }
-
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%);
+  background-size: contain;
+}
 .active {
   background: linear-gradient(
     92deg,
@@ -134,3 +143,4 @@ svg circle {
     rgba(140, 49, 255, 0.22) 100%
   );
 }
+
