@@ -23,7 +23,8 @@ const [loading, setLoading] = useState(true);
   return (
     <>
     
-      <DashNav /<div>
+      <DashNav />
+<div>
       {loading ? (
        <div className="grid place-items-center min-h-[400px]">
         <LoadingSpinner />
