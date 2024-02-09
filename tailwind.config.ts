@@ -28,6 +28,9 @@ const config: Config = {
           900: "#33059F",
           950: "#1B0354",
         },
+       grey: {
+          700: '#272D37'
+        },
         sh: "rgba(16,24,40,0.05)",
         neutraly: "#6B7B8F",
         destructive: "#f81d28",

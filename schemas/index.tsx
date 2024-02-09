@@ -1,5 +1,11 @@
 import * as z from "zod";
 
+type requestDemoData = {
+  name: string,
+  email: string,
+  message: string
+}
+
 export const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(3, {
@@ -26,8 +32,8 @@ export const RegistrationSchema = z.object({
   }),
 });
 
-export const RequestADemoSchema = z.object({
-  name: z.string(),
+export const RequestADemoSchema:z.ZodType<requestDemoData> = z.object({
+  name: z.string().min(3,{message:"Minimum of 3 characters required"}),
   email: z.string().email(),
   message: z.string().min(15, {message: "Must be atleast 15 characters long"})
 })
