@@ -3,7 +3,12 @@ import Image from "next/image"
 import { useState } from "react"
 import  ArrowUp  from "../../public/assets/arrowUp.svg"
 import  ArrowDown  from "../../public/assets/arrowDown.svg"
-const Details = ({questions, answer}) => {
+import { type } from "os"
+type obj = {
+  questions: string,
+  answer: string
+}
+const Details = ({questions, answer}:obj) => {
     const [isOpen, setIsOpen] = useState(false)
     function handleOpen(){
         if(answer){
