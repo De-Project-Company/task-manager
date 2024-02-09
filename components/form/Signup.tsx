@@ -59,6 +59,18 @@ function SignupForm() {
   };
   return (
     <div className="relative py-4 min-[850px]:py-6 rounded-[16px] bg-white shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
+      <Link href="/">
+        <Image
+          src="/assets/Logo_primary.svg"
+          width={300}
+          height={300}
+          alt="Traverse logon h-full w-full"
+        />
+      </Link>
+      <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2">
+        Signup
+      </h1>
+
       <h1 className="text-center font-[600] text-2xl  min-[370px]:text-[28px]">
         Let us know you better
       </h1>

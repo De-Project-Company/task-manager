@@ -15,11 +15,17 @@ export const Nav = () => {
           />
         </div>
         <div className="md:text-base text-xs font-semibold flex items-center justify-between md:gap-4">
-          <button className="text-purple-600 bg-purple-50 px-5 py-3 hover:bg-purple-600 hover:text-purple-50 border border-[#ECEBFF] rounded-lg">
-            Employer
-          </button>
-          <Link href="/auth/signup" className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:bg-white hover:border hover:border-purple-600 hover:text-purple-600">
-            Signup as User
+          <Link
+            href="/auth/signup"
+            className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:border-purple-600 hover:text-white"
+          >
+            Signup
+          </Link>
+          <Link
+            href="/auth/signin"
+            className="text-purple-600 bg-purple-50 px-5 py-3 hover:bg-purple-600 hover:text-purple-50 border border-[#ECEBFF] rounded-lg"
+          >
+            Login
           </Link>
         </div>
       </header>

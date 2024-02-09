@@ -78,6 +78,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
+      console.log(res.data);
+
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -101,7 +103,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
           UserId: decodedToken.UserId,
           token: res.token,
         };
-        cookie.set("user", JSON.stringify(userId), {
+        cookie.set("userId", JSON.stringify(userId), {
           maxAge: 60 * 60 * 24 * 1, // 1 day
           path: "/",
           priority: "high",
@@ -109,6 +111,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       }
 
       return {
+        user,
         success: "Login successful!",
         redirect: DEFAULT_LOGIN_REDIRECT,
       };
