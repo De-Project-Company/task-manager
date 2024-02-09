@@ -1,31 +1,24 @@
 "use client";
 import {
-  Add,
-  HambergerMenu,
   Notification,
   ArrowDown2,
   Profile,
   Setting4,
   LogoutCurve,
 } from "iconsax-react";
-import { useStateCtx } from "@/context/StateCtx";
+
 import { cn, decryptString } from "@/utils";
 import { useUserCtx } from "@/context/UserCtx";
-import { handleMouseEnter } from "@/utils/text-effect";
-import { useSearchParams } from "next/navigation";
-import { ChevronRight } from "lucide-react";
 import useVisible from "@/hooks/visibity";
 import Image from "next/image";
 import ThemeButtons from "../ThemeButton";
 import { Input } from "../ui/Input";
 import { useState } from "react";
 import Link from "next/link";
-import Button from "../ui/Button";
 
 const EmployersNav = () => {
   const { user } = useUserCtx();
   const titleLen = 27;
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const {
     ref: profileRef,
     isVisible: profileDropdown,

@@ -4,6 +4,7 @@ import React from "react";
 import DashNav from "@/components/dashboard/nav";
 import { useRouter } from "next/navigation";
 import { ArrowSquareLeft } from "iconsax-react";
+import CreateProjectForm from "@/components/form/CreateProjectForm";
 
 const page = () => {
   const router = useRouter();
@@ -25,6 +26,9 @@ const page = () => {
           </div>
         </div>
       </>
+      <div className="px-[20px] md:px-[40px]">
+        <CreateProjectForm />
+      </div>
     </>
   );
 };

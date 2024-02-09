@@ -78,6 +78,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
+        cookie.set("jwt", res.token, {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+
       console.log(res.data);
 
       const user = {
