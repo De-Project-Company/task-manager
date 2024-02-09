@@ -126,7 +126,7 @@ function CreateProjectForm() {
               type="number"
               value={projectData.price}
               onChange={(e) => handleChange("price", Number(e.target.value))}
-              placeholder="Enter Workspace Name"
+              placeholder="Enter Project Price"
               className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
             />
           </div>
