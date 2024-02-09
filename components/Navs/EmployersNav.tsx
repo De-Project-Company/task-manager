@@ -7,10 +7,11 @@ import { handleMouseEnter } from "@/utils/text-effect";
 import { useSearchParams } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+// import 
 
 const EmployersNav = () => {
   const { user } = useUserCtx();
-  const { currentPath } = useStateCtx;
+  // const { currentPath } = useStateCtx;
   const titleLen = 27;
 
   return (
