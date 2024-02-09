@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./styles/globals.scss";
 import StateCtxProvider from "@/context/StateCtx";
 import ThemeProvider from "@/context/ThemeCtx";
+import UserContextProvider from "@/context/UserCtx";
+import { SessionProvider } from "next-auth/react";
+import SwipeIndicator from "@/components/SwiperIndicator";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <StateCtxProvider>
-        <ThemeProvider>
-          <body className={inter.className}>{children}</body>
-        </ThemeProvider>
-      </StateCtxProvider>
+      <SessionProvider>
+        <UserContextProvider>
+          <StateCtxProvider>
+            <ThemeProvider>
+              <body className={inter.className}>{children}</body>
+              <SwipeIndicator />
+            </ThemeProvider>
+          </StateCtxProvider>
+        </UserContextProvider>
+      </SessionProvider>
     </html>
   );
 }
