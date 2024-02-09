@@ -9,7 +9,7 @@ const DashNav = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
-    <div className="w-full h-[40px]  min-[900px]:h-[56px] flex items-center justify-between gap-x-2 sm:gap-x-4 px-2 sm:px-4 bg-white">
+    <div className="w-full h-[40px]  min-[900px]:h-[56px] flex items-center justify-between gap-x-2 sm:gap-x-4 sm:px-4 bg-white mt-6 px-7">
       <div className="flex w-full sm:max-w-[413px] justify-center">
         <div className="flex items-center w-full relative">
           <h2 className="font-bold text-xl text-primary">Awesome Project</h2>
