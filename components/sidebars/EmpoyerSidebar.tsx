@@ -6,12 +6,13 @@ import { LogoutCurve, Setting2 } from "iconsax-react";
 import { cn } from "@/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useStateCtx } from "@/context/StateCtx";
+import { useUserCtx } from "@/context/UserCtx";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import Image from "next/image";
 
 const EmployerSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
+  const { user } = useUserCtx();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -85,11 +86,17 @@ const EmployerSidebar = () => {
           onClick={() => setActiveLink("profile")}
         >
           <div className="relative w-full max-w-[60px] flex justify-center h-[60px] ">
-            {/* <Image src={user.image} alt="user" width={60} height={60} /> */}
+            <Image
+              src={user?.image}
+              alt="user"
+              width={60}
+              height={60}
+              className="rounded-full object-contain"
+            />
             <span className="w-[15px] h-[15px] bg-[#04802e] rounded-full border border- absolute bottom-1 right-1" />
           </div>
           <div className="flex flex-col  max-[1139px]:hidden w-full group-hover:w-full group-hover:flex">
-            {/* <span className="text-[#090909] text-base">{user.name}</span> */}
+            <span className="text-white text-base">{user.name}</span>
           </div>
         </Link>
         <div className="w-full opacity-0 min-[1139px]:opacity-100 flex justify-center group-hover:opacity-100 transition-colors duration-300">
