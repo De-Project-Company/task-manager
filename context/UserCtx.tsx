@@ -28,7 +28,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
-    accountId: "",
+    id: "",
     role: "",
     image: "/facemoji.png",
     token: "",
@@ -36,40 +36,40 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     website: "",
   });
 
-  useLayoutEffect(() => {
-    if (!session?.user?.email) return;
-    setUser({
-      ...session?.user,
-      name: session?.user?.name!,
-      image: session?.user?.image!,
-      email: session?.user?.email!,
-    });
+  //   useLayoutEffect(() => {
+  //     if (!session?.user?.email) return;
+  //     setUser({
+  //       ...session?.user,
+  //       name: session?.user?.name!,
+  //       image: session?.user?.image!,
+  //       email: session?.user?.email!,
+  //     });
 
-    return;
-  }, [session]);
+  //     return;
+  //   }, [session]);
 
-  useLayoutEffect(() => {
-    const userFromCookie = getCookie("user");
-    console.log("user:", userFromCookie);
-    const TokenFromCOokie = getCookie("access_token");
-    console.log("token:", TokenFromCOokie);
-    if (userFromCookie) {
-      const parsedUser = JSON.parse(userFromCookie) as User;
-      setUser({
-        name: parsedUser.name,
-        email: parsedUser.email,
-        accountId: parsedUser.accountId,
-        role: parsedUser.role,
-        token: TokenFromCOokie,
-        companyName: parsedUser.companyName,
-        website: parsedUser.website,
-        image:
-          `https://ui-avatars.com/api/?name=${parsedUser.email!}&background=random` ??
-          "/facemoji.png",
-      });
-    }
-    return;
-  }, []);
+  //   useLayoutEffect(() => {
+  //     const userFromCookie = getCookie("user");
+  //     console.log("user:", userFromCookie);
+  //     const TokenFromCOokie = getCookie("access_token");
+  //     console.log("token:", TokenFromCOokie);
+  //     if (userFromCookie) {
+  //       const parsedUser = JSON.parse(userFromCookie) as User;
+  //       setUser({
+  //         name: parsedUser.name,
+  //         email: parsedUser.email,
+  //         id: parsedUser.id,
+  //         role: parsedUser.role,
+  //         token: TokenFromCOokie,
+  //         companyName: parsedUser.companyName,
+  //         website: parsedUser.website,
+  //         image:
+  //           `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
+  //           "/facemoji.png",
+  //       });
+  //     }
+  //     return;
+  //   }, []);
 
   useLayoutEffect(() => {
     const userFromStorage = sessionStorage.getItem("user");
@@ -78,23 +78,24 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     console.log("token:", TokenFromCOokie);
     if (userFromStorage) {
       const parsedUser = JSON.parse(userFromStorage) as User;
+      console.log(parsedUser);
       setUser({
         name: parsedUser.name,
         email: parsedUser.email,
-        accountId: parsedUser.accountId,
+        id: parsedUser.id,
         role: parsedUser.role,
         token: TokenFromCOokie,
         companyName: parsedUser.companyName,
         website: parsedUser.website,
         image:
-          `https://ui-avatars.com/api/?name=${parsedUser.email!}&background=random` ??
+          `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
           "/facemoji.png",
       });
     }
     return;
   }, []);
 
-//   console.log(user);
+  console.log(user);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 

@@ -11,7 +11,7 @@ export interface UserDetails {
 
 
 export interface User {
-  accountId?: string;
+  id?: string;
   name?: string;
   email?: string;
   companyName?: string;
