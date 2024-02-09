@@ -5,7 +5,7 @@ import DashNav from "@/components/dashboard/nav";
 import { useRouter } from "next/navigation";
 import { ArrowSquareLeft } from "iconsax-react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   return (
     <>
@@ -29,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
