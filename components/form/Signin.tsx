@@ -22,13 +22,13 @@ import { cn } from "@/utils";
 import FormError from "./Error";
 import FormSuccess from "./Success";
 import { login } from "@/actions/auth";
-
 import { useRouter } from "next/navigation";
+import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const SigninForm = () => {
-  //   const { setUser } = useStateCtx();
   const router = useRouter();
+  const { setOTPModal } = useStateCtx();
 
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
@@ -128,15 +128,26 @@ const SigninForm = () => {
                     />
                   </div>
                 </FormControl>
-                <span className="mb-4 text-xs ">
-                  Forgot password?{" "}
-                  <Link
-                    href="/forgot-password"
-                    className="text-primary-light font-medium"
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <span className="mb-4 text-xs ">
+                      Forgot password?{" "}
+                      <Link
+                        href="/forgot-password"
+                        className="text-primary font-medium"
+                      >
+                        Reset
+                      </Link>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="mb-4 text-xs"
+                    onClick={() => setOTPModal(true)}
                   >
-                    Reset
-                  </Link>
-                </span>
+                    Verify Account
+                  </button>
+                </div>
                 <FormMessage />
               </FormItem>
             )}

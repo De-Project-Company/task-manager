@@ -31,7 +31,7 @@ export const CreateProject = async (values: any) => {
   try {
     const res = await $http.post("/project", values, config);
     console.log("Registration successful:", res.data);
-    if (res?.status === 200) {
+    if (res?.status === 201) {
       return {
         success: "Project created successfully, check your email!",
       };
