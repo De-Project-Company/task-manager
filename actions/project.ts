@@ -5,12 +5,10 @@ import * as z from "zod";
 import { cookies } from "next/headers";
 import Calls from "./calls";
 
-const cookie = cookies();
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
 
 const $http = Calls(BaseUrl);
-
 export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
 
@@ -30,14 +28,14 @@ export const CreateProject = async (values: any) => {
 
   try {
     const res = await $http.post("/project", values, config);
-    console.log("Registration successful:", res.data);
-    if (res?.status === 201) {
+    // console.log("project creates successfully:", res.data);
+    if (res?.status === 200) {
       return {
         success: "Project created successfully, check your email!",
       };
     }
   } catch (e: any) {
-    console.log("signup call error from api call", e);
+    console.log(e);
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",

@@ -48,9 +48,10 @@ const SigninForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
+        console.log(data.user);
         setSuccess(data?.success);
         setError(data?.error);
-        if (data?.user) {
+        if (data.user) {
           sessionStorage.setItem("user", JSON.stringify(data.user));
         }
         if (data?.success) {

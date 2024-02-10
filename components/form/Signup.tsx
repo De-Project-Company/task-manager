@@ -123,7 +123,7 @@ function SignupForm() {
                     />
                   </div>
                 </FormControl>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -192,19 +192,7 @@ function SignupForm() {
                     />
                   </div>
                 </FormControl>
-                <button
-                  disabled={isLoading}
-                  type="button"
-                  className="mb-4 text-xs "
-                >
-                  Forgot password?
-                  <Link
-                    href="/forgot-password"
-                    className="text-primary-light font-medium"
-                  >
-                    Reset
-                  </Link>
-                </button>
+
                 <FormMessage />
               </FormItem>
             )}
