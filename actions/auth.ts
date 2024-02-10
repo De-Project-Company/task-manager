@@ -45,7 +45,7 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
     console.log("signup call error from api call", e);
     if (e?.response?.status === 400) {
       return {
-        error: e,
+        error: "user already exists",
       };
     } else {
       return {
@@ -68,6 +68,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   try {
     const data = await fetch(`${BaseUrl}/auth/signin`, {
       method: "POST",
+      credentials: "include",
 
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
