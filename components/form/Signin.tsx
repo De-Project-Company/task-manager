@@ -128,16 +128,26 @@ const SigninForm = () => {
                     />
                   </div>
                 </FormControl>
-              
-                <span className="mb-4 text-xs ">
-                  Forgot password?{" "}
-                  <Link
-                    href="/forgot-password"
-                    className="text-primary-light font-medium"
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <span className="mb-4 text-xs ">
+                      Forgot password?{" "}
+                      <Link
+                        href="/forgot-password"
+                        className="text-primary font-medium"
+                      >
+                        Reset
+                      </Link>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="mb-4 text-xs"
+                    onClick={() => setOTPModal(true)}
                   >
-                    Reset
-                  </Link>
-                </span>
+                    Verify Account
+                  </button>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
