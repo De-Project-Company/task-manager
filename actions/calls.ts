@@ -19,6 +19,7 @@ const Calls = (
       credentials: "include",
       Authorization: authorization || "",
     },
+    withCredentials: true,
   });
 };
 
