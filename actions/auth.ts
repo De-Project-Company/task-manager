@@ -22,6 +22,17 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
       error: "Validation failed. Please check your input.",
     };
   }
+
+  const password = validatedFields.data.password;
+
+  const confirmPassword = validatedFields.data.passwordConfirm;
+
+  if (password !== confirmPassword) {
+    return {
+      error: "Password and Confirm Password do not match.",
+    };
+  }
+
   try {
     const res = await $http.post("/auth/signup", values);
     console.log("Registration successful:", res.data);
@@ -83,7 +94,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
 
-        cookie.set("jwt", res.token, {
+      cookie.set("jwt", res.token, {
         maxAge: 60 * 60 * 24 * 1, // 1 day
         httpOnly: true,
         path: "/",
