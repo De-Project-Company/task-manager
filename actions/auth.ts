@@ -34,7 +34,7 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
     console.log("signup call error from api call", e);
     if (e?.response?.status === 400) {
       return {
-        error: e,
+        error: "user already exists",
       };
     } else {
       return {
