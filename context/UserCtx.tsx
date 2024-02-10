@@ -4,7 +4,6 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useState,
@@ -36,17 +35,17 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     website: "",
   });
 
-  //   useLayoutEffect(() => {
-  //     if (!session?.user?.email) return;
-  //     setUser({
-  //       ...session?.user,
-  //       name: session?.user?.name!,
-  //       image: session?.user?.image!,
-  //       email: session?.user?.email!,
-  //     });
+    useLayoutEffect(() => {
+      if (!session?.user?.email) return;
+      setUser({
+        ...session?.user,
+        name: session?.user?.name!,
+        image: session?.user?.image!,
+        email: session?.user?.email!,
+      });
 
-  //     return;
-  //   }, [session]);
+      return;
+    }, [session]);
 
   //   useLayoutEffect(() => {
   //     const userFromCookie = getCookie("user");

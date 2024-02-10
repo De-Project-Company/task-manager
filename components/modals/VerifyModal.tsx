@@ -44,6 +44,7 @@ const OTPModal = () => {
             </button>
           </div>
 
+            {/* <h3>An Email was sent </h3> */}
           <ActivateForm />
         </div>
       </div>

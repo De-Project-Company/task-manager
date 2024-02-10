@@ -135,24 +135,28 @@ export const apartInfo = [
 export const faqs = [
   {
     question: "What makes Traverse different from other time tracking apps?",
-    answer: ""
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     question: "How does Traverse handle offline time tracking?",
-    answer: ""
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     question: "Can clients collaborate on Traverse?",
-    answer: ""
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     question: "Is Traverse suitable for both individuals and teams?",
-    answer: ""
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     question: "How can Traverse enhance my productivity?",
-    answer: ""
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
-  
-]
+];
 export const TYPESidebarLinks = EMPLOYERSSIDEBAR_LINKS.map((link) => link.link);

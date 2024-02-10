@@ -46,7 +46,6 @@ export const activateASchema = z.object({
     .min(3, { message: "license must be at least 3 characters long" }),
 });
 
-
 export const ProjectSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -62,4 +61,14 @@ export const ProjectSchema = z.object({
     .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
       message: "Invalid date format.",
     }),
+});
+
+export const RequestSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Name must be at  3 characters required" }),
+  email: z.string().email(),
+  message: z
+    .string()
+    .min(15, { message: "Must be atleast 15 characters long" }),
 });
