@@ -17,6 +17,8 @@ interface StateContextProps {
   setOpenSidebar: Dispatch<SetStateAction<boolean>>;
   OTPModal: boolean;
   setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
+  Toast: boolean;
+  setToast: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -26,13 +28,14 @@ const StateContext = createContext<StateContextProps | undefined>(undefined);
 const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [OTPModal, setOTPModal] = useState(false);
+  const [Toast, setToast] = useState(false);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
   const [currentPath, setCurrentPath] = useState("");
 
   const pathname = usePathname();
 
-  const isAnyModalOpen = OTPModal;
+  const isAnyModalOpen = OTPModal || Toast;
 
   const isMobileDevice = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -161,8 +164,10 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       swipeIndicator,
       setSwipeIndicator,
       currentPath,
+      Toast,
+      setToast,
     }),
-    [openSidebar, OTPModal, swipeIndicator, currentPath]
+    [openSidebar, OTPModal, swipeIndicator, Toast, currentPath]
   );
 
   return (

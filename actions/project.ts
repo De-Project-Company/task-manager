@@ -5,12 +5,10 @@ import * as z from "zod";
 import { cookies } from "next/headers";
 import Calls from "./calls";
 
-const cookie = cookies();
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
 
 const $http = Calls(BaseUrl);
-
 export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
 
@@ -31,7 +29,7 @@ export const CreateProject = async (values: any) => {
   try {
     const res = await $http.post("/project", values, config);
     // console.log("project creates successfully:", res.data);
-    if (res?.status === 201) {
+    if (res?.status === 200) {
       return {
         success: "Project created successfully, check your email!",
       };

@@ -1,35 +1,20 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Label } from "../ui/Label";
 import React from "react";
-import * as z from "zod";
-import { ProjectSchema } from "@/schemas";
-import DatePicker from "react-datepicker";
 import { FormInput } from "../ui/FormInput";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/Form";
 import { cn } from "@/utils";
 import Button from "../ui/Button";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useStateCtx } from "@/context/StateCtx";
 import FormError from "./Error";
 import FormSuccess from "./Success";
 import { CreateProject } from "@/actions/project";
-import Link from "next/link";
 import { TextArea } from "../ui/Textarea";
-import axios from "axios";
+import TOAST from "../toast";
+import { useStateCtx } from "@/context/StateCtx";
 
 function CreateProjectForm() {
+  const { setToast } = useStateCtx();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, startTransition] = useTransition();
@@ -57,6 +42,9 @@ function CreateProjectForm() {
       CreateProject(values).then((data) => {
         setSuccess(data?.success);
         setError(data?.error);
+        if (data?.success) {
+          setToast(true);
+        }
       });
     });
   };
@@ -73,6 +61,7 @@ function CreateProjectForm() {
 
   return (
     <>
+      <TOAST status="success" message="Project created successfully" />
       <div>
         <form className="flex flex-col mt-4 z-10 gap-y-2 min-[850px]:gap-y-6">
           <div className="flex flex-col space-y-4 justify-between ">
