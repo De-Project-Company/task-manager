@@ -25,8 +25,10 @@ export default function RootLayout({
         <UserContextProvider>
           <StateCtxProvider>
             <ThemeProvider>
-              <body className={inter.className}>{children}</body>
-              <SwipeIndicator />
+              <body className={inter.className}>
+                {children}
+                <SwipeIndicator />
+              </body>
             </ThemeProvider>
           </StateCtxProvider>
         </UserContextProvider>

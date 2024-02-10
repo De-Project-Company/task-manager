@@ -8,7 +8,6 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import Link from "next/link"
 import axios from "axios"
 import {toast, ToastContainer} from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css';
 import { cn } from "@/utils";
 import { useState } from "react"
 import Button from "../ui/Button"
