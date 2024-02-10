@@ -33,7 +33,7 @@ export const CreateProject = async (values: any) => {
     console.log("Registration successful:", res.data);
     if (res?.status === 201) {
       return {
-        success: "Account created successfully, check your email!",
+        success: "Project created successfully, check your email!",
       };
     }
   } catch (e: any) {
