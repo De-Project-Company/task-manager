@@ -115,7 +115,7 @@ function RequestDemo() {
                       placeholder="Enter Request Details"
                       className=" w-full text-black md:h-[200px] h-[150px] resize-none border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
-                    ;
+                    
                   </div>
                 </FormControl>
                 <FormMessage />
