@@ -57,7 +57,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   try {
     const data = await fetch(`${BaseUrl}/auth/signin`, {
       method: "POST",
-      withCredentials: true,
+      credentials: "include",
 
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
