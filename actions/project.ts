@@ -30,14 +30,14 @@ export const CreateProject = async (values: any) => {
 
   try {
     const res = await $http.post("/project", values, config);
-    console.log("Registration successful:", res.data);
+    // console.log("project creates successfully:", res.data);
     if (res?.status === 201) {
       return {
         success: "Project created successfully, check your email!",
       };
     }
   } catch (e: any) {
-    console.log("signup call error from api call", e);
+    console.log(e);
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",

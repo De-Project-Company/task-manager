@@ -48,28 +48,6 @@ function CreateProjectForm() {
   ) => {
     setProjectData({ ...projectData, [field]: value });
   };
-  // const form = useForm<z.infer<typeof ProjectSchema>>({
-  //   resolver: zodResolver(ProjectSchema),
-  //   defaultValues: {
-  //     title: "",
-  //     description: "",
-  //     price: 0,
-  //     teamMembers: [],
-  //     startDate: "",
-  //     endDate: "",
-  //   },
-  // });
-
-  // const onSubmit = (values: z.infer<typeof ProjectSchema>) => {
-  //   setError("");
-  //   setSuccess("");
-  //   startTransition(() => {
-  //     CreateProject(values).then((data) => {
-  //       setSuccess(data?.success);
-  //       setError(data?.error);
-  //     });
-  //   });
-  // };
 
   const handleSubmit = async () => {
     const values = projectData;
@@ -161,12 +139,7 @@ function CreateProjectForm() {
 
           <div className="flex flex-col space-y-4 justify-between ">
             <Label>End Date:</Label>
-            {/* <DatePicker
-              selected={projectData.endDate}
-              onChange={(date) => handleChange("endDate", date)}
-              className="custom-datepicker"
-              wrapperClassName="custom-datepicker"
-            /> */}
+
             <FormInput
               disabled={isLoading}
               type="date"
