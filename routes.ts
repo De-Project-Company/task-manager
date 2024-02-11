@@ -1,12 +1,4 @@
 /**
- * An array of routes that are accessible to the public
- * These routes do not require authentication
- * @type {string[]}
- */
-
-export const publicRoutes = ["/"];
-
-/**
  * An array of routes that are used for authentication
  * @type {string[]}
  */
@@ -17,6 +9,14 @@ export const authRoutes = [
   "/forgot-password",
   "/reset-password",
 ];
+
+/**
+ * An array of routes that are accessible to the public
+ * These routes do not require authentication
+ * @type {string[]}
+ */
+
+export const publicRoutes = ["/", ...authRoutes, "/about", "/request"];
 
 /**
  * The prefix for API routes
@@ -31,4 +31,14 @@ export const apiAuthPrefix = "/api/auth";
  */
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 
+/**
+ * The default redirect after signup
+ * @type {string}
+ */
 export const DEFAULT_SIGNUP_REDIRECT = "/auth/signin";
+
+/**
+ * The default redirect when user is not authenticated
+ * @type {string}
+ */
+export const DEFAULT_REVALIDATE_REDIRECT = "/auth/signin";

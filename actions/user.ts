@@ -8,13 +8,13 @@ const BaseUrl =
 
 const $http = Calls(BaseUrl);
 
-
-export const CreateProject = async (values: any) => {
+export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
 
   if (!authToken) {
     return {
       error: "Unauthorized. Missing access token.",
+      status: 401,
     };
   }
 
@@ -27,11 +27,11 @@ export const CreateProject = async (values: any) => {
   };
 
   try {
-    const res = await $http.post("/project", values, config);
-    // console.log("project creates successfully:", res.data);
-    if (res?.status === 200) {
+    const res = await $http.get("/auth/me", config);
+    if (res.status === 200) {
       return {
-        success: "Project created successfully, check your email!",
+        status: "success",
+        user: res.data.user,
       };
     }
   } catch (e: any) {
@@ -39,6 +39,7 @@ export const CreateProject = async (values: any) => {
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",
+        status: 401,
       };
     } else if (e?.response?.status === 403) {
       return {

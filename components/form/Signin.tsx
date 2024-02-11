@@ -51,9 +51,7 @@ const SigninForm = () => {
         console.log(data.user);
         setSuccess(data?.success);
         setError(data?.error);
-        if (data.user) {
-          sessionStorage.setItem("user", JSON.stringify(data.user));
-        }
+        console.log("User came from signIn");
         if (data?.success) {
           setTimeout(() => {
             setSuccess("Redirecting....");
