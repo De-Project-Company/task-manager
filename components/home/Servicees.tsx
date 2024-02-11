@@ -27,6 +27,7 @@ const Servicees = () => {
                 alt="link icon"
                 width={40}
                 height={40}
+                className="dark:invert"
               />
               <h1 className="text-xl md:text-2xl text-purple-950 py-4 font-bold">
                 {items.title}
