@@ -87,17 +87,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     });
     const res = await data.json();
 
-   if (data.status === 200 || res.ok) {
-  cookie.set("access_token", res.token, {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
-    httpOnly: true,
-    path: "/",
-    priority: "high",
-  });
-
-
-      cookie.set("jwt", res.token, {
-        maxAge: 60 * 60 * 24 * 1, // 1 day
+    if (data.status === 200 || res.ok) {
+      cookie.set("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
         path: "/",
         priority: "high",

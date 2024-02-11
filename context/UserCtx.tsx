@@ -12,6 +12,7 @@ import { getCookie, getCookies } from "cookies-next";
 import { User } from "@/types";
 import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";
+import { useRouter } from "next/navigation";
 
 // Add Your Props here
 interface UserContextProps {
@@ -24,6 +25,7 @@ export const UserContext = createContext({} as UserContextProps);
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   // Add Your State(s) Here
   const { data: session } = useSession();
+  const router = useRouter();
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
@@ -53,8 +55,20 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getUser();
 
         if (user?.status === "success") {
-          setUser(user.user);
+          console.log(user.user);
+          setUser({
+            name: user.user.name,
+            email: user.user.email,
+            role: user.user.role,
+            companyName: user.user.companyName,
+            image:
+              `https://ui-avatars.com/api/?name=${user.user
+                .name!}&background=random` ?? "/facemoji.png",
+          });
+        } else if (user?.status === 401) {
+          router.push("/auth/signin");
         } else {
+          // Handle other error cases
           // setError(user.error);
         }
       } catch (err) {
@@ -65,31 +79,31 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUserData();
   }, []);
 
-  useLayoutEffect(() => {
-    const userFromStorage = sessionStorage.getItem("user");
-    console.log("user:", userFromStorage);
-    const TokenFromCOokie = getCookie("access_token");
-    console.log("token:", TokenFromCOokie);
-    if (userFromStorage) {
-      const parsedUser = JSON.parse(userFromStorage) as User;
-      console.log(parsedUser);
-      setUser({
-        name: parsedUser.name,
-        email: parsedUser.email,
-        id: parsedUser.id,
-        role: parsedUser.role,
-        token: TokenFromCOokie,
-        companyName: parsedUser.companyName,
-        website: parsedUser.website,
-        image:
-          `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
-          "/facemoji.png",
-      });
-    }
-    return;
-  }, []);
+  // useLayoutEffect(() => {
+  //   const userFromStorage = sessionStorage.getItem("user");
+  //   console.log("user:", userFromStorage);
+  //   const TokenFromCOokie = getCookie("access_token");
+  //   console.log("token:", TokenFromCOokie);
+  //   if (userFromStorage) {
+  //     const parsedUser = JSON.parse(userFromStorage) as User;
+  //     console.log(parsedUser);
+  //     setUser({
+  //       name: parsedUser.name,
+  //       email: parsedUser.email,
+  //       id: parsedUser.id,
+  //       role: parsedUser.role,
+  //       token: TokenFromCOokie,
+  //       companyName: parsedUser.companyName,
+  //       website: parsedUser.website,
+  //       image:
+  //         `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
+  //         "/facemoji.png",
+  //     });
+  //   }
+  //   return;
+  // }, []);
 
-  console.log(user);
+  // console.log(user);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 
