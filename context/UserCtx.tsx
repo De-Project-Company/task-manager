@@ -13,6 +13,7 @@ import { User } from "@/types";
 import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";
 import { useRouter } from "next/navigation";
+import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
 
 // Add Your Props here
 interface UserContextProps {
@@ -66,7 +67,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
                 .name!}&background=random` ?? "/facemoji.png",
           });
         } else if (user?.status === 401) {
-          router.push("/auth/signin");
+          router.push(DEFAULT_REVALIDATE_REDIRECT);
         } else {
           // Handle other error cases
           // setError(user.error);
