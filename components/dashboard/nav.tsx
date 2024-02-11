@@ -1,12 +1,13 @@
 "use client";
 
-import { Add, FolderAdd, DollarCircle, Clock } from "iconsax-react";
+import { DollarCircle, Clock } from "iconsax-react";
 import Link from "next/link";
-
+import { useUserCtx } from "@/context/UserCtx";
 import { useState } from "react";
 
 const DashNav = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  
 
   return (
     <div className="w-full h-[40px]  min-[900px]:h-[56px] flex items-center justify-between gap-x-2 sm:gap-x-4 sm:px-4 bg-white mt-6 px-7">
