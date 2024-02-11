@@ -9,7 +9,6 @@ export interface UserDetails {
   UserId: string;
 }
 
-
 export interface User {
   id?: string;
   name?: string;
@@ -20,4 +19,34 @@ export interface User {
   // createdAt?: string;
   image?: string | StaticImport;
   token?: string;
+}
+
+export type NavbarLinkProps = {
+  id?: number;
+  link: string;
+  label: string;
+  descText: string;
+};
+
+export interface Project {
+  _id?: string;
+  title?: string;
+  description?: string;
+  owner?: {
+    _id: string;
+    name: string;
+    email: string;
+    companyName: string;
+    role: string;
+    createdAt: string;
+    __v: number;
+  };
+  price?: number;
+  duration?: number;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+  teamMembers?: string[];
+  tasks?: any[];
+  __v?: number;
 }

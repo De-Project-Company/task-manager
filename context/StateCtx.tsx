@@ -15,20 +15,27 @@ interface StateContextProps {
   currentPath: string;
   openSidebar: boolean;
   setOpenSidebar: Dispatch<SetStateAction<boolean>>;
+  openSidebarMain: boolean;
+  setOpenSidebarMain: Dispatch<SetStateAction<boolean>>;
   OTPModal: boolean;
   setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
   Toast: boolean;
   setToast: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
+  // Landing Page props
+  landingMobileMenu: boolean;
+  setLandingMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StateContext = createContext<StateContextProps | undefined>(undefined);
 
 const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [openSidebarMain, setOpenSidebarMain] = useState(false);
   const [OTPModal, setOTPModal] = useState(false);
   const [Toast, setToast] = useState(false);
+  const [landingMobileMenu, setLandingMobileMenu] = useState(false);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
   const [currentPath, setCurrentPath] = useState("");
@@ -36,6 +43,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const isAnyModalOpen = OTPModal || Toast;
+  const anyMobileSidebarOpen =
+    openSidebarMain || openSidebar || landingMobileMenu;
 
   const isMobileDevice = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -50,15 +59,21 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setSwipeIndicator(false);
       return;
     }
-    if (openSidebar) {
+    if (anyMobileSidebarOpen) {
       setSwipeIndicator(true);
     } else {
       setSwipeIndicator(false);
     }
-  }, [openSidebar]);
+  }, [anyMobileSidebarOpen]);
 
   useEffect(() => {
-    if (!isMobileDevice() || !("ontouchstart" in window)) return;
+    if (
+      !isMobileDevice() ||
+      pathname === "/" ||
+      isAnyModalOpen ||
+      !anyMobileSidebarOpen
+    )
+      return;
     const handleSwipeStart = (e: TouchEvent) => {
       setHandleSwipe(e.changedTouches[0].screenX);
     };
@@ -70,6 +85,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
         if (swipeDis < -swipeThreshold) {
           localStorage.setItem("swiped", "true");
           console.log("first");
+          setOpenSidebarMain(false);
           setOpenSidebar(false);
         }
 
@@ -83,10 +99,10 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener("touchstart", handleSwipeStart);
       window.removeEventListener("touchend", handleSwipeEnd);
     };
-  }, [handleSwipe]);
+  }, [handleSwipe, pathname, isAnyModalOpen, anyMobileSidebarOpen]);
 
   useEffect(() => {
-    if (isAnyModalOpen) {
+    if (isAnyModalOpen || anyMobileSidebarOpen) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     } else {
@@ -95,6 +111,10 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpenSidebar(false);
+        setOpenSidebarMain(false);
+        setLandingMobileMenu(false);
+        setOTPModal(false);
+        setToast(false);
       }
     };
 
@@ -103,7 +123,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       document.removeEventListener("keyup", handleKeyDown);
     };
-  }, [isAnyModalOpen]);
+  }, [isAnyModalOpen, anyMobileSidebarOpen]);
 
   useEffect(() => {
     const t = "%c  Made By \ud83d\udc9a  - Satrters House ",
@@ -160,14 +180,27 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       openSidebar,
       setOpenSidebar,
       OTPModal,
+      landingMobileMenu,
+      setLandingMobileMenu,
       setOTPModal,
       swipeIndicator,
       setSwipeIndicator,
       currentPath,
       Toast,
       setToast,
+      openSidebarMain,
+      setOpenSidebarMain,
     }),
-    [openSidebar, OTPModal, swipeIndicator, Toast, currentPath]
+    [
+      openSidebar,
+      anyMobileSidebarOpen,
+      landingMobileMenu,
+      OTPModal,
+      swipeIndicator,
+      Toast,
+      currentPath,
+      openSidebarMain,
+    ]
   );
 
   return (

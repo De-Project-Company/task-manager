@@ -1,6 +1,6 @@
 import RightSection from "@/components/auth/Right";
 import OTPModal from "@/components/modals/VerifyModal";
-// import
+import Theme from "@/components/Theme";
 
 export default function AuthLayout({
   children,
@@ -17,6 +17,7 @@ export default function AuthLayout({
           <RightSection />
         </div>
       </div>
+      <Theme />
       <OTPModal />
     </>
   );
