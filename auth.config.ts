@@ -34,5 +34,6 @@ export default {
       }
       return token;
     },
+  secret: process.env.NEXT_PUBLIC_SECRET as string,
   },
 } satisfies NextAuthConfig;
