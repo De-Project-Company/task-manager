@@ -38,17 +38,17 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     website: "",
   });
 
-  // useLayoutEffect(() => {
-  //   if (!session?.user?.email) return;
-  //   setUser({
-  //     ...session?.user,
-  //     name: session?.user?.name!,
-  //     image: session?.user?.image!,
-  //     email: session?.user?.email!,
-  //   });
+  useLayoutEffect(() => {
+    if (!session?.user?.email) return;
+    setUser({
+      ...session?.user,
+      name: session?.user?.name!,
+      image: session?.user?.image!,
+      email: session?.user?.email!,
+    });
 
-  //   return;
-  // }, [session]);
+    return;
+  }, [session]);
 
   useLayoutEffect(() => {
     const fetchUserData = async () => {
@@ -69,42 +69,12 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         } else if (user?.status === 401) {
           router.push(DEFAULT_REVALIDATE_REDIRECT);
         } else {
-          // Handle other error cases
-          // setError(user.error);
         }
-      } catch (err) {
-        // setError("Failed to fetch user data");
-      }
+      } catch (err) {}
     };
 
     fetchUserData();
   }, []);
-
-  // useLayoutEffect(() => {
-  //   const userFromStorage = sessionStorage.getItem("user");
-  //   console.log("user:", userFromStorage);
-  //   const TokenFromCOokie = getCookie("access_token");
-  //   console.log("token:", TokenFromCOokie);
-  //   if (userFromStorage) {
-  //     const parsedUser = JSON.parse(userFromStorage) as User;
-  //     console.log(parsedUser);
-  //     setUser({
-  //       name: parsedUser.name,
-  //       email: parsedUser.email,
-  //       id: parsedUser.id,
-  //       role: parsedUser.role,
-  //       token: TokenFromCOokie,
-  //       companyName: parsedUser.companyName,
-  //       website: parsedUser.website,
-  //       image:
-  //         `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
-  //         "/facemoji.png",
-  //     });
-  //   }
-  //   return;
-  // }, []);
-
-  // console.log(user);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 
