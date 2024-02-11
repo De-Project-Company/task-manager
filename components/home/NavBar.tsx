@@ -1,17 +1,52 @@
+"use client";
+
 import NAVLINKS from "@/constants";
 import traverse from "../../public/assets/traverseLogo.png";
 import Link from "next/link";
 import Image from "next/image";
+import { useStateCtx } from "@/context/StateCtx";
+import { FaBars } from "react-icons/fa";
+import MobileNav from "./MobileNav";
+import { cn } from "@/utils";
+import useWindowHeight from "@/hooks/useDimension";
 
 export const Nav = () => {
+  const { setLandingMobileMenu } = useStateCtx();
+  const scrollHeight = useWindowHeight();
   return (
-    <nav>
-      <header className="md:flex justify-between items-center py-3 md:px-16 px-5">
-        <div>
-          <Image src={traverse} alt="traverse logo" width={150} height={150} />
+    <nav
+      className={cn(
+        " max-[500px]:py-2 w-full justify-between items-center bg-white dark:bg-primary  transition-colors duration-500",
+        scrollHeight > 200
+          ? " fixed backdrop-blur-xl top-0 left-0  z-50 -translate-y-28 opacity-0 animate-slideDown bg-white/90 dark:bg-primary py-2 border-b border-gray-200 shadow-md"
+          : "sm:py-6 py-4",
+        {
+          "bg-white/60 ": scrollHeight > 800 && scrollHeight < 4300,
+        }
+      )}
+    >
+      <header className="md:flex  justify-between items-center py-3 md:px-16 px-5">
+        <div className="flex items-center justify-between">
+          <Link href="/">
+            <Image
+              src={traverse}
+              alt="traverse logo"
+              width={150}
+              height={150}
+              className="dark:invert"
+            />
+          </Link>
+          <div
+            tabIndex={0}
+            role="button"
+            className="lg:hidden text-2xl cursor-pointer focus:border dark:text-white text-primary  border-primary"
+            onClick={() => setLandingMobileMenu(true)}
+          >
+            <FaBars />
+          </div>
         </div>
 
-        <div className="md:text-base text-xs font-semibold flex items-center justify-between md:gap-4">
+        <div className="md:text-base text-xs font-semibold items-center justify-between md:gap-4 hidden md:flex">
           <Link
             href="/auth/signup"
             className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:border-purple-600 hover:text-white"
@@ -26,7 +61,7 @@ export const Nav = () => {
           </Link>
         </div>
       </header>
-      <div className="flex flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5">
+      <div className="md:flex hidden flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5">
         {NAVLINKS.map((item) => (
           <Link
             href={item.link}
@@ -50,9 +85,16 @@ export const Nav = () => {
           </Link>
         ))}
       </div>
-      <div className="bg-purple-50 text-center py-4">
+      <div
+        className={cn(
+          "bg-purple-50 dark:bg-white dark:text-primary text-center py-4",
+          { hidden: scrollHeight > 200 }
+        )}
+      >
         <Link href="#">Looking for a new career? Get in touch</Link>
       </div>
+
+      <MobileNav />
     </nav>
   );
 };

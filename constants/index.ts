@@ -1,7 +1,6 @@
-
-import innovation from "../public/assets/innovation.png"
-import centric from "../public/assets/centricDesign.png"
-import comSolution from "../public/assets/comprehensiveSolution.png"
+import innovation from "../public/assets/innovation.png";
+import centric from "../public/assets/centricDesign.png";
+import comSolution from "../public/assets/comprehensiveSolution.png";
 import React from "react";
 import {
   type Icon,
@@ -27,6 +26,7 @@ import {
   Message,
 } from "iconsax-react";
 import { SidebarProps } from "@/types";
+import { NavbarLinkProps } from "@/types";
 
 export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   {
@@ -117,20 +117,20 @@ export const Aboutdata = [
 export const apartInfo = [
   {
     image: innovation,
-    heading: 'Innovation at the Core',
-    desc: "Traverse is fueled by innovation, constantly evolving to meet the dynamic needs of modern work environments. We pride ourselves on staying ahead of the curve, providing access to cutting-edge features and functionalities"
+    heading: "Innovation at the Core",
+    desc: "Traverse is fueled by innovation, constantly evolving to meet the dynamic needs of modern work environments. We pride ourselves on staying ahead of the curve, providing access to cutting-edge features and functionalities",
   },
   {
     image: centric,
-    heading: 'User-Centric Design',
-    desc: "Your experience is our priority. Traverse is meticulously designed for user-friendliness, ensuring that individuals, teams, and businesses can seamlessly integrate our solution into their daily routines"
+    heading: "User-Centric Design",
+    desc: "Your experience is our priority. Traverse is meticulously designed for user-friendliness, ensuring that individuals, teams, and businesses can seamlessly integrate our solution into their daily routines",
   },
   {
     image: comSolution,
-    heading: 'Comprehensive Solutions',
-    desc: "Traverse is not merely a time tracking app; it's a holistic suite of services aimed at enhancing overall productivity. From detailed time insights to client collaboration features, we offer a comprehensive solution tailored to your unique needs"
+    heading: "Comprehensive Solutions",
+    desc: "Traverse is not merely a time tracking app; it's a holistic suite of services aimed at enhancing overall productivity. From detailed time insights to client collaboration features, we offer a comprehensive solution tailored to your unique needs",
   },
-]
+];
 
 export const faqs = [
   {

@@ -21,6 +21,13 @@ export interface User {
   token?: string;
 }
 
+export type NavbarLinkProps = {
+  id?: number;
+  link: string;
+  label: string;
+  descText: string;
+};
+
 export interface Project {
   _id?: string;
   title?: string;
