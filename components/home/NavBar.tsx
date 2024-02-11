@@ -68,11 +68,19 @@ export const Nav = () => {
           </Link>
         </div>
       </header>
-      <div className="md:flex hidden flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5">
+      <div
+        className={cn(
+          "md:flex hidden flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5",
+          scrollHeight > 200 ? "hidden h-0 bg-transparent" : "block"
+        )}
+      >
         {NAVLINKS.map((item) => (
           <Link
             href={item.link}
-            className="flex items-center gap-2 hover:bg-purple-50 px-2 py-3 rounded-lg"
+            className={cn(
+              "flex items-center gap-2 hover:bg-purple-50 px-2 py-3 rounded-lg",
+              { hidden: scrollHeight > 200 }
+            )}
             key={item.title}
           >
             <Image
@@ -82,10 +90,10 @@ export const Nav = () => {
               height={40}
             />
             <div>
-              <h4 className="text-sm md:text-base font-semibold text-purple-900">
+              <h4 className="text-sm md:text-base font-semibold text-purple-900 dark:text-white">
                 {item.title}
               </h4>
-              <p className="text-[12px] md:text-sm font-normal tracking-[-0.1px] text-[#6B7B8F]">
+              <p className="text-[12px] md:text-sm font-normal tracking-[-0.1px] text-[#6B7B8F] dark:text-white">
                 {item.descText}
               </p>
             </div>
