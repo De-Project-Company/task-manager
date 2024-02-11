@@ -27,13 +27,20 @@ export const Nav = () => {
     >
       <header className="md:flex  justify-between items-center py-3 md:px-16 px-5">
         <div className="flex items-center justify-between">
-          <Link href="/">
+          <Link href="/" className="">
             <Image
               src={traverse}
               alt="traverse logo"
               width={150}
               height={150}
-              className="dark:invert"
+              className="dark:hidden block"
+            />
+            <Image
+              src="/logo.svg"
+              alt="traverse logo"
+              width={150}
+              height={150}
+              className="dark:block hidden"
             />
           </Link>
           <div
