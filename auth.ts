@@ -10,7 +10,7 @@ export const {
   signOut,
 } = NextAuth({
   pages: {
-    signIn: "/signin",
+    signIn: "/auth/signin",
   },
   events: {
     async signIn({ user }) {

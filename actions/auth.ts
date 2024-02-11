@@ -45,7 +45,7 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
     console.log("signup call error from api call", e);
     if (e?.response?.status === 400) {
       return {
-        error: e,
+        error: "user already exists",
       };
     } else {
       return {
@@ -68,6 +68,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   try {
     const data = await fetch(`${BaseUrl}/auth/signin`, {
       method: "POST",
+      credentials: "include",
 
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
@@ -86,13 +87,14 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     });
     const res = await data.json();
 
-    if (data.status === 200 || res.ok) {
-      cookie.set("access_token", res.token, {
-        maxAge: 60 * 60 * 24 * 1, // 1 day
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
+   if (data.status === 200 || res.ok) {
+  cookie.set("access_token", res.token, {
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    httpOnly: true,
+    path: "/",
+    priority: "high",
+  });
+
 
       cookie.set("jwt", res.token, {
         maxAge: 60 * 60 * 24 * 1, // 1 day
