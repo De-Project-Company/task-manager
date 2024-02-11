@@ -8,8 +8,7 @@ const BaseUrl =
 
 const $http = Calls(BaseUrl);
 
-
-export const CreateProject = async (values: any) => {
+export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
 
   if (!authToken) {
@@ -27,11 +26,11 @@ export const CreateProject = async (values: any) => {
   };
 
   try {
-    const res = await $http.post("/project", values, config);
-    // console.log("project creates successfully:", res.data);
-    if (res?.status === 200) {
+    const res = await $http.get("/auth/me", config);
+    if (res.status === 200) {
       return {
-        success: "Project created successfully, check your email!",
+        status: "success",
+        user: res.data.user,
       };
     }
   } catch (e: any) {

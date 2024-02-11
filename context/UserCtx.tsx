@@ -11,7 +11,7 @@ import React, {
 import { getCookie, getCookies } from "cookies-next";
 import { User } from "@/types";
 import { useSession } from "next-auth/react";
-import { GetFromSessionStorage } from "@/utils";
+import { getUser } from "@/actions/user";
 
 // Add Your Props here
 interface UserContextProps {
@@ -35,40 +35,35 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     website: "",
   });
 
-    // useLayoutEffect(() => {
-    //   if (!session?.user?.email) return;
-    //   setUser({
-    //     ...session?.user,
-    //     name: session?.user?.name!,
-    //     image: session?.user?.image!,
-    //     email: session?.user?.email!,
-    //   });
+  // useLayoutEffect(() => {
+  //   if (!session?.user?.email) return;
+  //   setUser({
+  //     ...session?.user,
+  //     name: session?.user?.name!,
+  //     image: session?.user?.image!,
+  //     email: session?.user?.email!,
+  //   });
 
-    //   return;
-    // }, [session]);
+  //   return;
+  // }, [session]);
 
-  //   useLayoutEffect(() => {
-  //     const userFromCookie = getCookie("user");
-  //     console.log("user:", userFromCookie);
-  //     const TokenFromCOokie = getCookie("access_token");
-  //     console.log("token:", TokenFromCOokie);
-  //     if (userFromCookie) {
-  //       const parsedUser = JSON.parse(userFromCookie) as User;
-  //       setUser({
-  //         name: parsedUser.name,
-  //         email: parsedUser.email,
-  //         id: parsedUser.id,
-  //         role: parsedUser.role,
-  //         token: TokenFromCOokie,
-  //         companyName: parsedUser.companyName,
-  //         website: parsedUser.website,
-  //         image:
-  //           `https://ui-avatars.com/api/?name=${parsedUser.name!}&background=random` ??
-  //           "/facemoji.png",
-  //       });
-  //     }
-  //     return;
-  //   }, []);
+  useLayoutEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = await getUser();
+
+        if (user?.status === "success") {
+          setUser(user.user);
+        } else {
+          // setError(user.error);
+        }
+      } catch (err) {
+        // setError("Failed to fetch user data");
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useLayoutEffect(() => {
     const userFromStorage = sessionStorage.getItem("user");
