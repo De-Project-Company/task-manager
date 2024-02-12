@@ -3,13 +3,15 @@ import EmployersNav from "@/components/Navs/EmployersNav";
 import EmployerSidebar from "@/components/sidebars/EmpoyerSidebar";
 import SkeletonNavbar from "@/components/skeleton/SkeletonNavbar";
 
+import UserContextProvider from "@/context/UserCtx";
+
 export default function EmployersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <UserContextProvider>
       <EmployerSidebar />
       <section className="w-full relative  md:pl-[96px] min-[1140px]:pl-[270px]">
         <Suspense fallback={<SkeletonNavbar />}>
@@ -19,6 +21,6 @@ export default function EmployersLayout({
           {children}
         </div>
       </section>
-    </>
+    </UserContextProvider>
   );
 }
