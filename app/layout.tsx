@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./styles/globals.scss";
 import StateCtxProvider from "@/context/StateCtx";
 import ThemeProvider from "@/context/ThemeCtx";
-import UserContextProvider from "@/context/UserCtx";
 import { SessionProvider } from "next-auth/react";
 import SwipeIndicator from "@/components/SwiperIndicator";
 
@@ -22,7 +21,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <UserContextProvider>
           <StateCtxProvider>
             <ThemeProvider>
               <body className={inter.className}>
@@ -31,7 +29,6 @@ export default function RootLayout({
               </body>
             </ThemeProvider>
           </StateCtxProvider>
-        </UserContextProvider>
       </SessionProvider>
     </html>
   );
