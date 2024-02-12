@@ -132,7 +132,7 @@ const SigninForm = () => {
                     <span className="mb-4 text-xs ">
                       Forgot password?{" "}
                       <Link
-                        href="/forgot-password"
+                        href="/auth/forgetpassword"
                         className="text-primary font-medium"
                       >
                         Reset
