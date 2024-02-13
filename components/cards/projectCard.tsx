@@ -11,11 +11,11 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
 
-  // const encryptString = (str: string): string => {
-  //   const buffer = Buffer.from(str);
-  //   return buffer.toString("base64");
-  // };
-  // const encryptTitle = encryptString(title!);
+  const encryptString = (str: string): string => {
+    const buffer = Buffer.from(str);
+    return buffer.toString("base64");
+  };
+  const encryptTitle = encryptString(title!);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;
@@ -44,7 +44,7 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
         <p className="text-sm text-header dark:text-gray-200">
           Project Title:{" "}
           <strong>
-            {/* <span
+            <span
               dangerouslySetInnerHTML={{
                 __html: title!.replace(
                   new RegExp(`(${projectSearchTerm})`, "gi"),
@@ -56,8 +56,8 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
                     }">${match}</span>`
                 ),
               }}
-            /> */}
-            <span>{title}</span>
+            />
+            {/* <span>{title}</span> */}
           </strong>
         </p>
         <p className="text-sm text-header dark:text-gray-200 flex items-center gap-x-1 xl:gap-x-2">
@@ -101,11 +101,10 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
           Project end date: <strong>{endDate}</strong>
         </p>
         <Link
-          // href={`/admin-projects/details?_id=${_id}&project_title=${encryptTitle}`}
-          href=""
+          href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
           type="button"
           tabIndex={0}
-          className="text-primary dark:text-color-dark  dark:border-color-dark border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          className="text-primary dark:text-white  dark:border-white border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
         >
           View more
         </Link>
