@@ -31,6 +31,11 @@ const ProjectContextProvider = ({
     status: "to-do",
     endDate: "",
     owner: [],
+    description: "",
+    price: 0,
+    duration: 0,
+    teamMembers: [],
+    tasks: [],
   });
 
   useLayoutEffect(() => {
@@ -39,7 +44,18 @@ const ProjectContextProvider = ({
 
       if (res?.status === "success") {
         console.log(res.project);
-        // setProject(res.project);
+        setProject({
+          _id: res.project._id,
+          title: res.project.title,
+          status: res.project.status,
+          description: res.project.description,
+          owner: res.project.owner,
+          endDate: res.project.endDate,
+          price: res.project.price,
+          duration: res.project.duration,
+          teamMembers: res.project.teamMembers,
+          tasks: res.project.tasks,
+        });
       } else {
         console.error(res?.error);
       }
