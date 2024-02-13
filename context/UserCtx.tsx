@@ -66,11 +66,9 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",
           });
-        } 
-//else if (user?.status === 401) {
-      //    router.push(DEFAULT_REVALIDATE_REDIRECT);
-        // }
- else {
+        } else if (user?.status === 401) {
+          router.push(DEFAULT_REVALIDATE_REDIRECT);
+        } else {
         }
       } catch (err) {}
     };
