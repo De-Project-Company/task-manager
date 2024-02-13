@@ -15,7 +15,7 @@ export const getUser = async () => {
   if (!authToken) {
     return {
       error: "Unauthorized. Missing access token.",
-      // status: 401,
+      status: 401,
     };
   }
 
@@ -40,7 +40,7 @@ export const getUser = async () => {
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",
-        // status: 401,
+       status: 401,
       };
     } else if (e?.response?.status === 403) {
       return {
