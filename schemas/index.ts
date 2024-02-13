@@ -20,12 +20,17 @@ export const createProjectSchema = z.object({
   currentPhase: z.string(),
 });
 
-
 export const RegistrationSchema = z.object({
-  name: z.string().min(4, { message: "Name must be at least 4 characters long" }),
+  name: z
+    .string()
+    .min(4, { message: "Name must be at least 4 characters long" }),
   email: z.string().email(),
-  companyName: z.string().min(4, { message: "Company name must be at least 4 characters long" }),
-  password: z.string().min(5, { message: "Password must be at least 5 characters long" }),
+  companyName: z
+    .string()
+    .min(4, { message: "Company name must be at least 4 characters long" }),
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters long" }),
   passwordConfirm: z.string().min(5, {
     message: "Password confirmation must be at least 5 characters long",
   }),
@@ -70,4 +75,17 @@ export const RequestSchema = z.object({
   message: z
     .string()
     .min(15, { message: "Must be atleast 15 characters long" }),
+});
+
+export const ForgetPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+export const ResetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters long" }),
+  passwordConfirm: z.string().min(5, {
+    message: "Password confirmation must be at least 5 characters long",
+  }),
 });

@@ -1,6 +1,12 @@
 "use server";
 
-import { RegistrationSchema, LoginSchema, activateASchema } from "@/schemas";
+import {
+  RegistrationSchema,
+  LoginSchema,
+  activateASchema,
+  ForgetPasswordSchema,
+  ResetPasswordSchema,
+} from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
@@ -94,9 +100,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         path: "/",
         priority: "high",
       });
-
-      console.log(res.data);
-
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -130,7 +133,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       return {
         user,
         success: "Login successful!",
-        redirect: DEFAULT_LOGIN_REDIRECT,
+        // redirect: DEFAULT_LOGIN_REDIRECT,
       };
     }
     if (data.status === 400) {
@@ -189,6 +192,91 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
       return { error: "Invalid license." };
     } else if (e?.response?.status === 404) {
       return { error: "Unable to activate. License not found." };
+    } else if (e?.response?.status === 500) {
+      return { error: "Internal server error" };
+    } else {
+      return {
+        error:
+          e?.response?.data ??
+          "Unknown error occurred. Please try again later.",
+      };
+    }
+  }
+};
+
+export const ForgetPassword = async (
+  values: z.infer<typeof ForgetPasswordSchema>
+) => {
+  const validatedFields = ForgetPasswordSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return {
+      error: "Validation failed. Please check your input.",
+    };
+  }
+
+  try {
+    const res = await $http.post("/auth/forgotPassword", values);
+
+    if (res?.status === 200) {
+      return {
+        success: "Token sent to email",
+      };
+    }
+  } catch (e: any) {
+    console.log("Activate call error from API call", e);
+    if (e?.response?.status === 401) {
+      return { error: "Invalid license." };
+    } else if (e?.response?.status === 404) {
+      return { error: "User does not exist!" };
+    } else if (e?.response?.status === 500) {
+      return { error: "Internal server error" };
+    } else {
+      return {
+        error:
+          e?.response?.data ??
+          "Unknown error occurred. Please try again later.",
+      };
+    }
+  }
+};
+
+export const ResetPassword = async (
+  values: z.infer<typeof ResetPasswordSchema>,
+  token?: string
+) => {
+  const validatedFields = ResetPasswordSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return {
+      error: "Validation failed. Please check your input.",
+    };
+  }
+
+  const password = validatedFields.data.password;
+
+  const confirmPassword = validatedFields.data.passwordConfirm;
+
+  if (password !== confirmPassword) {
+    return {
+      error: "Password and Confirm Password do not match.",
+    };
+  }
+
+  try {
+    const res = await $http.patch(`/auth/resetPassword/${token}`, values);
+
+    if (res?.status === 200) {
+      return {
+        success: "Password changed succesfully",
+      };
+    }
+  } catch (e: any) {
+    console.log("Activate call error from API call", e);
+    if (e?.response?.status === 401) {
+      return { error: "Invalid Token Try again" };
+    } else if (e?.response?.status === 404) {
+      return { error: "User does not exist!" };
     } else if (e?.response?.status === 500) {
       return { error: "Internal server error" };
     } else {
