@@ -14,12 +14,13 @@ import { getProject } from "@/actions/project";
 
 // Add Your Props here
 interface ProjectContextProps {
-  Project: ProjectProps;
-  setProject: React.Dispatch<SetStateAction<ProjectProps>>;
+  Project: ProjectProps[];
+  setProject: React.Dispatch<SetStateAction<ProjectProps[]>>;
   selectedProjectFilter: string;
   setSelectedProjectFilter: React.Dispatch<React.SetStateAction<string>>;
   projectSearchTerm: string;
   setProjectSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  projectCount: number;
 }
 
 export const ProjectContext = createContext({} as ProjectContextProps);
@@ -30,39 +31,33 @@ const ProjectContextProvider = ({
   children: React.ReactNode;
 }) => {
   // Add Your State(s) Here
-  const [Project, setProject] = useState<ProjectProps>({
-    _id: "",
-    title: "",
-    status: "to-do",
-    endDate: "",
-    owner: {},
-    description: "",
-    price: 0,
-    duration: 0,
-    teamMembers: [],
-    tasks: [],
-  });
+  const [Project, setProject] = useState<ProjectProps[]>([]);
   const [selectedProjectFilter, setSelectedProjectFilter] = useState("");
   const [projectSearchTerm, setProjectSearchTerm] = useState("");
+  const [projectCount, setprojectCount] = useState(0);
 
   useLayoutEffect(() => {
     const fetchData = async () => {
       const res = await getProject();
 
       if (res?.status === "success") {
-        console.log(res.project);
-        setProject({
-          _id: res.project._id,
-          title: res.project.title,
-          status: res.project.status,
-          description: res.project.description,
-          owner: res.project.owner,
-          endDate: res.project.endDate,
-          price: res.project.price,
-          duration: res.project.duration,
-          teamMembers: res.project.teamMembers,
-          tasks: res.project.tasks,
-        });
+        // console.log(res.project);
+        // setProject([
+        //   {
+        //     _id: res?.project._id,
+        //     title: res?.project.title,
+        //     status: res?.project.status,
+        //     description: res?.project.description,
+        //     owner: res?.project.owner,
+        //     endDate: res?.project.endDate,
+        //     price: res?.project.price,
+        //     duration: res?.project.duration,
+        //     teamMembers: res?.project.teamMembers,
+        //     tasks: res?.project.tasks,
+        //   },
+        // ]);
+        setProject(res.project);
+        setprojectCount(res.count);
       } else {
         console.error(res?.error);
       }
@@ -70,7 +65,9 @@ const ProjectContextProvider = ({
 
     fetchData();
   }, []);
+  // console.log(Project);
 
+  // console.log(projectCount);
   useEffect(() => {
     const projectFilter = localStorage.getItem("project-filter");
     if (!projectFilter) {
@@ -97,8 +94,9 @@ const ProjectContextProvider = ({
       setSelectedProjectFilter,
       projectSearchTerm,
       setProjectSearchTerm,
+      projectCount,
     }),
-    [Project, selectedProjectFilter, projectSearchTerm]
+    [Project, selectedProjectFilter, projectSearchTerm, projectCount]
   ); //
 
   return (

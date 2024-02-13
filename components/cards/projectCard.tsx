@@ -6,13 +6,7 @@ import useInView from "@/hooks/useInView";
 import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
 
-const ProjectCardAdmin = ({
-  status,
-  title,
-  owner,
-  endDate,
-  _id,
-}: ProjectProps) => {
+const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
@@ -45,14 +39,14 @@ const ProjectCardAdmin = ({
       className="relative w-full max-w-[454px] h-[261px]  flex items-center justify-center pb-1  p-[2px] border border-gray-300 dark:border-none dark:p-[3px] rounded-xl sm:rounded-2xl card"
     >
       <div className="card-border" />
-      <div className="card-content w-full h-full flex flex-col items-start gap-y-4 bg-white dark:bg-gray-950 min-[1310px]:p-4 max-[1140px]:p-4 p-1 pl-2 justify-center max-[360px]:[&>p]:text-[12px]">
-        <Folder2 variant="Bulk" className="text-header dark:text-color-dark" />
+      <div className="card-content w-full h-full flex flex-col items-start gap-y-4 bg-white dark:bg-primary min-[1310px]:p-4 max-[1140px]:p-4 p-1 pl-2 justify-center max-[360px]:[&>p]:text-[12px]">
+        <Folder2 variant="Bulk" className="text-header dark:text-white" />
         <p className="text-sm text-header dark:text-gray-200">
           Project Title:{" "}
-          {/* <strong>
+          <strong>
             <span
               dangerouslySetInnerHTML={{
-                __html: title?.replace(
+                __html: title!.replace(
                   new RegExp(`(${projectSearchTerm})`, "gi"),
                   (match, group) =>
                     `<span style="color: black; background-color: ${
@@ -63,7 +57,8 @@ const ProjectCardAdmin = ({
                 ),
               }}
             />
-          </strong> */}
+            {/* <span>{title}</span> */}
+          </strong>
         </p>
         <p className="text-sm text-header dark:text-gray-200 flex items-center gap-x-1 xl:gap-x-2">
           Project Status:{" "}
@@ -106,10 +101,10 @@ const ProjectCardAdmin = ({
           Project end date: <strong>{endDate}</strong>
         </p>
         <Link
-          href={`/admin-projects/details?_id=${_id}&project_title=${encryptTitle}`}
+          href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
           type="button"
           tabIndex={0}
-          className="text-primary dark:text-color-dark  dark:border-color-dark border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          className="text-primary dark:text-white  dark:border-white border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
         >
           View more
         </Link>
@@ -118,4 +113,4 @@ const ProjectCardAdmin = ({
   );
 };
 
-export default ProjectCardAdmin;
+export default ProjectCard;

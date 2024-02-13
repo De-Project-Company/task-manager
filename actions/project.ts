@@ -75,11 +75,12 @@ export const getProject = async () => {
 
   try {
     const res = await $http.get("/project", config);
-    console.log(res.data.projects);
+    // console.log(res.data);
     if (res.status === 200) {
       return {
         status: "success",
         project: res.data.projects,
+        count: res.data.count
       };
     }
   } catch (e: any) {

@@ -55,7 +55,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getUser();
 
         if (user?.status === "success") {
-          console.log(user.user);
+          console.log("User came from Backend");
           setUser({
             name: user.user.name,
             email: user.user.email,

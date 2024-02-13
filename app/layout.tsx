@@ -21,14 +21,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-          <StateCtxProvider>
-            <ThemeProvider>
-              <body className={inter.className}>
-                {children}
-                <SwipeIndicator />
-              </body>
-            </ThemeProvider>
-          </StateCtxProvider>
+        <StateCtxProvider>
+          <ThemeProvider>
+            <body
+              className={`${inter.className}  dark:bg-primary/90 transition-colors duration-500`}
+            >
+              {children}
+              <SwipeIndicator />
+            </body>
+          </ThemeProvider>
+        </StateCtxProvider>
       </SessionProvider>
     </html>
   );
