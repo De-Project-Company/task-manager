@@ -18,7 +18,7 @@ const CounterCard = ({ count, label }: ProjectCounterProps) => {
       className="relative max-[410px]:min-w-[70px] w-full sm:max-w-[214px] sm:h-[148px] flex justify-center items-center dark:border-primary border border-gray-300 rounded-md sm:rounded-2xl card min-[500px]:p-[1px] select-none"
     >
       <div className="card-border" />
-      <div className="card-content  w-full h-full flex justify-center items-center flex-col gap-y-2 py-2 sm:gap-y-4 bg-white dark:bg-gray-950 p-1">
+      <div className="card-content  w-full h-full flex justify-center items-center flex-col gap-y-2 py-2 sm:gap-y-4 bg-white dark:bg-primary p-1">
         <span className="font-semibold text-2xl sm:text-5xl text-header dark:text-gray-300">
           {count < 10 ? `0${count}` : count}
         </span>

@@ -10,7 +10,7 @@ const $http = Calls(BaseUrl);
 
 export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
-  console.log(authToken);
+  // console.log(authToken);
 
   if (!authToken) {
     return {
