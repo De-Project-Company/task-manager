@@ -264,7 +264,7 @@ export const ResetPassword = async (
   }
 
   try {
-    const res = await $http.post(`/auth/resetPassword/${token}`, values);
+    const res = await $http.patch(`/auth/resetPassword/${token}`, values);
 
     if (res?.status === 200) {
       return {
