@@ -55,7 +55,7 @@ export const CreateProject = async (values: any) => {
   }
 };
 
-export const geyProject = async () => {
+export const getProject = async () => {
   const authToken = cookies()?.get("access_token")?.value;
 
   if (!authToken) {

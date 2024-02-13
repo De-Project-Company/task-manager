@@ -80,3 +80,12 @@ export const RequestSchema = z.object({
 export const ForgetPasswordSchema = z.object({
   email: z.string().email(),
 });
+
+export const ResetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters long" }),
+  passwordConfirm: z.string().min(5, {
+    message: "Password confirmation must be at least 5 characters long",
+  }),
+});

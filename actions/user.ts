@@ -10,11 +10,12 @@ const $http = Calls(BaseUrl);
 
 export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
+  console.log(authToken);
 
   if (!authToken) {
     return {
       error: "Unauthorized. Missing access token.",
-      status: 401,
+      // status: 401,
     };
   }
 
@@ -39,7 +40,7 @@ export const getUser = async () => {
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",
-        status: 401,
+        // status: 401,
       };
     } else if (e?.response?.status === 403) {
       return {
@@ -56,3 +57,6 @@ export const getUser = async () => {
     }
   }
 };
+
+
+// reset?token=deec926603a69ac110cad7affe57d19f6a21810adb50674a8f51ae056d5a2729
