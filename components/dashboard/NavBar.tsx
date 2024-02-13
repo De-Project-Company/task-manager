@@ -63,7 +63,7 @@ const DashBoardNav = () => {
               value={projectSearchTerm}
               type="text"
               placeholder="Search via project titles..."
-              className=" w-full h-[40px] dark:border-primary-light  min-[900px]:h-[56px] outline-none focus-visible:border focus-visible:border-primary-light dark:bg-transparent text-black dark:text-gray-200 border text-md font-medium rounded-md focus-visible:ring-primary-light"
+              className=" w-full h-[40px] dark:border-primary  min-[900px]:h-[56px] outline-none focus-visible:border focus-visible:border-primary/90 dark:bg-transparent text-black dark:text-gray-200 border text-md font-medium rounded-md focus-visible:ring-primary/90"
             />
             {projectSearchTerm.length === 0 && (
               <span className="absolute right-3 text-header dark:text-gray-200">

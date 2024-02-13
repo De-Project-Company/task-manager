@@ -42,7 +42,7 @@ export interface ProjectProps {
   _id?: string;
   title?: string;
   description?: string;
-  owner?: Owner[];
+  owner?: Owner;
   price?: number;
   duration?: number;
   status?: "to-do" | "in-progress" | "completed";

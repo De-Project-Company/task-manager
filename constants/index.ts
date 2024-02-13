@@ -26,6 +26,7 @@ import {
   Message,
 } from "iconsax-react";
 import { SidebarProps, ProjectCounterProps } from "@/types";
+import { useProjectCtx } from "@/context/Projectctx";
 
 export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   {
@@ -159,3 +160,4 @@ export const faqs = [
   },
 ];
 export const TYPESidebarLinks = EMPLOYERSSIDEBAR_LINKS.map((link) => link.link);
+

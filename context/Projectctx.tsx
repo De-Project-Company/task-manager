@@ -35,7 +35,7 @@ const ProjectContextProvider = ({
     title: "",
     status: "to-do",
     endDate: "",
-    owner: [],
+    owner: {},
     description: "",
     price: 0,
     duration: 0,
