@@ -4,6 +4,7 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useState,
@@ -15,6 +16,10 @@ import { getProject } from "@/actions/project";
 interface ProjectContextProps {
   Project: ProjectProps;
   setProject: React.Dispatch<SetStateAction<ProjectProps>>;
+  selectedProjectFilter: string;
+  setSelectedProjectFilter: React.Dispatch<React.SetStateAction<string>>;
+  projectSearchTerm: string;
+  setProjectSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const ProjectContext = createContext({} as ProjectContextProps);
@@ -37,6 +42,8 @@ const ProjectContextProvider = ({
     teamMembers: [],
     tasks: [],
   });
+  const [selectedProjectFilter, setSelectedProjectFilter] = useState("");
+  const [projectSearchTerm, setProjectSearchTerm] = useState("");
 
   useLayoutEffect(() => {
     const fetchData = async () => {
@@ -64,7 +71,35 @@ const ProjectContextProvider = ({
     fetchData();
   }, []);
 
-  const value = useMemo(() => ({ Project, setProject }), [Project]); //
+  useEffect(() => {
+    const projectFilter = localStorage.getItem("project-filter");
+    if (!projectFilter) {
+      setSelectedProjectFilter("all");
+      return;
+    }
+    if (projectFilter) {
+      setSelectedProjectFilter(projectFilter);
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedProjectFilter === "") return;
+
+    localStorage.setItem("project-filter", selectedProjectFilter);
+  }, [selectedProjectFilter]);
+
+  const value = useMemo(
+    () => ({
+      Project,
+      setProject,
+      selectedProjectFilter,
+      setSelectedProjectFilter,
+      projectSearchTerm,
+      setProjectSearchTerm,
+    }),
+    [Project, selectedProjectFilter, projectSearchTerm]
+  ); //
 
   return (
     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

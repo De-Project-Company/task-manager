@@ -52,3 +52,10 @@ export interface ProjectProps {
   tasks?: any[];
   __v?: number;
 }
+
+
+export type ProjectCounterProps = {
+  id?: number;
+  label: string;
+  count: number;
+};

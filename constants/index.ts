@@ -25,8 +25,7 @@ import {
   Coin1,
   Message,
 } from "iconsax-react";
-import { SidebarProps } from "@/types";
-import { NavbarLinkProps } from "@/types";
+import { SidebarProps, ProjectCounterProps } from "@/types";
 
 export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   {
