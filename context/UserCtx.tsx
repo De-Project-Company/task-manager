@@ -8,7 +8,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { getCookie, getCookies } from "cookies-next";
 import { User } from "@/types";
 import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";

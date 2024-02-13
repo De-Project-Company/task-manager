@@ -1,9 +1,9 @@
 "use client";
 
 import DashNav from "@/components/dashboard/nav";
-import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/loader";
 import React, { useEffect, useState } from "react";
+import DashBoardNav from "@/components/dashboard/NavBar";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -17,28 +17,9 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <>
-      <DashNav />
-
-      <div>
-        {loading ? (
-          <div className="grid place-items-center min-h-[400px]">
-            <LoadingSpinner />
-          </div>
-        ) : error ? (
-          <div className="grid place-items-center min-h-[400px]">
-            <div className="text-center ">
-              <p>Sorry work is currently in progress try creating a project </p>
-              <p>⚒️ We are currently working on this ⚒️</p>
-            </div>
-          </div>
-        ) : (
-          <>
-            <p> error </p>
-          </>
-        )}
-      </div>
-    </>
+    <section className="w-full h-full flex flex-col gap-y-6 min-[1140px]:px-9 px-3 pt-8">
+      <DashBoardNav />
+    </section>
   );
 };
 

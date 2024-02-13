@@ -28,25 +28,34 @@ export type NavbarLinkProps = {
   descText: string;
 };
 
-export interface Project {
+interface Owner {
+  _id?: string;
+  name?: string;
+  email?: string;
+  companyName?: string;
+  role?: string;
+  createdAt?: string;
+  __v?: number;
+}
+
+export interface ProjectProps {
   _id?: string;
   title?: string;
   description?: string;
-  owner?: {
-    _id: string;
-    name: string;
-    email: string;
-    companyName: string;
-    role: string;
-    createdAt: string;
-    __v: number;
-  };
+  owner?: Owner;
   price?: number;
   duration?: number;
-  status?: string;
+  status?: "to-do" | "in-progress" | "completed";
   startDate?: string;
   endDate?: string;
   teamMembers?: string[];
   tasks?: any[];
   __v?: number;
 }
+
+
+export type ProjectCounterProps = {
+  id?: number;
+  label: string;
+  count: number;
+};
