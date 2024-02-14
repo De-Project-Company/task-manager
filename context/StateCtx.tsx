@@ -21,6 +21,8 @@ interface StateContextProps {
   setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
   Toast: boolean;
   setToast: React.Dispatch<React.SetStateAction<boolean>>;
+  addTeamMemberMoal: boolean;
+  setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
   // Landing Page props
@@ -38,11 +40,12 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [landingMobileMenu, setLandingMobileMenu] = useState(false);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
+  const [addTeamMemberMoal, setaddTeamMemberMoal] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
 
   const pathname = usePathname();
 
-  const isAnyModalOpen = OTPModal || Toast;
+  const isAnyModalOpen = OTPModal || Toast || addTeamMemberMoal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -188,6 +191,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       currentPath,
       Toast,
       setToast,
+      addTeamMemberMoal,
+      setaddTeamMemberMoal,
       openSidebarMain,
       setOpenSidebarMain,
     }),
@@ -198,6 +203,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       OTPModal,
       swipeIndicator,
       Toast,
+      addTeamMemberMoal,
       currentPath,
       openSidebarMain,
     ]

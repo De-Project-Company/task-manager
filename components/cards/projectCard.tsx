@@ -5,16 +5,13 @@ import { ProjectProps } from "@/types";
 import useInView from "@/hooks/useInView";
 import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
+import { encryptString } from "@/utils";
 
 const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
 
-  const encryptString = (str: string): string => {
-    const buffer = Buffer.from(str);
-    return buffer.toString("base64");
-  };
   const encryptTitle = encryptString(title!);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

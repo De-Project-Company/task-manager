@@ -89,3 +89,16 @@ export const ResetPasswordSchema = z.object({
     message: "Password confirmation must be at least 5 characters long",
   }),
 });
+
+export const AddTeamMembersSchema = z.object({
+  teamMembers: z
+    .array(z.string().email())
+    .refine((data) => data.length > 0, {
+      message: "At least one email is required",
+    })
+    .default([]),
+  teamMemberEmail: z
+    .string()
+    .email({ message: "Invalid email format" })
+    .nullable(),
+});
