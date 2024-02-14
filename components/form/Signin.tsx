@@ -74,7 +74,7 @@ const SigninForm = () => {
           alt="Traverse logon h-full w-full"
         />
       </Link>
-      <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2">
+      <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Login Into Account
       </h1>
 
