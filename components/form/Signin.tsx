@@ -70,15 +70,15 @@ const SigninForm = () => {
              <Image
               src="/assets/traverseLogo.png"
               alt="traverse logo"
-              width={300}
-              height={300}
+              width={250}
+              height={150}
               className="dark:hidden block"
             />
             <Image
               src="/logo.svg"
               alt="traverse logo"
-              width={300}
-              height={300}
+              width={150}
+              height={150}
               className="dark:block hidden"
             />
       </Link>
