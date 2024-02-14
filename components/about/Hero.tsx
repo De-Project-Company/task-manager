@@ -6,7 +6,7 @@ const Hero = () => {
       style={{ backgroundImage: `url(${aboutHeroImage.src})` }}
     >
       <div className="z-10 md:w-[60%]">
-        <h1 className="text-4xl md:text-[64px] font-bold md:leading-[68px] pb-6">
+        <h1 className="text-4xl md:text-[64px] font-bold md:leading-[68px] pb-6 ">
           Elevating Productivity with Traverse
         </h1>
         <p className="text-sm md:text-lg text-balance">
