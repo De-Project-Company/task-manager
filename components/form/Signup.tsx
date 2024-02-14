@@ -212,11 +212,22 @@ function SignupForm() {
             <Button
               disabled={isLoading}
               className={cn(
-                "w-full rounded-md my-3 dark:bg-white dark:text-primary ",
+                "w-full rounded-md my-3 dark:hidden ",
                 isLoading ? "[&>div>span]:opacity-0" : ""
               )}
               type="submit"
               spinnerColor="#fff"
+            >
+              Sign up
+            </Button>
+           <Button
+              disabled={isLoading}
+              className={cn(
+                "w-full rounded-md my-3 hidden dark:block dark:bg-white dark:text-primary",
+                isLoading ? "[&>div>span]:opacity-0" : ""
+              )}
+              type="submit"
+              spinnerColor="#1B0354"
             >
               Sign up
             </Button>
