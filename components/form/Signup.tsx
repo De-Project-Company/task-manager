@@ -58,7 +58,7 @@ function SignupForm() {
     });
   };
   return (
-    <div className="relative py-4 min-[850px]:py-6 rounded-[16px] bg-white shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
+    <div className="relative py-4 min-[850px]:py-6 rounded-[16px] transition-colors duration-500  dark:text-white dark:bg-primary shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
       <Link href="/">
         <Image
           src="/assets/Logo_primary.svg"
@@ -67,7 +67,7 @@ function SignupForm() {
           alt="Traverse logon h-full w-full"
         />
       </Link>
-      <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2">
+      <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Signup
       </h1>
 
@@ -200,11 +200,11 @@ function SignupForm() {
           <FormError message={error} />
           <FormSuccess message={success} />
 
-          <div className="flex relative items-center [perspective:300px] transform-gpu max-sm:w-full">
+          <div className="flex relative items-center [perspective:300px] transform-gpu max-sm:w-full  dark:bg-white  dark:rounded-md">
             <Button
               disabled={isLoading}
               className={cn(
-                "w-full rounded-md my-3",
+                "w-full rounded-md my-3 dark:bg-white dark:text-primary ",
                 isLoading ? "[&>div>span]:opacity-0" : ""
               )}
               type="submit"
@@ -213,7 +213,7 @@ function SignupForm() {
               Sign up
             </Button>
             {isLoading && (
-              <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
                 <span />
                 <span />
                 <span />
@@ -242,7 +242,7 @@ function SignupForm() {
         Continue with Google
       </Button>
 
-      <span className=" w-full text-header  mt-5 md:mt-8 text-sm  relative block text-center md:text-black z-10">
+      <span className=" w-full text-header  mt-5 md:mt-8 text-sm  relative block text-center md:text-black z-10 dark:text-white">
         Already have an account?
         <Link href="/auth/signin" className="ml-1 underline font-medium">
           Log in

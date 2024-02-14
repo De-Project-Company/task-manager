@@ -6,10 +6,10 @@ const About = () => {
   return (
     <section className="md:flex py-14 md:px-16 px-5 md:py-28">
       <div>
-        <header className="text-base text-purple-950 font-semibold">
+        <header className="text-base text-purple-950 font-semibold dark:text-white">
           About
         </header>
-        <h1 className="text-3xl md:text-5xl text-purple-950 py-4 font-bold">
+        <h1 className="text-3xl md:text-5xl text-purple-950 py-4 font-bold dark:text-white">
           Elevating Productivity with Traverse
         </h1>
         <p className="font-normal text-neutraly text-sm md:text-lg md:w-[80%]">
