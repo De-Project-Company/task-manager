@@ -18,7 +18,7 @@ const CreateProject = () => {
               aria-label="Go Back"
               onClick={() => router.back()}
               type="button"
-              className="flex font-medium items-center gap-x-1 text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 pr-1 pt-4"
+              className="flex font-medium items-center gap-x-1 text-header dark:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 pr-1 pt-4"
             >
               <ArrowSquareLeft aria-hidden />
               <span>Back</span>
