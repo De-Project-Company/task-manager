@@ -1,9 +1,11 @@
-import React from 'react'
-
-const page = () => {
+const ProductId = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <h1>
+        <h1>page</h1>
+      </h1>
+    </>
+  );
+};
 
-export default page
+export default ProductId;
