@@ -18,7 +18,9 @@ const Navbar = () => {
   const decrptedTitle = decryptString(projectTitle ?? "");
   const decrptedName = decryptString(clientName ?? "");
 
-  const titleLen = 27;
+  const fullName = user?.name;
+
+  const [firstName] = fullName!.split(/\s+/);
 
   return (
     <header
@@ -53,7 +55,7 @@ const Navbar = () => {
         {currentPath === "dashboard" ? (
           <div className="flex gap-x-2 sm:gap-x-4 items-center">
             <h2 className="hidden md:inline sm:text-3xl capitalize font-medium text-header dark:text-white  ">
-              Welcome back! {user?.name}
+              Welcome back! {firstName}
             </h2>
             <h2 className="max-[370px]:text-base max-[500px]:text-lg text-xl md:hidden capitalize font-medium text-header  dark:text-white ">
               {currentPath}
@@ -62,17 +64,15 @@ const Navbar = () => {
         ) : (
           <div className="flex gap-x-2 sm:gap-x-4 items-center">
             <h2
-              onMouseEnter={handleMouseEnter}
-              className="max-[370px]:text-base max-[500px]:text-lg text-xl sm:text-3xl capitalize font-medium text-header  "
-              data-value={
-                decrptedTitle
-                  ? currentPath.replace("projects", "project")
-                  : decrptedName
-              }
+              //   onMouseEnter={handleMouseEnter}
+              className="max-[370px]:text-base max-[500px]:text-lg text-xl sm:text-3xl capitalize font-medium text-header dark:text-white"
+              //   data-value={
+              //     decrptedTitle
+              //       ? currentPath.replace("projects", "project")
+              //       : decrptedName
+              //   }
             >
-              {decrptedTitle
-                ? currentPath.replace("projects", "project")
-                : currentPath}
+              {decrptedTitle}
             </h2>
           </div>
         )}

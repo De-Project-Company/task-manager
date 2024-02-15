@@ -4,7 +4,6 @@ import EmployerSidebar from "@/components/sidebars/EmpoyerSidebar";
 import SkeletonNavbar from "@/components/skeleton/SkeletonNavbar";
 import ProjectContextProvider from "@/context/Projectctx";
 import Navbar from "@/components/Navs/NavBar";
-
 import UserContextProvider from "@/context/UserCtx"; 
 
 export default function EmployersLayout({

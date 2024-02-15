@@ -1,7 +1,7 @@
 import React from "react";
 import { decryptString } from "@/utils";
 import { FaBriefcase } from "react-icons/fa6";
-import Link from "next/link";
+
 import Image from "next/image";
 
 interface PageProps {
