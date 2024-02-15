@@ -54,31 +54,44 @@ const ForgetpasswordForm = () => {
   return (
     <>
       <>
-        <div className="fex w-full justify-start max-[500px]:py-2 px-4 sm:px-8 xl:px-10 2xl:px-20 my-[60px]">
-          <div className="flex w-full justify-start">
+        <div className="fex w-full justify-start max-[500px]:py-2 px-4 sm:px-8 xl:px-10 2xl:px-20 my-[60px] transition-colors duration-500  dark:text-white dark:bg-primary">
+          <div className="flex w-full justify-start transition-colors ">
             <button
               tabIndex={0}
               aria-label="Go Back"
               onClick={() => router.back()}
               type="button"
-              className="flex font-medium items-center gap-x-1 text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 pr-1 pt-4"
+              className="flex font-medium duration-500 items-center gap-x-1 text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 pr-1 pt-4"
             >
-              <ArrowSquareLeft aria-hidden />
-              <span>Back</span>
+              <ArrowSquareLeft
+                aria-hidden
+                className="dark:text-white  transition-colors duration-500"
+              />
+              <span className="dark:text-white transition-colors duration-500">
+                Back
+              </span>
             </button>
           </div>
         </div>
       </>
-      <div className="relative py-4 md:py-6 rounded-[16px] bg-white shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
+      <div className="relative py-4 md:py-6 rounded-[16px] bg-white shadow-lg transition-colors duration-500 dark:text-white dark:bg-primary px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
         <Link href="/">
-          <Image
-            src="/assets/Logo_primary.svg"
-            width={300}
-            height={300}
-            alt="Traverse logon h-full w-full"
-          />
+                   <Image
+              src="/assets/traverseLogo.png"
+              alt="traverse logo"
+              width={150}
+              height={150}
+              className="dark:hidden block"
+            />
+            <Image
+              src="/logo.svg"
+              alt="traverse logo"
+              width={150}
+              height={150}
+              className="dark:block hidden"
+            />
         </Link>
-        <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2">
+        <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white ">
           Forgot Your Password?
         </h1>
 
@@ -121,7 +134,7 @@ const ForgetpasswordForm = () => {
               <Button
                 disabled={isLoading}
                 className={cn(
-                  "w-full rounded-md my-3",
+                  "w-full rounded-md my-3 dark:bg-white dark:text-primary",
                   isLoading ? "[&>div>span]:opacity-0" : ""
                 )}
                 type="submit"

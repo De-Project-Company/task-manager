@@ -29,7 +29,7 @@ const Details = ({ questions, answer }: obj) => {
             isOpen ? "[&>svg]:-rotate-90 " : ""
           )}
         >
-          <ArrowRight2 />
+          <ArrowRight2 className="dark:text-white" />
         </button>
       </summary>
 

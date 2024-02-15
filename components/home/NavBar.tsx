@@ -78,7 +78,7 @@ export const Nav = () => {
           <Link
             href={item.link}
             className={cn(
-              "flex items-center gap-2 hover:bg-purple-50 px-2 py-3 rounded-lg",
+              "flex items-center gap-2 hover:bg-purple-50 px-2 py-3 rounded-lg group",
               { hidden: scrollHeight > 200 }
             )}
             key={item.title}
@@ -89,11 +89,12 @@ export const Nav = () => {
               width={40}
               height={40}
             />
+
             <div>
-              <h4 className="text-sm md:text-base font-semibold text-purple-900 dark:text-white">
+              <h4 className="text-sm md:text-base font-semibold text-purple-900 dark:text-white  dark:group-hover:text-primary">
                 {item.title}
               </h4>
-              <p className="text-[12px] md:text-sm font-normal tracking-[-0.1px] text-[#6B7B8F] dark:text-white">
+              <p className="text-[12px] md:text-sm font-normal tracking-[-0.1px] text-[#6B7B8F] dark:text-white dark:group-hover:text-primary">
                 {item.descText}
               </p>
             </div>
