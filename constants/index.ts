@@ -38,9 +38,9 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
 
   {
     id: 2,
-    label: "Total Projects",
+    label: "Projects",
     icon: TrendUp,
-    link: "total-projects",
+    link: "projects",
   },
   {
     id: 3,
