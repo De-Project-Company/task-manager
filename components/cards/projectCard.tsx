@@ -6,6 +6,7 @@ import useInView from "@/hooks/useInView";
 import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
 import { encryptString } from "@/utils";
+import { format } from "date-fns";
 
 const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
@@ -24,6 +25,11 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
     target.style.setProperty("--border--x", `${x}px`);
     target.style.setProperty("--border--y", `${y}px`);
   };
+
+  const dateObject = new Date(endDate!);
+
+  const formattedDate = format(dateObject, "dd-MM-yyyy");
+
   return (
     <div
       ref={projectCardRef}
@@ -95,7 +101,7 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
           </Link>
         </p>
         <p className="text-sm text-header dark:text-gray-200">
-          Project end date: <strong>{endDate}</strong>
+          Project end date: <strong>{formattedDate}</strong>
         </p>
         <Link
           href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}

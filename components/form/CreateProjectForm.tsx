@@ -12,6 +12,9 @@ import { CreateProject } from "@/actions/project";
 import { TextArea } from "../ui/Textarea";
 import TOAST from "../toast";
 import { useStateCtx } from "@/context/StateCtx";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import WordCounter from "../cards/wordCount";
+import { useRouter } from "next/navigation";
 
 function CreateProjectForm() {
   const { setToast } = useStateCtx();
@@ -21,11 +24,14 @@ function CreateProjectForm() {
   const [projectData, setProjectData] = useState({
     title: "",
     description: "",
-    price: 0,
+    price: undefined,
     teamMembers: [],
     startDate: "",
     endDate: "",
   });
+  const router = useRouter();
+
+  const MAX_DESC_LEN = 500;
 
   const handleChange = (
     field: string,
@@ -43,7 +49,9 @@ function CreateProjectForm() {
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
-          setToast(true);
+          setTimeout(() => {
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          }, 2000);
         }
       });
     });
@@ -63,7 +71,7 @@ function CreateProjectForm() {
     <>
       <TOAST status="success" message="Project created successfully" />
       <div>
-        <form className="flex flex-col mt-4 z-10 gap-y-2 min-[850px]:gap-y-6">
+        <form className="flex flex-col mt-4 z-10 gap-y-2 min-[850px]:gap-y-6 dark:text-white">
           <div className="flex flex-col space-y-4 justify-between ">
             <Label>Title:</Label>
             <FormInput
@@ -77,13 +85,20 @@ function CreateProjectForm() {
           </div>
           <div className="flex flex-col space-y-4 justify-between ">
             <Label>Description:</Label>
-            <TextArea
-              disabled={isLoading}
-              value={projectData.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              placeholder="Enter Project Description"
-              className=" w-full text-black md:h-[200px] h-[150px] resize-none border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
-            />
+            <div className="flex w-full flex-col gap-2">
+              <TextArea
+                disabled={isLoading}
+                value={projectData.description}
+                maxLength={MAX_DESC_LEN}
+                onChange={(e) => handleChange("description", e.target.value)}
+                placeholder="Enter Project Description"
+                className=" w-full text-black md:h-[200px] h-[150px] resize-none border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+              />
+              <WordCounter
+                word={projectData.description}
+                length={MAX_DESC_LEN}
+              />
+            </div>
           </div>
 
           <div className="flex flex-col space-y-4 justify-between ">
@@ -93,7 +108,7 @@ function CreateProjectForm() {
               type="number"
               value={projectData.price}
               onChange={(e) => handleChange("price", Number(e.target.value))}
-              placeholder="Enter Project Price"
+              placeholder="0"
               className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
             />
           </div>
