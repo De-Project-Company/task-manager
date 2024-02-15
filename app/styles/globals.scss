@@ -2,23 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'react-datepicker/dist/react-datepicker.css';
-@import 'react-toastify/dist/ReactToastify.css';
+@import "react-datepicker/dist/react-datepicker.css";
+@import "react-toastify/dist/ReactToastify.css";
 
+/* font for digital clock */
+@import url("https://fonts.cdnfonts.com/css/ds-digital");
+
+.timmer .timmer-number {
+  font-family: "DS-Digital", sans-serif;
+}
 
 :root {
   --loader-text-color: #f6e9fe;
-   --card-color: #1B0354;
+  --card-color: #1b0354;
   --card-color-dark: #0da6ff;
 }
-
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .sidebar-scroll::-webkit-scrollbar {
   width: 4px;
@@ -40,8 +44,8 @@
 //   border-radius: 6px;
 // }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -167,7 +171,11 @@ svg circle {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
   background-size: contain;
 }
 .active {
@@ -178,14 +186,12 @@ svg circle {
   );
 }
 
-
-
 .card {
   .card-border,
   &::before {
     opacity: 0;
     transition: opacity 500ms;
-    content: '';
+    content: "";
     position: absolute;
     border-radius: inherit;
     width: 100%;
