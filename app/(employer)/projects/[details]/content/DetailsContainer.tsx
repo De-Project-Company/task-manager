@@ -1,22 +1,52 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import { useProjectCtx } from "@/context/Projectctx";
 import { useUserCtx } from "@/context/UserCtx";
 import Image from "next/image";
 import { FaBriefcase } from "react-icons/fa";
+import { ProjectProps } from "@/types";
+import { getPojectdetails } from "@/actions/project";
+import { cn, daysToHours } from "@/utils";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
-  const { Project } = useProjectCtx();
+
+  const [projectData, setProjectData] = useState<ProjectProps | null>(null);
+
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const project = await getPojectdetails(id!);
+        if (project?.status === "success") {
+          setProjectData(project.project);
+        }
+      } catch (error) {
+        console.error(
+          "An error occurred while fetching project details:",
+          error
+        );
+      }
+    };
+
+    fetchProjectDetails();
+  }, [id]);
+
+  const fullName = user?.name;
+  const [firstName] = fullName!.split(/\s+/);
+  const hours = daysToHours(projectData?.duration!);
+
+  console.log(projectData);
   return (
     <>
       <div className="wrap py-4 px-3 md:px-9 ">
         <div className="top flex md:w-full relative justify-between items-center h-16">
           <div className="wrapper">
-            <h1 className="font-bold text-primary text-3xl"> {title} </h1>
+            <h1 className="font-bold text-primary text-3xl dark:text-white">
+              {title}
+            </h1>
             <p className="text-xs text-neutraly w-4/5 relative md:w-full">
-              How are you doing today Gabriel?
+              How are you doing today {firstName}
             </p>
           </div>
           <div className="timmer">
@@ -31,11 +61,20 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </div>
         </div>
         <div className="below flex space-x-2 mt-2">
-          <span className="block bg-[#41AE49] py-1 px-2 w-fit rounded-full text-white text-xs md:text-sm md:px-3">
-            in progress
+          <span
+            className={cn(
+              "block py-1 px-2 w-fit rounded-full text-white text-xs md:text-sm md:px-3",
+              {
+                "bg-[#eea300] ": projectData?.status === "in-progress",
+                "bg-[#008d36] ": projectData?.status === "completed",
+                "bg-black/90 ": projectData?.status === "to-do",
+              }
+            )}
+          >
+            {projectData?.status}
           </span>
           <span className="block py-1 px-2 bg-[#EAEBF0] text-neutraly w-fit rounded-full text-xs md:text-sm">
-            32hrs
+            {hours}
           </span>
         </div>
 

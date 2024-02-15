@@ -192,3 +192,14 @@ export const GetFromSessionStorage = (key: string): string | null => {
     return null;
   }
 };
+
+
+/**
+ * Converts days to hours.
+ * @param {number} days - The number of days to convert.
+ * @returns {number} - The equivalent number of hours.
+ */
+export const daysToHours = (days: number): number => {
+  const hoursInADay = 24;
+  return days * hoursInADay;
+};
