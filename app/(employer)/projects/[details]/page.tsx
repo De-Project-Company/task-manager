@@ -12,10 +12,11 @@ const page = ({ searchParams: { project_title, _id } }: PageProps) => {
   const title = decryptString(project_title!);
 
   return (
-    <div>
-      <span>project title = {title}</span>
-      <span>project id = {_id}</span>
-    </div>
+    <>
+      <h1>
+        <h1>page</h1>
+      </h1>
+    </>
   );
 };
 
