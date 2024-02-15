@@ -12,8 +12,9 @@ import { CreateProject } from "@/actions/project";
 import { TextArea } from "../ui/Textarea";
 import TOAST from "../toast";
 import { useStateCtx } from "@/context/StateCtx";
-import { selectCurrencies } from "@/constants";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import WordCounter from "../cards/wordCount";
+import { useRouter } from "next/navigation";
 
 function CreateProjectForm() {
   const { setToast } = useStateCtx();
@@ -28,6 +29,7 @@ function CreateProjectForm() {
     startDate: "",
     endDate: "",
   });
+  const router = useRouter();
 
   const MAX_DESC_LEN = 500;
 
@@ -47,7 +49,9 @@ function CreateProjectForm() {
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
-          setToast(true);
+          setTimeout(() => {
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          }, 2000);
         }
       });
     });
