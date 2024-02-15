@@ -7,7 +7,7 @@ import Image from "next/image";
 import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
-import { cn, daysToHours } from "@/utils";
+import { cn, daysToHours, calculateCountdown } from "@/utils";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -35,8 +35,10 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const fullName = user?.name;
   const [firstName] = fullName!.split(/\s+/);
   const hours = daysToHours(projectData?.duration!);
+  const time = calculateCountdown(projectData?.endDate!);
 
   console.log(projectData);
+  console.log(time);
   return (
     <>
       <div className="wrap py-4 px-3 md:px-9 ">
