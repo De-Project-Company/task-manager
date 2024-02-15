@@ -53,9 +53,14 @@ export interface ProjectProps {
   __v?: number;
 }
 
-
 export type ProjectCounterProps = {
   id?: number;
   label: string;
   count: number;
+};
+
+export type SelectProps = {
+  id?: number;
+  symbol: string;
+  value: "USD" | "EUR" | "GBP" | "NGN";
 };

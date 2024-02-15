@@ -25,7 +25,7 @@ import {
   Coin1,
   Message,
 } from "iconsax-react";
-import { SidebarProps, ProjectCounterProps } from "@/types";
+import { SidebarProps, ProjectCounterProps, SelectProps } from "@/types";
 import { useProjectCtx } from "@/context/Projectctx";
 
 export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
@@ -161,3 +161,29 @@ export const faqs = [
 ];
 export const TYPESidebarLinks = EMPLOYERSSIDEBAR_LINKS.map((link) => link.link);
 
+export const selectCurrencies: SelectProps[] = [
+  {
+    id: 0,
+
+    symbol: "$",
+    value: "USD",
+  },
+  {
+    id: 1,
+
+    symbol: "₦",
+    value: "NGN",
+  },
+  {
+    id: 2,
+
+    symbol: "£",
+    value: "GBP",
+  },
+  {
+    id: 3,
+
+    symbol: "€",
+    value: "EUR",
+  },
+];
