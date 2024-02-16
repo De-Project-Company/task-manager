@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useProjectCtx } from "@/context/Projectctx";
 import { useUserCtx } from "@/context/UserCtx";
 import Image from "next/image";
 import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
 import { cn, daysToHours, calculateCountdown } from "@/utils";
+import useCountdown from "@/hooks/useCountdown";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -36,9 +36,12 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const [firstName] = fullName!.split(/\s+/);
   const hours = daysToHours(projectData?.duration!);
   const time = calculateCountdown(projectData?.endDate!);
+  const countDownTIme = useCountdown(projectData?.endDate!);
+
+  console.log(countDownTIme);
 
   console.log(projectData);
-  console.log(time);
+  // console.log(time);
   return (
     <>
       <div className="wrap py-4 px-3 md:px-9 ">
@@ -51,13 +54,25 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
               How are you doing today {firstName}
             </p>
           </div>
-          <div className="timmer">
-            {[2, 23, 14, 8].map((time: number, index: number) => (
+          <div className={cn("timmer")}>
+            {Object.entries(countDownTIme).map(([unit, value]) => (
               <span
-                className="inline-block mr-1 bg-[#ECEBFF] text-primary py-1 px-2 rounded-lg timmer-number font-bold"
-                key={index}
+                className={cn(
+                  "inline-block",
+                  "mr-1",
+                  value === 1 && unit === "days"
+                    ? "bg-red-500"
+                    : "bg-[#ECEBFF]",
+                  "text-primary",
+                  "py-1",
+                  "px-2",
+                  "rounded-lg",
+                  "timmer-number",
+                  "font-bold"
+                )}
+                key={unit}
               >
-                <i>{time < 10 ? `0${time}` : time}</i>
+                {value}
               </span>
             ))}
           </div>
@@ -82,23 +97,24 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
         {/* project decription section */}
         <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-3 border border-neutral-100  rounded-lg shadow-sm">
-          <div className="flex space-x-2 items-center mb-3">
-            <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
-              <FaBriefcase />
+          <div className="flex justify-between items-center my-5">
+            <div className="flex space-x-2 items-center">
+              <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
+                <FaBriefcase />
+              </div>
+              <h5 className="font-bold text-primary text-xl items-center ">
+                {title}
+              </h5>
             </div>
-            <h5 className="font-bold text-primary text-xl items-center ">
-              {title}
-            </h5>
+
+            <p className="block text-primary font-medium hover:font-bold cursor-pointer text-xs md:text-sm">
+              See More
+            </p>
           </div>
 
           <div>
             <p className="text-[#151B28] font-light">
-              Introduction: Triptraka is an innovative application designed to
-              streamline and enhance the tracking of work progress for both
-              clients and emplo yees. In today&apos;s fast-paced business
-              environment, efficient project management is crucial, and
-              Triptraka aims to be the solution that brings transparency,
-              collaboration, and productivity to the forefront
+              {projectData?.description}
             </p>
           </div>
         </div>
