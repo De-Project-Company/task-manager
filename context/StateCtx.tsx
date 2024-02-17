@@ -27,6 +27,8 @@ interface StateContextProps {
   setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTeamMemberMoal: boolean;
   setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
+  addTaskModal: boolean;
+  setaddTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
   landingMobileMenu: boolean;
@@ -45,6 +47,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
   const [addTeamMemberMoal, setaddTeamMemberMoal] = useState(false);
   const [DeleteProjectModal, setDeleteProjectModal] = useState(false);
+  const [addTaskModal, setaddTaskModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -56,7 +59,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     Toast ||
     addTeamMemberMoal ||
     DeleteProjectModal ||
-    ChangeProjectStatusModal;
+    ChangeProjectStatusModal ||
+    addTaskModal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -210,6 +214,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setDeleteProjectModal,
       ChangeProjectStatusModal,
       setChangeProjectStatusModal,
+      addTaskModal,
+      setaddTaskModal,
     }),
     [
       openSidebar,
@@ -217,6 +223,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       landingMobileMenu,
       OTPModal,
       swipeIndicator,
+      addTaskModal,
       Toast,
       addTeamMemberMoal,
       currentPath,

@@ -12,6 +12,8 @@ import useCountdown from "@/hooks/useCountdown";
 import DeletePojectModal from "./DeletePojectModal";
 import { useStateCtx } from "@/context/StateCtx";
 import ChangeProjectStatus from "./ChangeStatusModal";
+import ProjectComments from "./coment";
+import TaskSesion from "./TaskSesion";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -261,6 +263,11 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             {/* Images section */}
             <div></div>
           </div>
+
+          {/* Projects Task Section */}
+          <TaskSesion projectid={id!} />
+          {/* Projects Comment Section */}
+          <ProjectComments projectId={id!} />
         </div>
       </div>
     </>

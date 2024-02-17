@@ -5,8 +5,9 @@ import CardSkelon from "../skeleton/ProjectSkel";
 import { useProjectCtx } from "@/context/Projectctx";
 import ReactPaginate from "react-paginate";
 import ProjectCard from "../cards/projectCard";
-import { cn } from "@/utils";
 import { ProjectProps } from "@/types";
+import NotFound from "../Not-found";
+import { cn } from "@/utils";
 
 const ProjectContainer = () => {
   const { Project, projectSearchTerm, selectedProjectFilter } = useProjectCtx();
@@ -75,7 +76,7 @@ const ProjectContainer = () => {
           className={cn(
             "text-lg font-semibold text-gray-400 dark:text-gray-100",
             {
-              "text-primary-light dark:text-[#28affd]": subset.length > 0,
+              "text-primary dark:text-[#28affd]": subset.length > 0,
             }
           )}
         >
@@ -116,7 +117,7 @@ const ProjectContainer = () => {
         </div>
         {subset.length === 0 && (
           <div className=" w-full flex justify-center  h-full ">
-            {/* <ProjectNotFound text="No projects found" /> */}
+            <NotFound text="No projects found" />
           </div>
         )}
         <div className="flex w-full justify-end mt-8">

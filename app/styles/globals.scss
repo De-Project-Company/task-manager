@@ -4,8 +4,7 @@
 
 @import "react-datepicker/dist/react-datepicker.css";
 @import "react-toastify/dist/ReactToastify.css";
-
-/* font for digital clock */
+@import url('https://fonts.cdnfonts.com/css/made-tommy-outline');
 @import url("https://fonts.cdnfonts.com/css/ds-digital");
 
 .timmer .timmer-number {
@@ -51,6 +50,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .hide-scroll::-webkit-scrollbar {
   width: 6px;
+}
+
+.no-scroll::-webkit-scrollbar {
+  width: 0px;
 }
 
 ::-webkit-scrollbar {
@@ -229,5 +232,103 @@ svg circle {
       transparent 40%
     );
     z-index: 1;
+  }
+}
+
+
+
+@keyframes animate3d {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    opacity: 0.7;
+    scale: 2;
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
+
+.rotate-3d {
+  animation: animate3d 3s 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
+.transform-3d {
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, -140px) rotateX(121deg);
+}
+.perspective {
+  perspective: 300px;
+  -webkit-perspective: 300px;
+  -moz-perspective: 300px;
+
+  &:hover {
+    .shadow-bounce::before {
+      animation-play-state: paused;
+    }
+  }
+}
+
+.shadow-bounce {
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 30px);
+
+  &::before {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 0;
+    left: 8rem;
+    content: '';
+    display: block;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.327);
+    transform: translateZ(-29px);
+    animation: bounce-shadow 2.5s linear infinite;
+  }
+  @media screen and (max-width: 600px) {
+    transform: translate3d(0, 0, 10px);
+    &::before {
+      left: 5rem;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    transform: translate3d(10px, 0, 20px);
+    &::before {
+      left: 0rem;
+      right: 3rem;
+    }
+  }
+}
+
+@keyframes bounce-shadow {
+  from,
+  to {
+    transform: translateZ(-9px) translateY(5%) scale(0.9);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateZ(-9px) scale(1.3);
+    opacity: 1;
+  }
+}
+
+.image-bounce {
+  animation: bounce 2.5s linear infinite;
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(-5%);
+    }
+    50% {
+      transform: none;
+    }
+  }
+
+  &:hover {
+    animation-play-state: paused;
   }
 }
