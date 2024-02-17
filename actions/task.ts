@@ -40,7 +40,7 @@ export const assignTask = async (
   };
 
   try {
-    const res = await $http.post(
+    const res = await $http.patch(
       `/project/${projectId}/assignTask`,
       values,
       config
