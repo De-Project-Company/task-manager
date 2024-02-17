@@ -262,7 +262,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu w-full  sm:gap-x-3 md:gap-x-6">
+          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">
             <Button
               type="submit"
               tabIndex={0}
