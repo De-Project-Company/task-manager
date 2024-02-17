@@ -7,6 +7,7 @@ import { useStateCtx } from "@/context/StateCtx";
 import WordCounter from "@/components/cards/wordCount";
 import { TextArea } from "@/components/ui/Textarea";
 
+
 type StatusProps = {
   id?: number;
   label: string;
@@ -36,20 +37,35 @@ type FormProps = {
   status: StatusProps["label"];
 };
 
+interface TaskData {
+  title: string;
+  description: string;
+  status: string;
+}
+
+interface FormData {
+  task: TaskData;
+  email: string;
+  name: string;
+}
+
 const AssignTask = ({ projectid }: AssognTaskProp) => {
   const { addTaskModal, setaddTaskModal } = useStateCtx();
 
-  const [formData, setFormData] = useState<FormProps>({
-    title: "",
-    description: "",
-    status: "",
+  const [formData, setFormData] = useState<FormData>({
+    task: {
+      title: "",
+      description: "",
+      status: "",
+    },
+    email: "",
+    name: "",
   });
 
   // Maximum length for description
   const MAX_DESC = 200;
 
-  const isDisabled =
-    !formData.title || !formData.description || !formData.status;
+  const isDisabled = !formData.task || !formData.email || !formData.name;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +80,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
   }, []);
 
   useEffect(() => {
-    if (!(formData.title.length > 3)) return;
+    if (!(formData.task.title.length > 3)) return;
 
     localStorage.setItem("create-Task", JSON.stringify(formData));
   }, [formData]);
@@ -129,7 +145,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               id="Task-title"
               name="title"
               className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.title}
+              value={formData.task.title}
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.name]: e.target.value })
               }
@@ -149,12 +165,12 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               name="description"
               maxLength={MAX_DESC}
               className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600 h-[150px] sm:h-[185px] resize-none sidebar-scroll text-sm sm:text-base"
-              value={formData.description}
+              value={formData.task.description}
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.name]: e.target.value })
               }
             />
-            <WordCounter word={formData.description} length={MAX_DESC} />
+            <WordCounter word={formData.task.description} length={MAX_DESC} />
           </div>
 
           <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
@@ -168,7 +184,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
                   className={cn(
                     "text-center text-sm md:text-base flex items-center gap-x-2 transition-all duration-300",
                     {
-                      " font-medium": status.label === formData.status,
+                      " font-medium": status.label === formData.task.status,
                       "text-[#eea300] ": status.label === "in-progress",
                       "text-[#008d36] ": status.label === "completed",
                       "text-primary dark:text-white ":
@@ -178,17 +194,20 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
                 >
                   <button
                     onClick={() =>
-                      setFormData({ ...formData, status: status.label })
+                      setFormData({
+                        ...formData,
+                        task: { ...formData.task, status: status.label },
+                      })
                     }
                     type="button"
                     className={cn(
                       "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light",
                       {
-                        " p-1": status.label === formData.status,
+                        " p-1": status.label === formData.task.status,
                       }
                     )}
                   >
-                    {formData.status === status.label && (
+                    {formData.task.status === status.label && (
                       <span className="bg-primary  dark:bg-white h-full w-full rounded-full" />
                     )}
                   </button>
