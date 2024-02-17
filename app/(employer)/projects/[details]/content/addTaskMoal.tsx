@@ -34,7 +34,6 @@ type FormProps = {
   title: string;
   description: string;
   status: StatusProps["label"];
-  
 };
 
 const AssignTask = ({ projectid }: AssognTaskProp) => {
@@ -44,7 +43,6 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     title: "",
     description: "",
     status: "",
-
   });
 
   // Maximum length for description
@@ -159,8 +157,10 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             <WordCounter word={formData.description} length={MAX_DESC} />
           </div>
 
-          <div className="flex  xl:pt-2 items-start flex-col gap-y-4">
-            <p className="text-center  font-medium">Select Status</p>
+          <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
+            <p className="text-center  font-medium dark:text-gray-100">
+              Select Status
+            </p>
             <div className="flex md:flex-col gap-4 flex-wrap mb-2">
               {STATUSES.map((status) => (
                 <p
@@ -171,7 +171,8 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
                       " font-medium": status.label === formData.status,
                       "text-[#eea300] ": status.label === "in-progress",
                       "text-[#008d36] ": status.label === "completed",
-                      "text-primary-light ": status.label === "pending",
+                      "text-primary dark:text-white ":
+                        status.label === "pending",
                     }
                   )}
                 >
@@ -181,14 +182,14 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
                     }
                     type="button"
                     className={cn(
-                      "w-6 h-6 rounded-full border-primary border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light",
+                      "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light",
                       {
                         " p-1": status.label === formData.status,
                       }
                     )}
                   >
                     {formData.status === status.label && (
-                      <span className="bg-primary h-full w-full rounded-full" />
+                      <span className="bg-primary  dark:bg-white h-full w-full rounded-full" />
                     )}
                   </button>
                   <span className="capitalize">{status.label} </span>
