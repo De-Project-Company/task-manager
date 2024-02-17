@@ -216,3 +216,114 @@ export const getPojectdetails = async (id: string) => {
     }
   }
 };
+
+export const deleteProject = async (projectId: string) => {
+  const authToken = cookies()?.get("access_token")?.value;
+
+  if (!authToken) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  try {
+    const res = await $http.delete(`/project/${projectId}`, config);
+
+    if (res.status === 204) {
+      return {
+        status: "success",
+      };
+    }
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.status === 401) {
+      return {
+        error: "Unauthorized. Please check your access token.",
+        status: 401,
+      };
+    } else if (e?.response?.status === 403) {
+      return {
+        error: "Forbidden. You don't have permission to delete the project.",
+      };
+    } else if (e?.response?.status === 404) {
+      return {
+        error: "Not Found. The project with the specified ID was not found.",
+      };
+    } else {
+      return {
+        error: "An error occurred. Please try again later.",
+      };
+    }
+  }
+};
+
+export const updateProjectStatus = async (
+  projectId: string,
+  newStatus?: string
+) => {
+  const authToken = cookies()?.get("access_token")?.value;
+
+  if (!authToken) {
+    return {
+      error: "Unauthorized",
+      status: 401,
+    };
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  const requestBody = {
+    status: newStatus,
+  };
+
+  try {
+    const res = await $http.patch(`/project/${projectId}`, requestBody, config);
+
+    if (res.status === 200) {
+      return {
+        status: "success",
+        project: res.data.project,
+      };
+    }
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.status === 401) {
+      return {
+        error: "Unauthorized",
+        status: 401,
+      };
+    } else if (e?.response?.status === 403) {
+      return {
+        error:
+          "Forbidden. You don't have permission to update the project status.",
+      };
+    } else if (e?.response?.status === 400) {
+      return {
+        error: "Sorry, this project does not exist!",
+      };
+    } else if (e?.response?.status === 404) {
+      return {
+        error: "Not Found. The project with the specified ID was not found.",
+      };
+    } else {
+      return {
+        error: "An error occurred. Please try again later.",
+      };
+    }
+  }
+};

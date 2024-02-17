@@ -64,3 +64,7 @@ export type SelectProps = {
   symbol: string;
   value: "USD" | "EUR" | "GBP" | "NGN";
 };
+
+export interface ProjectStatus {
+  status: "to-do" | "in-progress" | "completed";
+}

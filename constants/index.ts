@@ -31,7 +31,7 @@ import { useProjectCtx } from "@/context/Projectctx";
 export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   {
     id: 1,
-    label: "Client Dashboard",
+    label: "Dashboard",
     icon: Category,
     link: "dashboard",
   },

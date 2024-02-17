@@ -20,6 +20,7 @@ const useCountdown = (targetDate?: string): { days: number, hours: number, minut
 
       // Get the current time
       const currentTime = new Date().getTime();
+      // console.log(currentTime);
 
       // Calculate the time difference in milliseconds
       const timeDifference = targetTime - currentTime;
