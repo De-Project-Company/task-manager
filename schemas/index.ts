@@ -102,3 +102,15 @@ export const AddTeamMembersSchema = z.object({
     .email({ message: "Invalid email format" })
     .nullable(),
 });
+
+const taskSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  status: z.string(),
+});
+
+export const CreateTaskschema = z.object({
+  task: taskSchema,
+  email: z.string(),
+  name: z.string(),
+});

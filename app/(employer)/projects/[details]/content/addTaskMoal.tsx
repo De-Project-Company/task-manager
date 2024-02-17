@@ -2,10 +2,13 @@
 
 import { X } from "lucide-react";
 import { cn } from "@/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import WordCounter from "@/components/cards/wordCount";
-import { TextArea } from "@/components/ui/Textarea";
+import { assignTask } from "@/actions/task";
+import FormSuccess from "@/components/form/Success";
+import FormError from "@/components/form/Error";
+import Button from "@/components/ui/Button";
 
 type StatusProps = {
   id?: number;
@@ -61,24 +64,32 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
   const MAX_DESC = 200;
 
   const isDisabled = !formData.task || !formData.email || !formData.name;
+  const [isLoading, startTransition] = useTransition();
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setaddTaskModal(false);
+    startTransition(() => {
+      assignTask(formData, projectid!).then((data) => {
+        console.log(data);
+        setSuccess(data?.success);
+        setError(data?.error);
+        if (data?.success) {
+          setFormData({
+            task: {
+              title: "",
+              description: "",
+              status: "",
+            },
+            email: "",
+            name: "",
+          });
+          setaddTaskModal(false);
+        }
+      });
+    });
   };
-
-  useEffect(() => {
-    const readLocal = localStorage.getItem("create-Task");
-    if (readLocal) {
-      setFormData(JSON.parse(readLocal));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!(formData.task.title.length > 3)) return;
-
-    localStorage.setItem("create-Task", JSON.stringify(formData));
-  }, [formData]);
 
   return (
     <>
@@ -109,15 +120,9 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             type="button"
             tabIndex={0}
             aria-label="Close"
-            // onClick={() => {
-            //   window?.localStorage?.removeItem("create-Task");
-            //   setFormData({
-            //     title: "",
-            //     description: "",
-            //     status: "",
-            //   });
-            //   setaddTaskModal(false);
-            // }}
+            onClick={() => {
+              setaddTaskModal(false);
+            }}
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
           >
             <X size={24} />
@@ -255,19 +260,29 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               ))}
             </div>
           </div>
-
-          <div className="flex w-full justify-end items-center gap-x-2 sm:gap-x-3 md:gap-x-6">
-            <button
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu w-full  sm:gap-x-3 md:gap-x-6">
+            <Button
               type="submit"
               tabIndex={0}
-              aria-label="Remove"
-              disabled={isDisabled}
+              aria-label="Submit"
+              disabled={isDisabled || isLoading}
+              spinnerColor="#fff"
               className={cn(
-                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600"
+                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600",
+                isLoading ? "[&>div>span]:opacity-0" : ""
               )}
             >
               Create Task
-            </button>
+            </Button>
+            {isLoading && (
+              <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <span />
+                <span />
+                <span />
+              </div>
+            )}
           </div>
         </form>
       </div>
