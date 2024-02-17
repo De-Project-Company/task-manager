@@ -65,7 +65,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
 
-  console.log(countDownTIme);
+  // console.log(countDownTIme);
 
   console.log(projectData);
   // console.log(time);

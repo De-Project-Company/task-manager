@@ -42,7 +42,7 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>("");
 
-  console.log(selectedStatus);
+  // console.log(selectedStatus);
   //   console.log(projectid);
 
   const handleUpdateStatus = async () => {
