@@ -106,7 +106,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         role="dialog"
         aria-labelledby="create task modal"
         className={cn(
-          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[650px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
+          "py-6   flex flex-col w-[98%] sm:w-[90%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[500px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
           addTaskModal
             ? "-translate-x-1/2 duration-700 opacity-100 sm:rounded-xl md:rounded-2xl"
             : "translate-x-full duration-300 pointer-events-none"
