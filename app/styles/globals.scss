@@ -52,6 +52,10 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 6px;
 }
 
+.no-scroll::-webkit-scrollbar {
+  width: 0px;
+}
+
 ::-webkit-scrollbar {
   height: 0px;
   width: 0px;
