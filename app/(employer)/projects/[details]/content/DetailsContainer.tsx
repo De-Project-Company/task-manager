@@ -15,7 +15,11 @@ import ChangeProjectStatus from "./ChangeStatusModal";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
-  const { DeleteProjectModal, setDeleteProjectModal, setChangeProjectStatusModal } = useStateCtx();
+  const {
+    DeleteProjectModal,
+    setDeleteProjectModal,
+    setChangeProjectStatusModal,
+  } = useStateCtx();
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
@@ -72,7 +76,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         openModal={DeleteProjectModal}
         setOpenModal={setDeleteProjectModal}
       />
-      <ChangeProjectStatus />
+      <ChangeProjectStatus projectid={projectData?._id} />
       <div className="wrap py-4 px-3 md:px-9 ">
         <div className="top flex md:w-full relative justify-between items-center h-16">
           <div className="wrapper">

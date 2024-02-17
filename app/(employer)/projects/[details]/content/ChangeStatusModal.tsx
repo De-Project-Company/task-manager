@@ -2,8 +2,12 @@
 
 import { X } from "lucide-react";
 import { cn } from "@/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { ProjectProps } from "@/types";
 import { useStateCtx } from "@/context/StateCtx";
+import FormSuccess from "@/components/form/Success";
+import FormError from "@/components/form/Error";
+import { updateProjectStatus } from "@/actions/project";
 
 type StatusProps = {
   id?: number;
@@ -24,14 +28,46 @@ const STATUSES: StatusProps[] = [
   },
 ];
 
-const ChangeProjectStatus = () => {
+interface ChanegStatusProps {
+  projectid?: string;
+}
+
+const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
   const { ChangeProjectStatusModal, setChangeProjectStatusModal } =
     useStateCtx();
   const [selectedStatus, setSelectedStatus] = useState<
     StatusProps["label"] | null
   >(null);
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>("");
 
-  //   console.log(selectedStatus);
+  console.log(selectedStatus);
+  //   console.log(projectid);
+
+  const handleUpdateStatus = async () => {
+    try {
+      setLoading(true);
+
+      const result = await updateProjectStatus(projectid!, selectedStatus!);
+
+      if (result?.status === "success") {
+        console.log("Project status updated successfully!");
+        setSuccess("Project status updated successfully!");
+        setTimeout(() => {
+          setChangeProjectStatusModal(false);
+        }, 5000);
+      } else {
+        console.error("Error updating project status:", result?.error);
+        setError(result?.error);
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div
@@ -49,7 +85,7 @@ const ChangeProjectStatus = () => {
         role="dialog"
         aria-labelledby="make-payment"
         className={cn(
-          "py-6   flex flex-col max-[400px]:w-[300px] w-[360px] h-[350px] md:h-[400px] lg:w-[400px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none -translate-x-1/2",
+          "py-6   flex flex-col max-[400px]:w-[300px] w-[360px] h-[400px] md:h-[450px] lg:w-[400px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none -translate-x-1/2",
           ChangeProjectStatusModal
             ? "scale-100 duration-500 opacity-100 rounded-xl md:rounded-2xl"
             : "scale-0 duration-200 pointer-events-none"
@@ -112,12 +148,15 @@ const ChangeProjectStatus = () => {
               </p>
             ))}
           </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
         </div>
         <div className="flex w-full justify-center h-full pt-4 sm:pt-9">
           <button
             type="button"
             tabIndex={0}
-            disabled={!selectedStatus}
+            disabled={!selectedStatus || loading}
+            onClick={handleUpdateStatus}
             aria-label="Change Status"
             className={cn(
               "mt-2 rounded-lg bg-primary text-white dark:bg-white dark:text-primary w-[178px] h-[56px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary",
@@ -126,7 +165,7 @@ const ChangeProjectStatus = () => {
               }
             )}
           >
-            {selectedStatus ? "Update" : "Select "}
+            {loading ? "Updating..." : selectedStatus ? "Update" : "Select"}
           </button>
         </div>
       </div>
