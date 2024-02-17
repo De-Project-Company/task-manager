@@ -13,6 +13,7 @@ import DeletePojectModal from "./DeletePojectModal";
 import { useStateCtx } from "@/context/StateCtx";
 import ChangeProjectStatus from "./ChangeStatusModal";
 import ProjectComments from "./coment";
+import TaskSesion from "./TaskSesion";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -264,27 +265,9 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </div>
 
           {/* Projects Task Section */}
-          <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-5 border border-neutral-100  rounded-lg shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex space-x-2 items-center">
-                <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
-                  <FaBriefcase />
-                </div>
-                <h5 className="font-bold text-primary text-xl items-center ">
-                  People
-                </h5>
-              </div>
-
-              <p className="block text-primary font-medium hover:font-bold text-xs md:text-sm">
-                See All
-              </p>
-            </div>
-
-            {/* Images section */}
-            <div></div>
-          </div>
+          <TaskSesion projectid={id!} />
           {/* Projects Comment Section */}
-          <ProjectComments projectId={projectData?._id!} />
+          <ProjectComments projectId={id!} />
         </div>
       </div>
     </>

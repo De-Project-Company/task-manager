@@ -4,8 +4,9 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useUserCtx } from "@/context/UserCtx";
 import Image from "next/image";
-import { DirectRight } from "iconsax-react";
+import { DirectRight, Message } from "iconsax-react";
 import { commentsTime, generateId } from "@/utils";
+import { FaBriefcase } from "react-icons/fa";
 
 interface Comment {
   id?: string;
@@ -108,8 +109,8 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   }, [comments]);
 
   return (
-    <div className="border-t border-[#e1e1e1] dark:border-primary-light py-6 lg:py-8 mt-4 flex w-full flex-col gap-y-5 lg:gap-y-8 max-lg:items-center px-1">
-      <h3 className="text-xl font-medium sm:text-3xl text-header dark:text-gray-100 max-lg:w-full text-center">
+    <div className="py-6 lg:py-8 mt-12 flex w-full flex-col gap-y-5 lg:gap-y-8 max-lg:items-center px-1">
+      <h3 className="text-xl font-medium sm:text-3xl text-header dark:text-white max-lg:w-full text-center">
         Comments
       </h3>
       {comments[projectId]?.project_id === projectId &&
