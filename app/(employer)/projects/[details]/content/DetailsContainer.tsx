@@ -6,11 +6,15 @@ import Image from "next/image";
 import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
+import { Edit2, More, Trash } from "iconsax-react";
 import { cn, daysToHours, calculateCountdown } from "@/utils";
 import useCountdown from "@/hooks/useCountdown";
+import DeletePojectModal from "./DeletePojectModal";
+import { useStateCtx } from "@/context/StateCtx";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
+  const { DeleteProjectModal, setDeleteProjectModal } = useStateCtx();
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
@@ -37,6 +41,24 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const hours = daysToHours(projectData?.duration!);
   const time = calculateCountdown(projectData?.endDate!);
   const countDownTIme = useCountdown(projectData?.endDate!);
+  const [isDotMenu, setIsDotMenu] = useState(false);
+
+  useEffect(() => {
+    if (isDotMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsDotMenu(false);
+      }
+    };
+
+    document.addEventListener("keyup", handleKeyUp);
+    return () => document.removeEventListener("keyup", handleKeyUp);
+  }, [isDotMenu]);
 
   console.log(countDownTIme);
 
@@ -44,6 +66,11 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   // console.log(time);
   return (
     <>
+      <DeletePojectModal
+        project={projectData!}
+        openModal={DeleteProjectModal}
+        setOpenModal={setDeleteProjectModal}
+      />
       <div className="wrap py-4 px-3 md:px-9 ">
         <div className="top flex md:w-full relative justify-between items-center h-16">
           <div className="wrapper">
@@ -97,7 +124,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
         {/* project decription section */}
         <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-3 border border-neutral-100  rounded-lg shadow-sm">
-          <div className="flex justify-between items-center my-5">
+          <div className="flex justify-between items-center my-2">
             <div className="flex space-x-2 items-center">
               <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
                 <FaBriefcase />
@@ -107,9 +134,63 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
               </h5>
             </div>
 
-            <p className="block text-primary font-medium hover:font-bold cursor-pointer text-xs md:text-sm">
-              See More
-            </p>
+            <button
+              type="button"
+              id="dot-menu"
+              tabIndex={0}
+              aria-haspopup
+              aria-expanded={isDotMenu}
+              onClick={() => setIsDotMenu((prev) => !prev)}
+              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-heade"
+            >
+              <More />
+            </button>
+          </div>
+          {/* DOT Menu */}
+          <div
+            className={cn(
+              "fixed min-h-screen w-full bg-black/0 top-0 left-0 z-[99] transition-all duration-300",
+              isDotMenu ? "opacity-100" : "opacity-0 pointer-events-none"
+            )}
+            onClick={() => setIsDotMenu(false)}
+          />
+          <div
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="dot-menu"
+            className={cn(
+              "flex w-[190px] h-[106px] flex-col px-4 py-2 absolute right-4  rounded-lg justify-center gap-y-4 border border-gray-200 dark:border-primary backdrop-blur-xl bg-white/80 dark:bg-primary transition-all duration-300 z-[999]",
+              {
+                "opacity-100": isDotMenu,
+                "opacity-0 pointer-events-none": !isDotMenu,
+              }
+            )}
+          >
+            <button
+              onClick={() => {
+                // setEditProjectModal(true);
+                setIsDotMenu(!isDotMenu);
+              }}
+              type="button"
+              tabIndex={0}
+              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
+            >
+              <Edit2 size={18} />
+              <span>Edit Project</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setDeleteProjectModal(true);
+                setIsDotMenu(!isDotMenu);
+              }}
+              type="button"
+              tabIndex={0}
+              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
+            >
+              <Trash size={18} />
+              <span>Delete Project</span>
+            </button>
           </div>
 
           <div>
