@@ -38,7 +38,7 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
           "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12"
         )}
       >
-        <div className="flex w-full items-center justify-between pb-2 md:pb-3 border-b border-[#e1e1e1] ">
+        <div className="flex w-full items-center justify-between pb-2 md:pb-3">
           <h3 className="text-lg font-semibold text-header dark:text-white">
             Tasks
           </h3>
@@ -49,7 +49,7 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
             aria-haspopup
             aria-expanded={isMenu}
             onClick={() => setIsMenu((prev) => !prev)}
-            className="focus-visible:outline-2 focus-visible:outline-offset-4  text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
+            className="text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
           >
             <Add size={24} />
           </button>
@@ -64,9 +64,9 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
         />
         <div
           role="dialog"
-          aria-labelledby="add-milestone"
+          aria-labelledby="add-task"
           className={cn(
-            "flex w-[190px] h-[56px]  px-4 py-2 absolute right-2 top-[3.5rem] rounded-lg justify-center  border border-gray-200 backdrop-blur-xl bg-white/80 transition-all duration-300 z-[999] shadow-[0_5px_15px_-3px_rgba(0,0,0,0.3)]",
+            "flex w-[190px] h-[56px]  px-4 py-2 absolute right-2 top-[3.5rem] rounded-lg justify-center  border border-gray-200 backdrop-blur-xl bg-white/80 dark:bg-primary dark:border-purple-600 transition-all duration-300 z-[999] shadow-[0_5px_15px_-3px_rgba(0,0,0,0.3)]",
             {
               "opacity-100": isMenu,
               "opacity-0 pointer-events-none": !isMenu,
@@ -80,7 +80,7 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
             }}
             type="button"
             tabIndex={0}
-            className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light w-full flex items-center gap-x-2 px-2"
+            className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 text-black dark:text-white w-full flex items-center gap-x-2 px-2"
           >
             <Add size={18} />
             <span>Add Task</span>

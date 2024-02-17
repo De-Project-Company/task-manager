@@ -5,6 +5,7 @@ import { cn } from "@/utils";
 import { useEffect, useState } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import WordCounter from "@/components/cards/wordCount";
+import { TextArea } from "@/components/ui/Textarea";
 
 type StatusProps = {
   id?: number;
@@ -33,6 +34,7 @@ type FormProps = {
   title: string;
   description: string;
   status: StatusProps["label"];
+  
 };
 
 const AssignTask = ({ projectid }: AssognTaskProp) => {
@@ -42,6 +44,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     title: "",
     description: "",
     status: "",
+
   });
 
   // Maximum length for description
@@ -83,14 +86,14 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         role="dialog"
         aria-labelledby="create task modal"
         className={cn(
-          "py-6   flex flex-col w-[98%] sm:w-[95%]  min-[500px]:h-[650px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
+          "py-6   flex flex-col w-[98%] sm:w-[95%]  min-[500px]:h-[650px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
           addTaskModal
             ? "-translate-x-1/2 duration-700 opacity-100 sm:rounded-xl md:rounded-2xl"
             : "translate-x-full duration-300 pointer-events-none"
         )}
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 ">
-          <h3 className="sm:text-lg md:text-2xl font-medium text-header">
+          <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-white">
             Create New Task
           </h3>
           <button
@@ -106,7 +109,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             //   });
             //   setaddTaskModal(false);
             // }}
-            className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full"
+            className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
           >
             <X size={24} />
           </button>
@@ -118,7 +121,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
           <div className="flex flex-col  gap-y-2 w-full">
             <label
               htmlFor="description"
-              className="text-sm sm:text-base font-medium"
+              className="text-sm sm:text-base font-medium dark:text-white"
             >
               Task Title
             </label>
@@ -127,7 +130,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               placeholder="Task title..."
               id="Task-title"
               name="title"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-primary-light"
+              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
               value={formData.title}
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -138,7 +141,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
           <div className="flex flex-col  gap-y-2 w-full">
             <label
               htmlFor="description"
-              className="text-sm sm:text-base font-medium"
+              className="text-sm sm:text-base font-medium dark:text-white"
             >
               Add Description
             </label>
@@ -147,7 +150,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               id="description"
               name="description"
               maxLength={MAX_DESC}
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-primary-light h-[150px] sm:h-[185px] resize-none sidebar-scroll text-sm sm:text-base"
+              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600 h-[150px] sm:h-[185px] resize-none sidebar-scroll text-sm sm:text-base"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.name]: e.target.value })
