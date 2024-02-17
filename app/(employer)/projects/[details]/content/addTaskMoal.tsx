@@ -125,7 +125,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-4 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start"
+          className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-8 mb-5 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start"
         >
           <div className="flex flex-col  gap-y-2 w-full">
             <label
@@ -263,7 +263,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               aria-label="Remove"
               disabled={isDisabled}
               className={cn(
-                "rounded-lg bg-primary-light text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light"
+                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600"
               )}
             >
               Create Task
