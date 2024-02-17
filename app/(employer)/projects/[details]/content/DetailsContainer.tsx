@@ -6,15 +6,16 @@ import Image from "next/image";
 import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
-import { Edit2, More, Trash } from "iconsax-react";
+import { Edit2, More, Trash, Status } from "iconsax-react";
 import { cn, daysToHours, calculateCountdown } from "@/utils";
 import useCountdown from "@/hooks/useCountdown";
 import DeletePojectModal from "./DeletePojectModal";
 import { useStateCtx } from "@/context/StateCtx";
+import ChangeProjectStatus from "./ChangeStatusModal";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
-  const { DeleteProjectModal, setDeleteProjectModal } = useStateCtx();
+  const { DeleteProjectModal, setDeleteProjectModal, setChangeProjectStatusModal } = useStateCtx();
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
@@ -71,6 +72,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         openModal={DeleteProjectModal}
         setOpenModal={setDeleteProjectModal}
       />
+      <ChangeProjectStatus />
       <div className="wrap py-4 px-3 md:px-9 ">
         <div className="top flex md:w-full relative justify-between items-center h-16">
           <div className="wrapper">
@@ -168,15 +170,15 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           >
             <button
               onClick={() => {
-                // setEditProjectModal(true);
+                setChangeProjectStatusModal(true);
                 setIsDotMenu(!isDotMenu);
               }}
               type="button"
               tabIndex={0}
               className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
             >
-              <Edit2 size={18} />
-              <span>Edit Project</span>
+              <Status size={18} />
+              <span>Change Status</span>
             </button>
 
             <button

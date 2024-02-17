@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/utils";
 import { ProjectProps } from "@/types";
 import { deleteProject } from "@/actions/project";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { useRouter } from "next/navigation";
+import FormSucess from "@/components/form/Success";
 
 interface DeleteProjectModalProps {
   openModal: boolean;
@@ -20,18 +21,25 @@ const DeletePojectModal = ({
 }: DeleteProjectModalProps) => {
   const projectName = project?.title;
   const [deleting, setDeleting] = useState(false);
+  const [success, setSuccess] = useState<string | undefined>("");
   const router = useRouter();
   const handleDelete = async () => {
     setDeleting(true);
     const deletionResult = await deleteProject(project?._id!);
     if (deletionResult?.status === "success") {
-      router.push(DEFAULT_LOGIN_REDIRECT);
-      console.log("Project deleted successfully!");
+      setSuccess("Project deleted successfully!");
+      setTimeout(() => {
+        router.push(DEFAULT_LOGIN_REDIRECT);
+      }, 3000);
     } else {
       console.error("Error deleting project:", deletionResult?.error);
     }
     setDeleting(false);
   };
+
+  useEffect(() => {
+    router.prefetch(DEFAULT_LOGIN_REDIRECT);
+  }, [router]);
 
   return (
     <>
@@ -80,6 +88,7 @@ const DeletePojectModal = ({
             )}{" "}
             from your catalogue? Remember this action cannot be reversed
           </p>
+          <FormSucess message={success} />
           <div className="flex w-full gap-x-4 justify-center sm:justify-between sm:px-8 [&>*]:font-semibold">
             <button
               type="button"
