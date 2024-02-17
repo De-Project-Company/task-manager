@@ -1,10 +1,14 @@
 "use client";
 
+import React, { useState } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/utils";
 import { ProjectProps } from "@/types";
+import { deleteProject } from "@/actions/project";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { useRouter } from "next/navigation";
 
-interface MakePaymentModalProps {
+interface DeleteProjectModalProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   project?: ProjectProps;
@@ -13,8 +17,21 @@ const DeletePojectModal = ({
   openModal,
   setOpenModal,
   project,
-}: MakePaymentModalProps) => {
+}: DeleteProjectModalProps) => {
   const projectName = project?.title;
+  const [deleting, setDeleting] = useState(false);
+  const router = useRouter();
+  const handleDelete = async () => {
+    setDeleting(true);
+    const deletionResult = await deleteProject(project?._id!);
+    if (deletionResult?.status === "success") {
+      router.push(DEFAULT_LOGIN_REDIRECT);
+      console.log("Project deleted successfully!");
+    } else {
+      console.error("Error deleting project:", deletionResult?.error);
+    }
+    setDeleting(false);
+  };
 
   return (
     <>
@@ -55,12 +72,12 @@ const DeletePojectModal = ({
 
         <div className="flex w-full max-w-[546px] h-full  pt-8 sm:pt-16 items-center flex-col gap-y-8 ">
           <p className="text-center text-sm md:text-base px-4 dark:text-gray-300">
-            Are you sure you want to permanently remove
+            Are you sure you want to permanently delete{" "}
             {projectName ? (
               <span className="font-semibold">{projectName}</span>
             ) : (
               "this project"
-            )}
+            )}{" "}
             from your catalogue? Remember this action cannot be reversed
           </p>
           <div className="flex w-full gap-x-4 justify-center sm:justify-between sm:px-8 [&>*]:font-semibold">
@@ -79,12 +96,14 @@ const DeletePojectModal = ({
             <button
               type="button"
               tabIndex={0}
-              aria-label="Remove"
+              aria-label="Delete"
+              onClick={handleDelete}
+              disabled={deleting}
               className={cn(
                 "rounded-lg bg-[#e80000] text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e80000]"
               )}
             >
-              Yes, Remove
+              {deleting ? "Deleting..." : "Yes Delete"}
             </button>
           </div>
         </div>
