@@ -167,7 +167,7 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
             name="comment"
             id="comment"
             placeholder="Leave a comment"
-            className="w-full resize-none h-[193px] rounded-xl border border-[#e1e1e1] dark:border-primary/50 px-4 py-2 sidebar-scroll outline-none focus-visible:border-primary transition-all duration-300 dark:bg-gray-950"
+            className="w-full resize-none h-[193px] rounded-xl border border-[#e1e1e1] dark:border-primary/50 px-4 py-2 sidebar-scroll outline-none text-black dark:text-white focus-visible:border-primary transition-all duration-300 dark:bg-gray-950"
           />
 
           <div className="flex w-full justify-end">
@@ -177,7 +177,7 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
               tabIndex={0}
               aria-label="comment"
               type="submit"
-              className="text-sm font-medium mt-2 bg-primary-light  text-white h-[48px] hover:bg-primary rounded-lg px-4 transition-all duration-300 flex items-center gap-x-2 disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-primary-light"
+              className="text-sm font-medium mt-2 bg-primary  text-white h-[48px] rounded-lg px-4 transition-all duration-300 flex items-center gap-x-2 disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-primary-light"
             >
               Comment
               <DirectRight size={18} values="Outline" />
