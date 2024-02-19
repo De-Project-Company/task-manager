@@ -21,17 +21,17 @@ export const checkSession = async () => {
   const currentTime = Date.now();
 
   // Check if credentials exist and credentials.expires is a valid timestamp
-  if (
-    credentials &&
-    credentials.expires &&
-    credentials.expires - currentTime <= oneDayInMillis
-  ) {
-    cookies().delete("access_token");
-    return {
-      error: "Unauthorized. Session about to expire within one day.",
-      status: 401,
-    };
-  }
+//   if (
+//     credentials &&
+//     credentials.expires &&
+//     credentials.expires - currentTime <= oneDayInMillis
+//   ) {
+//     // cookies().delete("access_token");
+//     return {
+//       error: "Unauthorized. Session about to expire within one day.",
+//       status: 401,
+//     };
+//   }
 
   if (authenticated) {
     return {

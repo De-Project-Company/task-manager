@@ -4,11 +4,8 @@ import React from "react";
 import { useProjectCtx } from "@/context/Projectctx";
 import { ProjectCounterProps } from "@/types";
 import CounterCard from "../cards/counter";
-import { useStateCtx } from "@/context/StateCtx";
-
 const CounterContainer = () => {
   const { Project } = useProjectCtx();
-  const { SessionModal, setSessionModal } = useStateCtx();
 
   const PROJECT_COUNTERS: ProjectCounterProps[] = [
     {
@@ -35,11 +32,6 @@ const CounterContainer = () => {
 
   return (
     <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-4  py-6">
-      <button
-      onClick={() => setSessionModal(true)}
-      >
-        open modal
-      </button>
       {PROJECT_COUNTERS.map((counter) => (
         <CounterCard
           key={counter.label}

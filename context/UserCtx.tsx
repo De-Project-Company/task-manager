@@ -67,7 +67,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
                 .name!}&background=random` ?? "/facemoji.png",
           });
         } else if (user?.status === 401) {
-          router.push(DEFAULT_REVALIDATE_REDIRECT);
+          // router.push(DEFAULT_REVALIDATE_REDIRECT);
         } else {
         }
       } catch (err) {}

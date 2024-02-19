@@ -8,8 +8,15 @@ import {
   SetStateAction,
   useEffect,
   useMemo,
+  useLayoutEffect,
 } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  protectedRoutes,
+  DEFAULT_REVALIDATE_REDIRECT,
+  DEFAULT_LOGIN_REDIRECT,
+} from "@/routes";
+import { checkSession } from "@/actions/session";
 
 interface StateContextProps {
   currentPath: string;
@@ -56,6 +63,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentPath, setCurrentPath] = useState("");
 
   const pathname = usePathname();
+  const router = useRouter();
 
   const isAnyModalOpen =
     OTPModal ||
@@ -195,6 +203,23 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setCurrentPath(pathname.replace("/", ""));
       return;
     }
+  }, [pathname]);
+
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const res = await checkSession();
+        const isProtectedRoute = protectedRoutes.includes(pathname);
+        if (isProtectedRoute && res?.error) {
+          // If it's a protected route and there's an error, redirect to revalidate
+          router.push(DEFAULT_REVALIDATE_REDIRECT);
+        } else if (!isProtectedRoute && res?.success) {
+          // If it's not a protected route and there's success, redirect to login
+          router.push(DEFAULT_LOGIN_REDIRECT);
+        }
+      } catch (err) {}
+    };
+    check();
   }, [pathname]);
 
   const value = useMemo(
