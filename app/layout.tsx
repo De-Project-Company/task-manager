@@ -5,6 +5,7 @@ import StateCtxProvider from "@/context/StateCtx";
 import ThemeProvider from "@/context/ThemeCtx";
 import { SessionProvider } from "next-auth/react";
 import SwipeIndicator from "@/components/SwiperIndicator";
+import UpdateSessionModal from "@/components/SessionModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             >
               {children}
               <SwipeIndicator />
+              <UpdateSessionModal />
             </body>
           </ThemeProvider>
         </StateCtxProvider>

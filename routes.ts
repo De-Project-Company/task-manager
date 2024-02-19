@@ -3,11 +3,12 @@
  * @type {string[]}
  */
 export const authRoutes = [
-  "/signin",
-  "/signup",
-  "/verify-email",
-  "/forgot-password",
-  "/reset-password",
+  "/auth/signin",
+  "/auth/signup",
+  "/auth/forgotpassword",
+  "/auth/reset",
+  "/error",
+  "/not-found",
 ];
 
 /**
