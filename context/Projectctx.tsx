@@ -41,21 +41,6 @@ const ProjectContextProvider = ({
       const res = await getProject();
 
       if (res?.status === "success") {
-        // console.log(res.project);
-        // setProject([
-        //   {
-        //     _id: res?.project._id,
-        //     title: res?.project.title,
-        //     status: res?.project.status,
-        //     description: res?.project.description,
-        //     owner: res?.project.owner,
-        //     endDate: res?.project.endDate,
-        //     price: res?.project.price,
-        //     duration: res?.project.duration,
-        //     teamMembers: res?.project.teamMembers,
-        //     tasks: res?.project.tasks,
-        //   },
-        // ]);
         setProject(res.project);
         setprojectCount(res.count);
       } else {
@@ -65,9 +50,7 @@ const ProjectContextProvider = ({
 
     fetchData();
   }, []);
-  // console.log(Project);
 
-  // console.log(projectCount);
   useEffect(() => {
     const projectFilter = localStorage.getItem("project-filter");
     if (!projectFilter) {
@@ -83,7 +66,7 @@ const ProjectContextProvider = ({
   useEffect(() => {
     if (selectedProjectFilter === "") return;
 
-    localStorage.setItem("project-filter", selectedProjectFilter);
+    // localStorage.setItem("project-filter", selectedProjectFilter);
   }, [selectedProjectFilter]);
 
   const value = useMemo(

@@ -8,8 +8,15 @@ import {
   SetStateAction,
   useEffect,
   useMemo,
+  useLayoutEffect,
 } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  protectedRoutes,
+  DEFAULT_REVALIDATE_REDIRECT,
+  DEFAULT_LOGIN_REDIRECT,
+} from "@/routes";
+import { checkSession } from "@/actions/session";
 
 interface StateContextProps {
   currentPath: string;
@@ -33,6 +40,8 @@ interface StateContextProps {
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
   landingMobileMenu: boolean;
   setLandingMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  SessionModal: boolean;
+  setSessionModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StateContext = createContext<StateContextProps | undefined>(undefined);
@@ -48,11 +57,13 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [addTeamMemberMoal, setaddTeamMemberMoal] = useState(false);
   const [DeleteProjectModal, setDeleteProjectModal] = useState(false);
   const [addTaskModal, setaddTaskModal] = useState(false);
+  const [SessionModal, setSessionModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
 
   const pathname = usePathname();
+  const router = useRouter();
 
   const isAnyModalOpen =
     OTPModal ||
@@ -60,7 +71,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     addTeamMemberMoal ||
     DeleteProjectModal ||
     ChangeProjectStatusModal ||
-    addTaskModal;
+    addTaskModal ||
+    SessionModal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -193,6 +205,23 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const res = await checkSession();
+        const isProtectedRoute = protectedRoutes.includes(pathname);
+        if (isProtectedRoute && res?.error) {
+          // If it's a protected route and there's an error, redirect to revalidate
+          router.push(DEFAULT_REVALIDATE_REDIRECT);
+        } else if (!isProtectedRoute && res?.success) {
+          // If it's not a protected route and there's success, redirect to login
+          router.push(DEFAULT_LOGIN_REDIRECT);
+        }
+      } catch (err) {}
+    };
+    check();
+  }, [pathname]);
+
   const value = useMemo(
     () => ({
       openSidebar,
@@ -216,6 +245,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setChangeProjectStatusModal,
       addTaskModal,
       setaddTaskModal,
+      SessionModal,
+      setSessionModal,
     }),
     [
       openSidebar,
@@ -230,6 +261,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       openSidebarMain,
       DeleteProjectModal,
       ChangeProjectStatusModal,
+      SessionModal,
     ]
   );
 

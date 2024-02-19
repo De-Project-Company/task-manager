@@ -4,7 +4,6 @@ import React from "react";
 import { useProjectCtx } from "@/context/Projectctx";
 import { ProjectCounterProps } from "@/types";
 import CounterCard from "../cards/counter";
-
 const CounterContainer = () => {
   const { Project } = useProjectCtx();
 

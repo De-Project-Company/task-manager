@@ -3,11 +3,12 @@
  * @type {string[]}
  */
 export const authRoutes = [
-  "/signin",
-  "/signup",
-  "/verify-email",
-  "/forgot-password",
-  "/reset-password",
+  "/auth/signin",
+  "/auth/signup",
+  "/auth/forgotpassword",
+  "/auth/reset",
+  "/error",
+  "/not-found",
 ];
 
 /**
@@ -42,3 +43,9 @@ export const DEFAULT_SIGNUP_REDIRECT = "/auth/signin";
  * @type {string}
  */
 export const DEFAULT_REVALIDATE_REDIRECT = "/auth/signin";
+
+/**
+ * The array of routes that are protected (require authentication)
+ * @type {string[]}
+ */
+export const protectedRoutes = publicRoutes.filter(route => !publicRoutes.includes(route));
