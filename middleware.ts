@@ -48,11 +48,11 @@ import { redirect } from "next/navigation";
 // });
 
 export default function middleware(request: NextRequest) {
-  // const res = await checkSession();
   const hasCookie = cookies().has("access_token");
+  const isLoggedIn = hasCookie;
+  console.log("LOGGED IN?: ", isLoggedIn);
   if (!hasCookie) {
     if (!publicRoutes.includes(request.nextUrl.pathname)) {
-      // cookies().delete("access_token");
       return NextResponse.redirect(
         new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
       );
