@@ -3,19 +3,23 @@
 import { Suspense, useEffect, useState } from "react";
 import CardSkelon from "../skeleton/ProjectSkel";
 import { useProjectCtx } from "@/context/Projectctx";
+import LoadingSpinner from "../loader";
 import ReactPaginate from "react-paginate";
 import ProjectCard from "../cards/projectCard";
 import { ProjectProps } from "@/types";
 import NotFound from "../Not-found";
 import { cn } from "@/utils";
+import { getProject } from "@/actions/project";
 
 const ProjectContainer = () => {
-  const { Project, projectSearchTerm, selectedProjectFilter } = useProjectCtx();
+  const { Project, projectSearchTerm, selectedProjectFilter, Loading } =
+    useProjectCtx();
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [filteredProjects, setFilteredProjects] = useState(
     [] as ProjectProps[]
   );
+
 
   useEffect(() => {
     const searchTerm =
@@ -49,8 +53,8 @@ const ProjectContainer = () => {
     );
 
     // Log or use the suggestions as needed
-    // console.log('Search Suggestions:', suggestions);
-  }, [selectedProjectFilter, projectSearchTerm]);
+    console.log('Search Suggestions:', suggestions);
+  }, [selectedProjectFilter, projectSearchTerm, Project]);
 
   const itemsPerPage = 8;
   const startIndex = currentPage * itemsPerPage;
@@ -61,9 +65,20 @@ const ProjectContainer = () => {
     setCurrentPage(selected);
     window?.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   useEffect(() => {
-    setTotalPages(Math.ceil(filteredProjects.length / 8));
+    setTotalPages(Math.ceil(filteredProjects.length / itemsPerPage));
   }, [filteredProjects, selectedProjectFilter, projectSearchTerm]);
+
+  const hasSearchResults = subset.length > 0;
+
+  if (Loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return Project.length > 0 ? (
     <section className="flex flex-col gap-y-6 w-full pb-6 min-h-screen">
@@ -76,17 +91,15 @@ const ProjectContainer = () => {
           className={cn(
             "text-lg font-semibold text-gray-400 dark:text-gray-100",
             {
-              "text-primary dark:text-[#28affd]": subset.length > 0,
+              "text-primary dark:text-[#28affd]": hasSearchResults,
             }
           )}
         >
           {subset.length}
         </span>
         <p className={cn("font-medium text-header dark:text-gray-200")}>
-          {subset.length > 0
-            ? "Search Result for"
-            : subset.length > 1
-            ? "Search Results for"
+          {hasSearchResults
+            ? `Search Result${subset.length > 1 ? "s" : ""} for`
             : "No Results for"}{" "}
           <b className="dark:text-yellow-400 dark:bg-black/80">
             &quot;{projectSearchTerm}&quot;
@@ -115,7 +128,7 @@ const ProjectContainer = () => {
             </Suspense>
           ))}
         </div>
-        {subset.length === 0 && (
+        {!hasSearchResults && (
           <div className=" w-full flex justify-center  h-full ">
             <NotFound text="No projects found" />
           </div>
@@ -128,7 +141,6 @@ const ProjectContainer = () => {
             previousAriaLabel="Prev"
             nextAriaLabel="Next"
             pageCount={totalPages}
-            // onPageChange={({ selected }) => setCurrentPage(selected)}
             onPageChange={handlePageChange}
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
@@ -146,8 +158,7 @@ const ProjectContainer = () => {
       </section>
     </section>
   ) : (
-    // <SuperAdminProject />
-    <span>not fund</span>
+    <span>Not found</span>
   );
 };
 

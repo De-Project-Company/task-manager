@@ -53,7 +53,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     task: {
       title: "",
       description: "",
-      status: "",
+      status: "pending",
     },
     email: "",
     name: "",
@@ -106,13 +106,13 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         role="dialog"
         aria-labelledby="create task modal"
         className={cn(
-          "py-6   flex flex-col w-[98%] sm:w-[80%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:max-h-[400px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
+          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[650px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
           addTaskModal
             ? "-translate-x-1/2 duration-700 opacity-100 sm:rounded-xl md:rounded-2xl"
             : "translate-x-full duration-300 pointer-events-none"
         )}
       >
-        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 ">
+        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
           <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-white">
             Create New Task
           </h3>
@@ -217,7 +217,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               }
             />
           </div>
-          <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
+          {/* <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
             <p className="text-center  font-medium dark:text-gray-100">
               Select Status
             </p>
@@ -259,7 +259,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
                 </p>
               ))}
             </div>
-          </div>
+          </div> */}
           <FormError message={error} />
           <FormSuccess message={success} />
           <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">

@@ -48,4 +48,8 @@ export const DEFAULT_REVALIDATE_REDIRECT = "/auth/signin";
  * The array of routes that are protected (require authentication)
  * @type {string[]}
  */
-export const protectedRoutes = publicRoutes.filter(route => !publicRoutes.includes(route));
+export const protectedRoutes = [
+  "/create-project",
+  ...[DEFAULT_LOGIN_REDIRECT],
+  "/projects/details",
+];
