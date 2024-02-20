@@ -51,5 +51,5 @@ export const DEFAULT_REVALIDATE_REDIRECT = "/auth/signin";
 export const protectedRoutes = [
   "/create-project",
   ...[DEFAULT_LOGIN_REDIRECT],
-  "/projects:path",
+  "/projects/details",
 ];

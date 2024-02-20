@@ -20,25 +20,6 @@ const ProjectContainer = () => {
     [] as ProjectProps[]
   );
 
-  const [projects, setProjects] = useState([] as ProjectProps[]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getProject();
-
-        if (result?.status === "success") {
-          setProjects(result.project);
-        } else {
-          console.error("Error fetching projects:", result?.error);
-        }
-      } catch (error) {
-        console.error("An unexpected error occurred:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const searchTerm =
@@ -72,7 +53,7 @@ const ProjectContainer = () => {
     );
 
     // Log or use the suggestions as needed
-    // console.log('Search Suggestions:', suggestions);
+    console.log('Search Suggestions:', suggestions);
   }, [selectedProjectFilter, projectSearchTerm, Project]);
 
   const itemsPerPage = 8;

@@ -59,25 +59,7 @@ const ProjectContextProvider = ({
     fetchData();
   }, [setProject]);
 
-  console.log(Project);
-
-  // useEffect(() => {
-  //   const projectFilter = localStorage.getItem("project-filter");
-  //   if (!projectFilter) {
-  //     setSelectedProjectFilter("all");
-  //     return;
-  //   }
-  //   if (projectFilter) {
-  //     setSelectedProjectFilter(projectFilter);
-  //     return;
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (selectedProjectFilter === "") return;
-
-  //   // localStorage.setItem("project-filter", selectedProjectFilter);
-  // }, [selectedProjectFilter]);
+  // console.log(Project);
 
   const value = useMemo(
     () => ({

@@ -288,3 +288,29 @@ export const ResetPassword = async (
     }
   }
 };
+
+
+export const signOut = async () => {
+  try {
+    const res = await $http.get("/auth/signout");
+
+    if (res?.status === 200) {
+      return {
+        success: "Sign-out successful",
+      };
+    }
+  } catch (e: any) {
+    console.log("Sign-out API call error", e);
+    if (e?.response?.status === 401) {
+      return { error: "Unauthorized access. Please log in." };
+    } else if (e?.response?.status === 500) {
+      return { error: "Internal server error" };
+    } else {
+      return {
+        error:
+          e?.response?.data ??
+          "Unknown error occurred. Please try again later.",
+      };
+    }
+  }
+};
