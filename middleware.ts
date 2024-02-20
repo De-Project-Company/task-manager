@@ -58,7 +58,10 @@ export default function middleware(request: NextRequest) {
       );
     }
   } else if (hasCookie) {
-    if (publicRoutes.includes(request.nextUrl.pathname)) {
+    if (
+      publicRoutes.includes(request.nextUrl.pathname) &&
+      !protectedRoutes.includes(request.nextUrl.pathname)
+    ) {
       return NextResponse.redirect(
         new URL(DEFAULT_LOGIN_REDIRECT, request.url)
       );

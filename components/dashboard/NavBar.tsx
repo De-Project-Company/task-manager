@@ -89,7 +89,7 @@ const DashBoardNav = () => {
         </div>
         <div className="flex w-full sm:max-w-1/2 justify-between gap-x-2 ">
           <div className="flex items-center gap-x-1 text-[#535353] w-full ">
-            <ListFilter color="#282828 sm:hidden" size={18} />
+            <ListFilter color="#282828" size={18} />
             <span className="hidden sm:inline-block w-[57px] text-sm text-header dark:text-gray-200">
               Filter by
             </span>

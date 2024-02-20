@@ -21,6 +21,8 @@ interface ProjectContextProps {
   projectSearchTerm: string;
   setProjectSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   projectCount: number;
+  Loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ProjectContext = createContext({} as ProjectContextProps);
@@ -30,44 +32,52 @@ const ProjectContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  // Add Your State(s) Here
-  const [Project, setProject] = useState<ProjectProps[]>([]);
-  const [selectedProjectFilter, setSelectedProjectFilter] = useState("");
+  const [Project, setProject] = useState([] as ProjectProps[]);
+  const [selectedProjectFilter, setSelectedProjectFilter] = useState("all");
   const [projectSearchTerm, setProjectSearchTerm] = useState("");
   const [projectCount, setprojectCount] = useState(0);
+  const [Loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     const fetchData = async () => {
-      const res = await getProject();
-
-      if (res?.status === "success") {
-        setProject(res.project);
-        setprojectCount(res.count);
-      } else {
-        console.error(res?.error);
+      try {
+        setLoading(true);
+        const res = await getProject();
+        if (res?.status === "success") {
+          setProject(res.project);
+          setprojectCount(res.count);
+        } else {
+          console.error(res?.error);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [setProject]);
 
-  useEffect(() => {
-    const projectFilter = localStorage.getItem("project-filter");
-    if (!projectFilter) {
-      setSelectedProjectFilter("all");
-      return;
-    }
-    if (projectFilter) {
-      setSelectedProjectFilter(projectFilter);
-      return;
-    }
-  }, []);
+  console.log(Project);
 
-  useEffect(() => {
-    if (selectedProjectFilter === "") return;
+  // useEffect(() => {
+  //   const projectFilter = localStorage.getItem("project-filter");
+  //   if (!projectFilter) {
+  //     setSelectedProjectFilter("all");
+  //     return;
+  //   }
+  //   if (projectFilter) {
+  //     setSelectedProjectFilter(projectFilter);
+  //     return;
+  //   }
+  // }, []);
 
-    // localStorage.setItem("project-filter", selectedProjectFilter);
-  }, [selectedProjectFilter]);
+  // useEffect(() => {
+  //   if (selectedProjectFilter === "") return;
+
+  //   // localStorage.setItem("project-filter", selectedProjectFilter);
+  // }, [selectedProjectFilter]);
 
   const value = useMemo(
     () => ({
@@ -78,8 +88,10 @@ const ProjectContextProvider = ({
       projectSearchTerm,
       setProjectSearchTerm,
       projectCount,
+      Loading,
+      setLoading,
     }),
-    [Project, selectedProjectFilter, projectSearchTerm, projectCount]
+    [Project, Loading, selectedProjectFilter, projectSearchTerm, projectCount]
   ); //
 
   return (
