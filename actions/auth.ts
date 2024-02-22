@@ -187,17 +187,19 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e);
+    console.log("Activate call error from API call", e?.response?.data?.status);
     if (e?.response?.status === 401) {
       return { error: "Invalid license." };
     } else if (e?.response?.status === 404) {
       return { error: "Unable to activate. License not found." };
     } else if (e?.response?.status === 500) {
       return { error: "Internal server error" };
+    } else if (e?.response?.data?.status == "fail") {
+      return { error: "Invalid Licence Number" };
     } else {
       return {
         error:
-          e?.response?.data ??
+          // e?.response?.data ??
           "Unknown error occurred. Please try again later.",
       };
     }
@@ -288,7 +290,6 @@ export const ResetPassword = async (
     }
   }
 };
-
 
 export const signOut = async () => {
   try {
