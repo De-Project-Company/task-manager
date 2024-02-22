@@ -212,7 +212,7 @@ function SignupForm() {
             <Button
               disabled={isLoading}
               className={cn(
-                "w-full rounded-md my-3 hidden",
+                "w-full rounded-md my-3",
                 isLoading ? "[&>div>span]:opacity-0" : ""
               )}
               type="submit"
