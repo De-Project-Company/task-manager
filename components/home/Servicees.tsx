@@ -18,8 +18,8 @@ const Servicees = () => {
           management, and providing valuable insights to elevate your workflow.
         </p>
       </div>
-      <div className="md:flex lg:pl-10 lg:gap-5">
-        <div className="flex flex-col gap-14">
+      <div className="md:flex flex-col lg:pl-10 lg:gap-16">
+        <div className="flex ">
           {RevolutionData1.map((items) => (
             <div key={items.title}>
               <Image
@@ -29,7 +29,7 @@ const Servicees = () => {
                 height={40}
                // className="dark:invert"
               />
-              <h1 className="text-xl md:text-2xl text-purple-950 py-4 font-bold dark:text-white">
+              <h1 className="text-xl md:text-2xl text-purple-950 py-4 font-bold dark:text-white w-[80%]">
                 {items.title}
               </h1>
               <p className="text-balance text-neutraly text-sm md:text-base">
@@ -38,7 +38,7 @@ const Servicees = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col gap-20">
+        <div className="flex lg:gap-[100px]">
           {RevolutionData2.map((items) => (
             <div key={items.title}>
               <Image
