@@ -107,7 +107,7 @@ export const Nav = () => {
           { hidden: scrollHeight > 200 }
         )}
       >
-        <Link href="#">Looking for a new career? Get in touch</Link>
+        <Link href="/request">Need more information? Get in touch</Link>
       </div>
 
       <MobileNav />

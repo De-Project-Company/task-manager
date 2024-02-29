@@ -17,7 +17,7 @@ const About = () => {
           understand the intricate dance of managing time and tasks, and
           we&apos;re here to revolutionize your approach to time tracking.
         </p>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pt-10">
           {Aboutdata.map((items) => (
             <div key={items[0]} className="flex items-center gap-2 w-[85%]">
               <Image
