@@ -13,6 +13,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { jwtDecode } from "jwt-decode";
 import { UserDetails } from "@/types";
 import Calls from "./calls";
+import { DeleteFromSessionStorage, GetFromSessionStorage } from "@/utils";
 
 const cookie = cookies();
 const BaseUrl =
@@ -293,10 +294,29 @@ export const ResetPassword = async (
 };
 
 export const signOut = async () => {
+  const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
+
+  if (!authToken && !hasToken) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken || hasToken}`,
+    },
+  };
   try {
-    const res = await $http.get("/auth/signout");
+    const res = await $http.get("/auth/signout", config);
 
     if (res?.status === 200) {
+      cookie.delete("access_token");
+      DeleteFromSessionStorage("access_token");
       return {
         success: "Sign-out successful",
       };
