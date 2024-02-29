@@ -25,6 +25,7 @@ import { login } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { SetToSessionStorage } from "@/utils";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -53,6 +54,7 @@ const SigninForm = () => {
         setError(data?.error);
         console.log("User came from signIn");
         if (data?.success) {
+          SetToSessionStorage("access_token", data?.user.id);
           setTimeout(() => {
             setSuccess("Redirecting....");
           }, 1000);

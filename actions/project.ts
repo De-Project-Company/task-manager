@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import Calls from "./calls";
 import { AddTeamMembersSchema } from "@/schemas";
 import { z } from "zod";
+import { GetFromSessionStorage } from "@/utils";
 
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -12,10 +13,12 @@ const $http = Calls(BaseUrl);
 
 export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
       error: "Unauthorized. Missing access token.",
+      status: 401,
     };
   }
 
@@ -23,10 +26,9 @@ export const CreateProject = async (values: any) => {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
-
   try {
     const res = await $http.post("/project", values, config);
     // console.log("project creates successfully:", res.data);
@@ -59,8 +61,9 @@ export const CreateProject = async (values: any) => {
 
 export const getProject = async () => {
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
@@ -71,7 +74,7 @@ export const getProject = async () => {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
 
@@ -120,8 +123,9 @@ export const AddMembers = async (
     };
   }
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
@@ -132,7 +136,7 @@ export const AddMembers = async (
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
   try {
@@ -171,8 +175,9 @@ export const AddMembers = async (
 
 export const getPojectdetails = async (id: string) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
@@ -183,7 +188,7 @@ export const getPojectdetails = async (id: string) => {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
   try {
@@ -219,8 +224,9 @@ export const getPojectdetails = async (id: string) => {
 
 export const deleteProject = async (projectId: string) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
@@ -231,7 +237,7 @@ export const deleteProject = async (projectId: string) => {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
 
@@ -271,10 +277,11 @@ export const updateProjectStatus = async (
   newStatus?: string
 ) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken) {
+  if (!authToken && !hasToken) {
     return {
-      error: "Unauthorized",
+      error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
@@ -283,7 +290,7 @@ export const updateProjectStatus = async (
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || hasToken}`,
     },
   };
 
