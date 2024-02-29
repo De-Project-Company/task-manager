@@ -9,6 +9,7 @@ export const authRoutes = [
   "/auth/reset",
   "/error",
   "/not-found",
+  "/chat",
 ];
 
 /**
@@ -52,4 +53,5 @@ export const protectedRoutes = [
   "/create-project",
   ...[DEFAULT_LOGIN_REDIRECT],
   "/projects/details",
+  "/chat",
 ];

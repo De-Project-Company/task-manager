@@ -110,6 +110,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         // createdAt: res.user.createdAt,
       };
 
+      console.log(res)
+
       cookie.set("user", JSON.stringify(user), {
         maxAge: 60 * 60 * 24 * 1, // 1 day
         httpOnly: true,
