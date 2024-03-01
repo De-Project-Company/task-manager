@@ -9,12 +9,24 @@ import { usePathname, useRouter } from "next/navigation";
 import { useUserCtx } from "@/context/UserCtx";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import Image from "next/image";
+import { signOut as logOut } from "@/actions/auth";
+// import { signOut } from "@/auth";
 
 const EmployerSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const { user } = useUserCtx();
   const router = useRouter();
   const pathname = usePathname();
+
+  const handleSignOut = async () => {
+    const result = await logOut();
+    console.log(result);
+    if (result?.success) {
+      router.push("/");
+    } else {
+      console.error(result?.error);
+    }
+  };
 
   useEffect(() => {
     const currentPath = pathname?.replace(/^\/([^\/]+).*$/, "$1");
@@ -66,7 +78,7 @@ const EmployerSidebar = () => {
         <span className="bg-[#8e8e8e] w-full max-w-[245px] h-[1px] " />
       </ul>
       <div className="flex flex-col w-full gap-y-6 xl:gap-y-8 pt-4 items-center">
-        <Link
+        {/* <Link
           href="/profile"
           className={cn(
             "w-full flex items-center gap-x-[6px]  p-2 transition-colors duration-300 justify-center mb-4",
@@ -98,29 +110,23 @@ const EmployerSidebar = () => {
           <div className="flex flex-col  max-[1139px]:hidden w-full group-hover:w-full group-hover:flex">
             <span className="text-white text-base">{user.name}</span>
           </div>
-        </Link>
-        <div className="w-full opacity-0 min-[1139px]:opacity-100 flex justify-center group-hover:opacity-100 transition-colors duration-300">
-          {/* <ThemeButtons /> */}
-        </div>
-        {/* LogOut */}
-        <Link
-          href="/"
+        </Link> */}
+        {/* <div className="w-full opacity-0 min-[1139px]:opacity-100 flex justify-center group-hover:opacity-100 transition-colors duration-300">
+          <ThemeButtons />
+        </div> */}
+
+        <button
           role="button"
           tabIndex={0}
           aria-label="logout"
-          onKeyUp={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              router.push("/");
-              return;
-            }
-          }}
+          onClick={handleSignOut}
           className={cn(
             "flex flex-nowrap group-hover:w-full min-[1140px]:w-full  min-[1140px]:justify-start items-center gap-x-3 py-2 px-3 h-[52px] text-[#e80000] font-medium text-sm transition-colors duration-300 cursor-pointer hover:bg-black/10   focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
           )}
         >
           <LogoutCurve size={24} aria-hidden />
           <span className=" max-[1139px]:hidden group-hover:block">LogOut</span>
-        </Link>
+        </button>
       </div>
     </section>
   );
