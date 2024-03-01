@@ -44,9 +44,9 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   },
   {
     id: 3,
-    label: "Meetings",
+    label: "Calender",
     icon: Profile2User,
-    link: "Meetings",
+    link: "calender",
   },
   {
     id: 4,

@@ -28,7 +28,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({ selectedUser }) => {
 
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Sending message:", messageText);
+    // console.log("Sending message:", messageText);
 
     const newMessage = {
       id: messages.length + 1,
@@ -51,7 +51,6 @@ const ChatBody: React.FC<ChatBodyProps> = ({ selectedUser }) => {
           </div>
         ))}
       </div>
-
       {/* add message form */}
       <div className="fixed bottom-0">
         <form
