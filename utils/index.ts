@@ -194,6 +194,21 @@ export const GetFromSessionStorage = (key: string): string | null => {
 };
 
 /**
+ * Deletes an item from the session storage.
+ * @function DeleteFromSessionStorage
+ * @param {string} key - The key of the item to be deleted.
+ */
+
+export const DeleteFromSessionStorage = (key: string): void => {
+  if (typeof sessionStorage === "undefined") return;
+  try {
+    sessionStorage.removeItem(key);
+  } catch (error) {
+    // console.error(`Error deleting item from session storage: ${error}`);
+  }
+};
+
+/**
  * Converts days to hours.
  * @param {number} days - The number of days to convert.
  * @returns {number} - The equivalent number of hours.
@@ -230,4 +245,3 @@ export const calculateCountdown = (
 
   return { days, hours, minutes, seconds };
 };
-
