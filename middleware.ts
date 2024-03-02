@@ -14,6 +14,7 @@ import { GetFromSessionStorage } from "./utils";
 export default function middleware(request: NextRequest) {
   const hasCookie = cookies().has("access_token");
   const hasToken = GetFromSessionStorage("access_token");
+  console.log(hasToken);
 
   const isLoggedIn = hasCookie || hasToken;
   console.log("LOGGED IN?: ", isLoggedIn);

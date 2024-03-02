@@ -9,7 +9,7 @@ import {
 } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { setCookie, deleteCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
 import { UserDetails } from "@/types";
 import Calls from "./calls";
@@ -97,6 +97,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+      setCookie("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
         path: "/",
