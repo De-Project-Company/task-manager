@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import { cn } from "@/utils";
 import { useEffect, useState, useTransition } from "react";
-import { ProjectProps } from "@/types";
+import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
@@ -41,6 +41,7 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>("");
+  const router = useRouter();
 
   // console.log(selectedStatus);
   //   console.log(projectid);
@@ -52,17 +53,21 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
       const result = await updateProjectStatus(projectid!, selectedStatus!);
 
       if (result?.status === "success") {
-        console.log("Project status updated successfully!");
         setSuccess("Project status updated successfully!");
+        setTimeout(() => {
+          setChangeProjectStatusModal(false);
+          router.refresh();
+        }, 3000);
+
         setTimeout(() => {
           setChangeProjectStatusModal(false);
         }, 5000);
       } else {
-        console.error("Error updating project status:", result?.error);
+        // console.error("Error updating project status:", result?.error);
         setError(result?.error);
       }
     } catch (error) {
-      console.error("An unexpected error occurred:", error);
+      // console.error("An unexpected error occurred:", error);
     } finally {
       setLoading(false);
     }

@@ -7,6 +7,7 @@ import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
 import { Edit2, More, Trash, Status } from "iconsax-react";
+import TeamSection from "./TeamMembers";
 import { cn, daysToHours, calculateCountdown } from "@/utils";
 import useCountdown from "@/hooks/useCountdown";
 import DeletePojectModal from "./DeletePojectModal";
@@ -67,10 +68,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
 
-  // console.log(countDownTIme);
-
-  console.log(projectData);
-  // console.log(time);
   return (
     <>
       <DeletePojectModal
@@ -244,25 +241,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </div>
 
           {/* Projects Team members */}
-          <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-5 border border-neutral-100  rounded-lg shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex space-x-2 items-center">
-                <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
-                  <FaBriefcase />
-                </div>
-                <h5 className="font-bold text-primary text-xl items-center ">
-                  People
-                </h5>
-              </div>
-
-              <p className="block text-primary font-medium hover:font-bold text-xs md:text-sm">
-                See All
-              </p>
-            </div>
-
-            {/* Images section */}
-            <div></div>
-          </div>
+          <TeamSection projectid={id!} />
 
           {/* Projects Task Section */}
           <TaskSesion projectid={id!} />
