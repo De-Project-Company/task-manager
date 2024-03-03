@@ -143,7 +143,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
       return {
         user,
-        token
+        token,
         success: "Login successful!",
         // redirect: DEFAULT_LOGIN_REDIRECT,
       };
