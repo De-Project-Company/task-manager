@@ -9,7 +9,7 @@ import {
 } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { setCookie, deleteCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
 import { UserDetails } from "@/types";
 import Calls from "./calls";
@@ -102,6 +102,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         path: "/",
         priority: "high",
       });
+      setCookie("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -111,6 +117,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         role: res.data.user.role,
         // createdAt: res.user.createdAt,
       };
+      const token = res.token
 
       console.log(res)
 
@@ -136,6 +143,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
       return {
         user,
+        token,
         success: "Login successful!",
         // redirect: DEFAULT_LOGIN_REDIRECT,
       };

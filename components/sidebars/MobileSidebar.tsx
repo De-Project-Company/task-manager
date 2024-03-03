@@ -11,6 +11,8 @@ import { cn } from "@/utils";
 import { LogoutCurve, Setting2 } from "iconsax-react";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import { useRouter } from "next/navigation";
+import { signOut as logOut } from "@/actions/auth";
+// import { signOut } from "@/auth";
 
 const MobileSidebar = () => {
   const { openSidebarMain, setOpenSidebarMain } = useStateCtx();
@@ -25,6 +27,16 @@ const MobileSidebar = () => {
 
     setActiveLink(currentPath.trim());
   }, [pathname]);
+
+  const handleSignOut = async () => {
+    const result = await logOut();
+    // console.log(result);
+    if (result?.success) {
+      router.push("/");
+    } else {
+      console.error(result?.error);
+    }
+  };
 
   return (
     <>
@@ -88,24 +100,18 @@ const MobileSidebar = () => {
           ))}
 
           {/* LogOut */}
-          <Link
-            href="/"
+          <button
             role="button"
             tabIndex={0}
             aria-label="logout"
-            onKeyUp={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                router.push("/");
-                return;
-              }
-            }}
+            onClick={handleSignOut}
             className={cn(
               "flex w-full items-center gap-x-3 py-2 px-3 h-[52px] text-[#e80000] font-medium text-base transition-colors duration-300 cursor-pointer hover:bg-black/10 focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
             )}
           >
             <LogoutCurve size={18} aria-hidden />
             <span>LogOut</span>
-          </Link>
+          </button>
         </ul>
       </section>
     </>
