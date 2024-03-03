@@ -117,6 +117,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         role: res.data.user.role,
         // createdAt: res.user.createdAt,
       };
+      const token = res.token
 
       console.log(res)
 
@@ -142,6 +143,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
       return {
         user,
+        token
         success: "Login successful!",
         // redirect: DEFAULT_LOGIN_REDIRECT,
       };
