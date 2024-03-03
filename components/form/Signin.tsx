@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
+import { setCookie, deleteCookie } from "cookies-next";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
@@ -54,6 +55,12 @@ const SigninForm = () => {
         setError(data?.error);
         console.log("User came from signIn");
         if (data?.success) {
+        setCookie("access_token", data?.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
           SetToSessionStorage("access_token", data?.user.id);
           setTimeout(() => {
             setSuccess("Redirecting....");
