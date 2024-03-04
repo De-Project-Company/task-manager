@@ -27,7 +27,7 @@ const NotificationDopDown = () => {
   return (
     <>
       <div
-        className="min-h-screen h-screen top-0 left-0 w-full fixed z-[99] opacity-0 bg-black/25 cursor-default"
+        className="min-h-screen top-0 left-0 w-full fixed z-[99] opacity-0 bg-black/25 cursor-default"
         role="dialog"
         onClick={() => setopenNotification(!openNotification)}
       />
@@ -35,7 +35,7 @@ const NotificationDopDown = () => {
       <div
         role="dialog"
         className={cn(
-          " absolute max-h-max border dark:border-success/80 p-4 border-soft-light top-[50px] md:top-16 right-1 z-[999] dark:bg-black/60  bg-white backdrop-blur-xl flex flex-col gap-y-2   justify-between  shadow-[0_10px_40px_rgba(0,0,0,0.23)] rounded-xl before:absolute before:content-[''] before:h-[20px] before:w-[20px] before:bg-gradient-to-tl dark:from-transparent dark:via-transparent dark:to-success from-white  to-white before:overflow-hidden before:-top-2 before:rotate-[45deg] md:before:right-[105px] before:right-[65px] before:z-[-1] transform-gpu transition-all ",
+          " absolute max-h-max border dark:border-success/80 p-4 border-soft-light top-[50px] md:top-16 right-1 z-[9999] dark:bg-black/60  bg-white backdrop-blur-xl flex flex-col gap-y-2   justify-between  shadow-[0_10px_40px_rgba(0,0,0,0.23)] rounded-xl before:absolute before:content-[''] before:h-[20px] before:w-[20px] before:bg-gradient-to-tl dark:from-transparent dark:via-transparent dark:to-success from-white  to-white before:overflow-hidden before:-top-2 before:rotate-[45deg] lg:before:right-[105px] md:before:right-[90px] before:right-[65px] before:z-[-1] transform-gpu transition-all ",
           openNotification
             ? "opacity-100 h-[200px] duration-500 "
             : "opacity-0 h-0 duration-200 overflow-hidden pointer-events-none"

@@ -7,9 +7,9 @@ import LoadingSpinner from "../loader";
 import ReactPaginate from "react-paginate";
 import ProjectCard from "../cards/projectCard";
 import { ProjectProps } from "@/types";
-import NotFound from "../Not-found";
 import { cn } from "@/utils";
-import { getProject } from "@/actions/project";
+import ProjectNotFound from "./ProjectNotFound";
+import Empty from "./Empty";
 
 const ProjectContainer = () => {
   const { Project, projectSearchTerm, selectedProjectFilter, Loading } =
@@ -19,7 +19,6 @@ const ProjectContainer = () => {
   const [filteredProjects, setFilteredProjects] = useState(
     [] as ProjectProps[]
   );
-
 
   useEffect(() => {
     const searchTerm =
@@ -53,7 +52,7 @@ const ProjectContainer = () => {
     );
 
     // Log or use the suggestions as needed
-    console.log('Search Suggestions:', suggestions);
+    console.log("Search Suggestions:", suggestions);
   }, [selectedProjectFilter, projectSearchTerm, Project]);
 
   const itemsPerPage = 8;
@@ -130,7 +129,7 @@ const ProjectContainer = () => {
         </div>
         {!hasSearchResults && (
           <div className=" w-full flex justify-center  h-full ">
-            <NotFound text="No projects found" />
+            <ProjectNotFound text="No projects found" />
           </div>
         )}
         <div className="flex w-full justify-end mt-8">
@@ -158,7 +157,7 @@ const ProjectContainer = () => {
       </section>
     </section>
   ) : (
-    <span>Not found</span>
+    <Empty />
   );
 };
 
