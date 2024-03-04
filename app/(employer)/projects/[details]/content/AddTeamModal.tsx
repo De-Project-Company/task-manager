@@ -1,25 +1,60 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn } from "@/utils";
 import { AddMembers } from "@/actions/project";
-import { AddTeamMembersSchema } from "@/schemas";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import { X } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { MinusCirlce } from "iconsax-react";
 
 interface AssognTaskProp {
   projectid?: string;
 }
 
 const Team = ({ projectid }: AssognTaskProp) => {
-  const [FormData, setFormData] = useState<typeof AddTeamMembersSchema>();
   const { addTeamMemberMoal, setaddTeamMemberMoal } = useStateCtx();
   const [isLoading, startTransition] = useTransition();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+  const [teamMembers, setTeamMembers] = useState<string[]>([""]);
+
+  const handleInputChange = (index: number, value: string) => {
+    const updatedTeamMembers = [...teamMembers];
+    updatedTeamMembers[index] = value;
+    setTeamMembers(updatedTeamMembers);
+  };
+
+  const addTeamMember = () => {
+    setTeamMembers([...teamMembers, ""]);
+  };
+
+  const removeTeamMember = (index: number) => {
+    const updatedTeamMembers = [...teamMembers];
+    updatedTeamMembers.splice(index, 1);
+    setTeamMembers(updatedTeamMembers);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    setError("");
+    setSuccess("");
+    e.preventDefault();
+
+    startTransition(() => {
+      AddMembers({ teamMembers }, projectid!).then((data) => {
+        setSuccess(data?.success);
+        setError(data?.error);
+        if (data?.success) {
+          setTimeout(() => {
+            setaddTeamMemberMoal(false);
+          }, 2000);
+        }
+      });
+    });
+  };
+
   return (
     <>
       <div
@@ -55,8 +90,8 @@ const Team = ({ projectid }: AssognTaskProp) => {
           </button>
         </div>
         <form
-          //   onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-8 mb-5 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start"
+          onSubmit={handleSubmit}
+          className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-8 mb-5 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start overflow-y-auto overflow-x-hidden no-scroll"
         >
           <div className="flex flex-col  gap-y-2 w-full">
             <label
@@ -65,46 +100,72 @@ const Team = ({ projectid }: AssognTaskProp) => {
             >
               Email
             </label>
-            <input
-              type="text"
-              placeholder="Task title..."
-              id="Task-title"
-              name="task.title"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              //   value={formData.task.title}
-              //   onChange={(e) =>
-              //     setFormData({
-              //       ...formData,
-              //       task: { ...formData.task, title: e.target.value },
-              //     })
-              //   }
-            />
+            {teamMembers.map((member, index) => (
+              <div
+                className="flex items-center justify-between gap-3"
+                key={index}
+              >
+                <input
+                  key={index}
+                  type="email"
+                  value={member}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  placeholder="Enter email"
+                  className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
+                />
+                {member && (
+                  <button
+                    type="button"
+                    onClick={() => removeTeamMember(index)}
+                    aria-label="Plus"
+                    className="text-primary "
+                  >
+                    <MinusCirlce variant="Bulk" />
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
 
           <FormError message={error} />
           <FormSuccess message={success} />
-          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">
-            <Button
-              type="submit"
-              tabIndex={0}
-              aria-label="Submit"
-              //   disabled={isDisabled || isLoading}
-              spinnerColor="#fff"
+          <div className="flex items-center justify-between w-full">
+            <button
+              type="button"
+              aria-label="Add-More"
+              onClick={addTeamMember}
+              disabled={teamMembers.some((member) => member === "")}
               className={cn(
-                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600",
-                isLoading ? "[&>div>span]:opacity-0" : ""
+                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600"
               )}
             >
-              Add
-            </Button>
-            {isLoading && (
-              <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <span />
-                <span />
-                <span />
-              </div>
-            )}
+              Add More
+            </button>
+            <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">
+              <Button
+                type="submit"
+                tabIndex={0}
+                aria-label="Submit"
+                disabled={isLoading}
+                spinnerColor="#fff"
+                className={cn(
+                  "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600",
+                  isLoading ? "[&>div>span]:opacity-0" : ""
+                )}
+              >
+                Submmit
+              </Button>
+              {isLoading && (
+                <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* <pre>{JSON.stringify({ teamMembers }, null, 2)}</pre> */}
         </form>
       </div>
     </>

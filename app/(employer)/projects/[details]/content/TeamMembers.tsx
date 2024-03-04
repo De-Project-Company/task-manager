@@ -5,12 +5,14 @@ import { useStateCtx } from "@/context/StateCtx";
 import Team from "./AddTeamModal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
+import Member from "./Members";
 
 interface TasksessionProp {
   projectid?: string;
+  teamMembers?: string[];
 }
 
-const TeamSection = ({ projectid }: TasksessionProp) => {
+const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
 
@@ -85,6 +87,19 @@ const TeamSection = ({ projectid }: TasksessionProp) => {
             <span>Add Team</span>
           </button>
         </div>
+        {teamMembers && teamMembers.length === 0 ? (
+          <p className="w-full text-center  dark:text-gray-200">
+            No team members yet.
+          </p>
+        ) : (
+          <>
+            {teamMembers &&
+              teamMembers.map((member, index) => (
+                <Member key={index} name={member} />
+              ))}
+          </>
+        )}
+
         <Team projectid={projectid} />
       </div>
     </>

@@ -323,6 +323,7 @@ export const signOut = async () => {
   };
   try {
     const res = await $http.get("/auth/signout", config);
+    console.log(res)
 
     if (res?.status === 200) {
       cookie.delete("access_token");
