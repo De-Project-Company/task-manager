@@ -54,4 +54,6 @@ export const protectedRoutes = [
   ...[DEFAULT_LOGIN_REDIRECT],
   "/projects/details",
   "/chat",
+  "/project/accept",
+  "/notification",
 ];
