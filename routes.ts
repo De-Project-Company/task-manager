@@ -9,7 +9,6 @@ export const authRoutes = [
   "/auth/reset",
   "/error",
   "/not-found",
-  "/chat",
 ];
 
 /**
@@ -18,7 +17,10 @@ export const authRoutes = [
  * @type {string[]}
  */
 
-export const publicRoutes = ["/", ...authRoutes, "/about", "/request"];
+export const publicRoutes = [
+  "/",
+  // , ...authRoutes, "/about", "/request"
+];
 
 /**
  * The prefix for API routes
@@ -46,6 +48,12 @@ export const DEFAULT_SIGNUP_REDIRECT = "/auth/signin";
 export const DEFAULT_REVALIDATE_REDIRECT = "/auth/signin";
 
 /**
+ * The default redirect when user is not authenticated
+ * @type {string}
+ */
+export const DEFAULT_ACCEPTPROJECT_ROUTE = "/project/accept";
+
+/**
  * The array of routes that are protected (require authentication)
  * @type {string[]}
  */
@@ -54,4 +62,6 @@ export const protectedRoutes = [
   ...[DEFAULT_LOGIN_REDIRECT],
   "/projects/details",
   "/chat",
+  "/project/approve",
+  "/notification",
 ];
