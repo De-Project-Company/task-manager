@@ -127,10 +127,7 @@ export default function middleware(request: NextRequest) {
   const isAcceptProjectRoute =
     request.nextUrl.pathname === DEFAULT_ACCEPTPROJECT_ROUTE;
 
-  if (isAcceptProjectRoute) {
-    return NextResponse.next();
-  }
-
+  
   if (!hasCookie) {
     if (!publicRoutes.includes(request.nextUrl.pathname)) {
       return NextResponse.redirect(
