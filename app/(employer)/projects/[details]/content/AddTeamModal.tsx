@@ -101,7 +101,10 @@ const Team = ({ projectid }: AssognTaskProp) => {
               Email
             </label>
             {teamMembers.map((member, index) => (
-              <div className="flex items-center justify-between gap-3">
+              <div
+                className="flex items-center justify-between gap-3"
+                key={index}
+              >
                 <input
                   key={index}
                   type="email"
