@@ -1,10 +1,12 @@
-import React from 'react'
-// import
+import React from "react";
+import ProjectDetails from "../content/Project";
 
-const page = () => {
+const AcceptPage = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <ProjectDetails />
+    </>
+  );
+};
 
-export default page
+export default AcceptPage;
