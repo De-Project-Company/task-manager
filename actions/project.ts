@@ -112,16 +112,9 @@ export const getProject = async () => {
 };
 
 export const AddMembers = async (
-  values: z.infer<typeof AddTeamMembersSchema>,
+  values: { teamMembers: string[] },
   projectId: string
 ) => {
-  const validatedFields = AddTeamMembersSchema.safeParse(values);
-
-  if (!validatedFields.success) {
-    return {
-      error: "Validation failed. Please check your input.",
-    };
-  }
   const authToken = cookies()?.get("access_token")?.value;
   const hasToken = GetFromSessionStorage("access_token");
 
@@ -147,7 +140,8 @@ export const AddMembers = async (
     );
     if (res.status === 200) {
       return {
-        status: "success",
+        status: "Team members added successfully",
+        success: "Team members added successfully",
       };
     }
   } catch (e: any) {

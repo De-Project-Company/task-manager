@@ -50,17 +50,16 @@ const SigninForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        console.log(data.user);
         setSuccess(data?.success);
         setError(data?.error);
         console.log("User came from signIn");
         if (data?.success) {
-        setCookie("access_token", data?.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
+          setCookie("access_token", data?.token, {
+            maxAge: 60 * 60 * 24 * 30, // 30 days
+            httpOnly: true,
+            path: "/",
+            priority: "high",
+          });
           SetToSessionStorage("access_token", data?.user.id);
           setTimeout(() => {
             setSuccess("Redirecting....");

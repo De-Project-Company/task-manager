@@ -30,6 +30,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     const fetchProjectDetails = async () => {
       try {
         const project = await getPojectdetails(id!);
+        console.log(project);
         if (project?.status === "success") {
           setProjectData(project.project);
         }
@@ -241,7 +242,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </div>
 
           {/* Projects Team members */}
-          <TeamSection projectid={id!} />
+          <TeamSection projectid={id!} teamMembers={projectData?.teamMembers} />
 
           {/* Projects Task Section */}
           <TaskSesion projectid={id!} />

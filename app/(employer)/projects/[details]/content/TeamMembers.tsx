@@ -8,9 +8,10 @@ import { Add } from "iconsax-react";
 
 interface TasksessionProp {
   projectid?: string;
+  teamMembers?: string[];
 }
 
-const TeamSection = ({ projectid }: TasksessionProp) => {
+const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
 
