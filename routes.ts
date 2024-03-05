@@ -18,8 +18,7 @@ export const authRoutes = [
  */
 
 export const publicRoutes = [
-  "/",
-  // , ...authRoutes, "/about", "/request"
+  "/", ...authRoutes, "/about", "/request"
 ];
 
 /**
