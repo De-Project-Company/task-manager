@@ -8,15 +8,21 @@ import ThemeButtons from "../ThemeButton";
 import Image from "next/image";
 import MobileSidebar from "../sidebars/MobileSidebar";
 import { useUserCtx } from "@/context/UserCtx";
+import NotificationDopDown from "@/app/(employer)/notification/dropDown";
 
 const Navbar = () => {
-  const { currentPath, openSidebarMain, setOpenSidebarMain } = useStateCtx();
+  const {
+    currentPath,
+    openSidebarMain,
+    setOpenSidebarMain,
+    openNotification,
+    setopenNotification,
+  } = useStateCtx();
   const { user } = useUserCtx();
   const searchParams = useSearchParams();
   const projectTitle = searchParams.get("project_title");
-  const clientName = searchParams.get("client_name");
   const decrptedTitle = decryptString(projectTitle ?? "");
-  const decrptedName = decryptString(clientName ?? "");
+
 
   const fullName = user?.name;
 
@@ -25,7 +31,7 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "lg:px-9 px-3 border-b border-gray-200 h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-[99] select-none dark:bg-primary dark:text-white bg-white/80 backdrop-blur-lg w-full",
+        "lg:px-9 px-3 border-b border-gray-200 h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-[9999] select-none dark:bg-primary dark:text-white bg-white/80 backdrop-blur-lg w-full",
         {
           "md:overflow-hidden": openSidebarMain,
         }
@@ -82,9 +88,16 @@ const Navbar = () => {
       </div>
       {user && (
         <div className="flex items-center gap-x-3 xl:gap-x-5  [&>button]:font-medium [&>button]:text-header dark:[&>button]:text-white ">
-          <button type="button">
-            <Notification size={24} />
+          <button
+            type="button"
+            onClick={() => setopenNotification(openNotification ? false : true)}
+          >
+            <Notification
+              size={24}
+              variant={openNotification ? "Bulk" : "Outline"}
+            />
           </button>
+          {openNotification && <NotificationDopDown />}
           <button
             type="button"
             className="w-8 h-8 border border-primary-light rounded-full"

@@ -34,26 +34,6 @@ const EmployersNav = () => {
         }
       )}
     >
-      {/* <button
-        tabIndex={0}
-        aria-haspopup
-        // aria-expanded={employerShowMobileMenu}
-        type="button"
-        className={cn(
-          "md:hidden rounded-full focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light",
-          {
-            "rotate-45 absolute right-1 top-1 z-[9999] text-white":
-            //   employerShowMobileMenu,
-          }
-        )}
-        // onClick={() => setAdminShowMobileMenu(!adminShowMobileMenu)}
-      >
-        {adminShowMobileMenu ? (
-          <Add size={60} className="text-header dark:text-gray-200" />
-        ) : (
-          <HambergerMenu size={32} className="text-header dark:text-gray-200" />
-        )}
-      </button> */}
       <Input
         type="text"
         placeholder="Search..."
@@ -89,7 +69,6 @@ const EmployersNav = () => {
               "0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)",
           }}
           className="absolute bg-white rounded-lg w-[15rem] p-3 right-8 top-[80px] z-[99]"
-
         >
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3 border-b border-b-Grey-G30 pb-3 px-2">
