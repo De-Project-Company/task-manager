@@ -9,30 +9,18 @@ import {
 } from "./routes";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { GetFromSessionStorage } from "./utils";
 
 export default function middleware(request: NextRequest) {
   const hasCookie = cookies().has("access_token");
-  const hasToken = GetFromSessionStorage("access_token");
-  console.log(hasToken);
-
-  const isLoggedIn = hasCookie || hasToken;
+  const isLoggedIn = hasCookie;
   console.log("LOGGED IN?: ", isLoggedIn);
-  if (!hasCookie) {
-    if (!publicRoutes.includes(request.nextUrl.pathname)) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
-      );
-    }
-  } else if (hasCookie) {
-    if (
-      publicRoutes.includes(request.nextUrl.pathname) &&
-      !protectedRoutes.includes(request.nextUrl.pathname)
-    ) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_LOGIN_REDIRECT, request.url)
-      );
-    }
+
+  const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
+  const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
+  const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
+
+  if (!isLoggedIn && isProtectedRoute) {
+    return NextResponse.redirect(DEFAULT_REVALIDATE_REDIRECT);
   }
 
   return NextResponse.next();

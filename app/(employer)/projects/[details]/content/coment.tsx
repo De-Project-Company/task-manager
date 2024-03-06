@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useUserCtx } from "@/context/UserCtx";
 import Image from "next/image";
-import { DirectRight, Message } from "iconsax-react";
-import { commentsTime, generateId } from "@/utils";
-import { FaBriefcase } from "react-icons/fa";
+import { DirectRight } from "iconsax-react";
+import { commentsTime, generateId, timeAgo } from "@/utils";
+import { getcomment } from "@/actions/comment";
 
 interface Comment {
   id?: string;
@@ -21,8 +21,19 @@ interface Comments {
   };
 }
 
+interface CommentProps {
+  _id: string;
+  comment: string;
+  commentBy: string;
+  project: string;
+  createdAt: string;
+  __v: number;
+}
+
 const ProjectComments = ({ projectId }: { projectId: string }) => {
   const { user } = useUserCtx();
+
+  const [Status, setStatus] = useState("idle");
 
   const [comment, setComment] = useState({
     id: "",
@@ -36,6 +47,29 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
       comments: [],
     },
   });
+
+  const [comments1, setComments1] = useState([] as CommentProps[]);
+  // console.log(comments1);
+
+  useEffect(() => {
+    const fetchcomments = async () => {
+      setStatus("loading");
+      try {
+        const res = await getcomment(projectId!);
+
+        if (res?.status === "success") {
+          console.log(res?.comments!);
+          setComments1(res?.comments || []);
+          setStatus("success");
+        }
+      } catch (error) {
+        setStatus("error");
+        console.error("An error occurred while fetching comments:", error);
+      }
+    };
+
+    fetchcomments();
+  }, [projectId]);
 
   const handleComment = (e: FormEvent) => {
     e.preventDefault();
@@ -113,14 +147,13 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
       <h3 className="text-xl font-medium sm:text-3xl text-header dark:text-white max-lg:w-full text-center">
         Comments
       </h3>
-      {comments[projectId]?.project_id === projectId &&
-      comments[projectId]?.comments.length > 0 ? (
-        <div className="flex w-full max-w-[600px] py-6 flex-col">
-          {comments[projectId]?.comments.map((comment) => (
-            <div
-              className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
-              key={comment.id}
-            >
+      {comments1 && comments1.length > 0 ? (
+        comments1.map((comment) => (
+          <div
+            className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
+            key={comment._id}
+          >
+            {user && user.image && (
               <Image
                 src={user.image}
                 alt="profile"
@@ -128,22 +161,23 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
                 height={40}
                 className="rounded-full"
               />
-              <div className="flex flex-col w-full">
-                <div className="flex w-full justify-between">
-                  <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
-                    {comment.author}
-                  </p>
-                  <p className="text-xs text-header dark:text-gray-300 italic">
-                    {commentsTime(comment.time!)}
-                  </p>
-                </div>
-                <p className="text-sm dark:text-gray-300">{comment.comment}</p>
+            )}
+            <div className="flex flex-col w-full">
+              <div className="flex w-full justify-between">
+                <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
+                  {/* Assuming `commentBy` is a user object with an 'author' property */}
+                  {/* {comment.commentBy.author} */}
+                </p>
+                <p className="text-xs text-header dark:text-gray-300 italic">
+                  {timeAgo(comment.createdAt)}
+                </p>
               </div>
+              <p className="text-sm dark:text-gray-300">{comment.comment}</p>
             </div>
-          ))}
-        </div>
+          </div>
+        ))
       ) : (
-        <p className="w-full text-center  dark:text-gray-200">
+        <p className="w-full text-center dark:text-gray-200">
           There are no comments yet for this project
         </p>
       )}
