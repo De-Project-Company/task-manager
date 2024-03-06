@@ -34,6 +34,7 @@
     "react-paginate": "^8.2.0",
     "react-toastify": "^10.0.4",
     "sass": "^1.70.0",
+    "sharp": "^0.33.2",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
