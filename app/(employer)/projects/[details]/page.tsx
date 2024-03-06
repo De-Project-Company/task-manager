@@ -19,5 +19,5 @@ const page = ({ searchParams: { project_title, _id } }: PageProps) => {
     </>
   );
 };
-
+ 
 export default page;

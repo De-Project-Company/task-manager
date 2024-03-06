@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ChatData from "./dummyData";
 import ChatBody from "./ChatBody";
-import Link from "next/link";
 import { CiMenuKebab } from "react-icons/ci";
+
+// TODO: We will work on the mobile view when we finally finish this with socket.io
+// FIXME: the dummy data should be deleted and please leave a comment :)
+// FIXME: i am basically passing the selected object from the ChatSystem to the ChatBody, and then, to the MessageBubble
 
 const ChatSystem: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState({
@@ -29,14 +32,14 @@ const ChatSystem: React.FC = () => {
   }, [selectedUser]);
 
   return (
-    <section className="chat p-3 ">
+    <section className="chat pt-3 md:pb-1 px-3 h-fit overflow-hidden">
       <h2 className="text-[#1B0354] font-bold text-2xl "> Chats </h2>
 
-      {/* Chat section */}
       <div className="chat-chat mt-5 grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-5 relative">
-        <div className=" py-4 bg-[#F7F7F8] relative w-full">
-          <div className="flex items-center justify-between mb-2 px-3 w-full">
-            <h3 className="font-bold text-xl ">Active Users</h3>
+        {/* Active user wrapper :) */}
+        <div className=" py-4 bg-[#F7F7F8] relative h-screen md:max-h-[500px] overflow-hidden overflow-y-scroll">
+          <div className="flex items-center absolute w-full top-6 z-20 right-0 justify-between mb-2 px-3">
+            <h3 className="font-bold text-xl">Active Users</h3>
             <CiMenuKebab className="rotate-90 text-black text-xl cursor-pointer" />
           </div>
 
@@ -79,7 +82,7 @@ const ChatSystem: React.FC = () => {
           </div>
         </div>
 
-        <div className="wrap relative col-span-2">
+        <div className="wrap col-span-2 overflow-y-hidden h-full">
           <ChatBody selectedUser={selectedUser} />
         </div>
       </div>

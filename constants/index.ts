@@ -38,15 +38,15 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
 
   {
     id: 2,
-    label: "Projects",
+    label: "Total Projects",
     icon: TrendUp,
     link: "projects",
   },
   {
     id: 3,
-    label: "Meetings",
+    label: "Calender",
     icon: Profile2User,
-    link: "Meetings",
+    link: "calender",
   },
   {
     id: 4,
