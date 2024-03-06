@@ -9,12 +9,18 @@ import {
   getWeek,
 } from "./CalenderUtils";
 
+import { getWeeksInMonth } from "date-fns";
+
 const Calender = () => {
   const currentDate = new Date();
   const month = getCurrentMonth(currentDate); // this is a string
   const hoursOfDay = getHoursOfDay(currentDate); // this is an array so we have to map through it
-  const days = getDaysOfMonth(currentDate); // this is an array so we have to map through it
+  const days = getDaysOfMonth(1); // this is an array so we have to map through it
   const week = getWeek(currentDate); // this is an array so we have to map through it
+
+  const result = getWeeksInMonth(new Date(2017, 6, 5), { weekStartsOn: 1 });
+
+  console.log(result);
 
   return (
     <div>
@@ -23,7 +29,7 @@ const Calender = () => {
 
       {/* Week of the month */}
       <p>Week {week}</p>
-    
+
       {/* calender days can go in here !!!!! */}
       <div className="grid grid-cols-7 gap-6 sm:gap-12 mt-8 place-items-center">
         {days.map((day, index) => (
