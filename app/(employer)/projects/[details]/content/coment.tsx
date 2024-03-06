@@ -1,30 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserCtx } from "@/context/UserCtx";
 import Image from "next/image";
 import { DirectRight } from "iconsax-react";
-import { commentsTime, generateId, timeAgo } from "@/utils";
-import { getcomment } from "@/actions/comment";
-
-interface Comment {
-  id?: string;
-  comment: string;
-  time: number | null;
-  author: string;
-}
-interface Comments {
-  [projectId: string]: {
-    project_id: string;
-    comments: Comment[];
-  };
-}
+import { timeAgo } from "@/utils";
+import { getcomment, makecomment } from "@/actions/comment";
+import FormSuccess from "@/components/form/Success";
+import FormError from "@/components/form/Error";
 
 interface CommentProps {
   _id: string;
   comment: string;
-  commentBy: string;
+  commentBy: {
+    _id: string;
+    name: string;
+    email: string;
+    companyName: string;
+    role: string;
+    createdAt: string;
+    __v: number;
+  };
   project: string;
   createdAt: string;
   __v: number;
@@ -34,32 +31,21 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const { user } = useUserCtx();
 
   const [Status, setStatus] = useState("idle");
+  console.log(Status);
+  const [commentText, setCommentText] = useState("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>("");
 
-  const [comment, setComment] = useState({
-    id: "",
-    comment: "",
-    time: null,
-    author: user?.name,
-  });
-  const [comments, setComments] = useState<Comments>({
-    [projectId]: {
-      project_id: projectId,
-      comments: [],
-    },
-  });
-
-  const [comments1, setComments1] = useState([] as CommentProps[]);
-  // console.log(comments1);
+  const [Comments, setComments] = useState([] as CommentProps[]);
 
   useEffect(() => {
     const fetchcomments = async () => {
       setStatus("loading");
       try {
-        const res = await getcomment(projectId!);
+        const res = await getcomment(projectId);
 
         if (res?.status === "success") {
-          console.log(res?.comments!);
-          setComments1(res?.comments || []);
+          setComments(res?.comments || []);
           setStatus("success");
         }
       } catch (error) {
@@ -71,118 +57,104 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
     fetchcomments();
   }, [projectId]);
 
-  const handleComment = (e: FormEvent) => {
+  const handleComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // @ts-ignore
-    setComments((prevComments) => {
-      const existingComments = prevComments[projectId] || {
-        project_id: projectId,
-        comments: [],
-      };
 
-      return {
-        ...prevComments,
-        [projectId]: {
-          ...existingComments,
-          comments: [
-            ...existingComments.comments,
-            {
-              id: generateId(),
-              comment: comment.comment,
-              time: new Date().getTime() / 1000,
-              author: user?.name,
-            },
-          ],
-        },
-      };
-    });
-
-    setComment({
-      id: "",
-      comment: "",
-      time: null,
-      author: user?.name,
-    });
+    try {
+      setStatus("loading");
+      const result = await makecomment(projectId, commentText);
+      if (result?.status === "success") {
+        setSuccess("Comment submitted successfully!");
+        setError(undefined);
+        setCommentText("");
+        setStatus("success");
+        const updatedComments = await getcomment(projectId);
+        if (updatedComments?.status === "success") {
+          setComments(updatedComments?.comments || []);
+        }
+      } else {
+        setError("Comment submission failed. Please try again.");
+        setSuccess(undefined);
+        setStatus("error");
+      }
+    } catch (error) {
+      setError("An unexpected error occurred. Please try again.");
+      setSuccess(undefined);
+      setStatus("error");
+    }
   };
 
   useEffect(() => {
-    if (!comments[projectId]?.comments.length) return;
-    // Force a re-render by updating the state
-    const intervalId = setInterval(() => {
-      setComments((prevComments) => {
-        const existingComments = prevComments[projectId] || {
-          project_id: projectId,
-          comments: [],
-        };
-        return {
-          ...prevComments,
-          [projectId]: {
-            ...existingComments,
-            comments: [...existingComments.comments],
-          },
-        };
-      });
-    }, 1000);
+    const clearMessages = () => {
+      setTimeout(() => {
+        setSuccess(undefined);
+        setError(undefined);
+      }, 5000);
+    };
 
-    return () => clearInterval(intervalId);
-  }, [comments[projectId]?.comments]);
+    clearMessages();
+  }, [success, error, Status]);
 
-  // get comments from local storage
+  const isCommentValid = commentText.length >= 5;
 
-  useEffect(() => {
-    const storedComments = localStorage.getItem("comments");
-    if (storedComments) {
-      setComments(JSON.parse(storedComments));
-    }
-  }, []);
+  const [visibleComments, setVisibleComments] = useState(3);
+  const handleSeeMore = () => {
+    setVisibleComments((prevCount) => prevCount + 3);
+  };
 
-  useEffect(() => {
-    // save comments to local storage
-    if (!comments[projectId]?.comments.length) return;
-    localStorage.setItem("comments", JSON.stringify(comments));
-  }, [comments]);
+  const isLoaading = Status === "loading";
 
   return (
-    <div className="py-6 lg:py-8 mt-12 flex w-full flex-col gap-y-5 lg:gap-y-8 max-lg:items-center px-1">
+    <div className="py-6 lg:py-8 mt-12 flex w-full flex-col gap-y-2 max-lg:items-center px-1 max-h-[500px] overflow-y-auto overflow-x-hidden no-scroll">
       <h3 className="text-xl font-medium sm:text-3xl text-header dark:text-white max-lg:w-full text-center">
         Comments
       </h3>
-      {comments1 && comments1.length > 0 ? (
-        comments1.map((comment) => (
-          <div
-            className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
-            key={comment._id}
-          >
-            {user && user.image && (
-              <Image
-                src={user.image}
-                alt="profile"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            )}
-            <div className="flex flex-col w-full">
-              <div className="flex w-full justify-between">
-                <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
-                  {/* Assuming `commentBy` is a user object with an 'author' property */}
-                  {/* {comment.commentBy.author} */}
-                </p>
-                <p className="text-xs text-header dark:text-gray-300 italic">
-                  {timeAgo(comment.createdAt)}
-                </p>
+      {Comments && Comments.length > 0 ? (
+        <>
+          {Comments.slice(0, visibleComments).map((comment) => (
+            <div
+              className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
+              key={comment._id}
+            >
+              {comment.commentBy && comment.commentBy.name && (
+                <Image
+                  src={`https://ui-avatars.com/api/?name=${comment.commentBy
+                    .name!}&background=random`}
+                  alt={comment.commentBy.name}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              )}
+              <div className="flex flex-col w-full">
+                <div className="flex w-full justify-between">
+                  <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
+                    {comment.commentBy.name}
+                  </p>
+                  <p className="text-xs text-header dark:text-gray-300 italic">
+                    {timeAgo(comment.createdAt)}
+                  </p>
+                </div>
+                <p className="text-sm dark:text-gray-300">{comment.comment}</p>
               </div>
-              <p className="text-sm dark:text-gray-300">{comment.comment}</p>
             </div>
-          </div>
-        ))
+          ))}
+          {Comments.length > visibleComments && (
+            <button
+              onClick={handleSeeMore}
+              className="text-sm text-primary cursor-pointer"
+            >
+              See More
+            </button>
+          )}
+        </>
       ) : (
         <p className="w-full text-center dark:text-gray-200">
           There are no comments yet for this project
         </p>
       )}
 
-      <div className="flex items-start gap-x-2 max-lg:w-full max-lg:justify-center">
+      <div className="flex items-start gap-x-2 max-lg:w-full max-lg:justify-center mt-4">
         <Image
           src={user.image}
           alt="profile"
@@ -195,20 +167,20 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
           onSubmit={handleComment}
         >
           <textarea
-            onChange={(e) =>
-              setComment({ ...comment, [e.target.name]: e.target.value })
-            }
-            value={comment.comment}
+            onChange={(e) => setCommentText(e.target.value)}
+            value={commentText}
             name="comment"
             id="comment"
             placeholder="Leave a comment"
             className="w-full resize-none h-[193px] rounded-xl border border-[#e1e1e1] dark:border-primary/50 px-4 py-2 sidebar-scroll outline-none text-black dark:text-white focus-visible:border-primary transition-all duration-300 dark:bg-gray-950"
           />
 
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <div className="flex w-full justify-end">
             <button
-              disabled={!(comment.comment.length > 2)}
-              aria-disabled={!(comment.comment.length > 2)}
+              disabled={!isCommentValid || isLoaading}
+              aria-disabled={!isCommentValid}
               tabIndex={0}
               aria-label="comment"
               type="submit"
