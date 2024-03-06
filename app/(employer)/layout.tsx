@@ -4,7 +4,7 @@ import EmployerSidebar from "@/components/sidebars/EmpoyerSidebar";
 import SkeletonNavbar from "@/components/skeleton/SkeletonNavbar";
 import ProjectContextProvider from "@/context/Projectctx";
 import Navbar from "@/components/Navs/NavBar";
-import UserContextProvider from "@/context/UserCtx"; 
+import UserContextProvider from "@/context/UserCtx";
 
 export default function EmployersLayout({
   children,
@@ -15,7 +15,7 @@ export default function EmployersLayout({
     <UserContextProvider>
       <ProjectContextProvider>
         <EmployerSidebar />
-        <section className="w-full relative  md:pl-[96px] min-[1140px]:pl-[270px]">
+        <section className="w-full md:pl-[96px] min-[1140px]:pl-[270px]">
           <Suspense fallback={<SkeletonNavbar />}>
             <Navbar />
           </Suspense>
