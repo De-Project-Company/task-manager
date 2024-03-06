@@ -18,11 +18,16 @@ export default function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
   const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
   const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
   if (!isLoggedIn && isProtectedRoute) {
     return NextResponse.redirect(
       new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
     );
+  }
+
+  if (isLoggedIn && isAuthRoute) {
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url));
   }
 
   return NextResponse.next();
