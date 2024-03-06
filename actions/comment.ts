@@ -81,10 +81,9 @@ export const makecomment = async (id: string, comment: string) => {
   try {
     const res = await $http.post(`/comment/${id}`, commentData, config);
 
-    if (res.status === 201) {
+    if (res.status === 200) {
       return {
         status: "success",
-        // comment: res.data.comment, // Assuming the server returns the created comment
       };
     }
   } catch (e: any) {
