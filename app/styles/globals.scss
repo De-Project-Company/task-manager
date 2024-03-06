@@ -4,7 +4,7 @@
 
 @import "react-datepicker/dist/react-datepicker.css";
 @import "react-toastify/dist/ReactToastify.css";
-@import url('https://fonts.cdnfonts.com/css/made-tommy-outline');
+@import url("https://fonts.cdnfonts.com/css/made-tommy-outline");
 @import url("https://fonts.cdnfonts.com/css/ds-digital");
 
 .timmer .timmer-number {
@@ -29,19 +29,6 @@
 .sidebar-scroll::-webkit-scrollbar-thumb {
   background: rgba(52, 202, 165, 0.1);
 }
-// ::-webkit-scrollbar {
-//   width: 8px;
-//   height: 6px;
-// }
-
-// ::-webkit-scrollbar-track {
-//   background: transparent;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   background: #0d062d;
-//   border-radius: 6px;
-// }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -53,7 +40,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .no-scroll::-webkit-scrollbar {
-  width: 0px;
+  width: 0.5px;
 }
 
 ::-webkit-scrollbar {
@@ -91,8 +78,6 @@ input[type="number"]::-webkit-outer-spin-button {
   max-width: 1440px;
   margin: 0 auto;
 }
-
-// ======MISCELLANEOUS=========
 
 .button--loader {
   display: flex;
@@ -235,8 +220,6 @@ svg circle {
   }
 }
 
-
-
 @keyframes animate3d {
   0% {
     transform: rotateX(0);
@@ -281,7 +264,7 @@ svg circle {
     width: 100%;
     bottom: 0;
     left: 8rem;
-    content: '';
+    content: "";
     display: block;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.327);

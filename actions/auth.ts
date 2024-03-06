@@ -117,9 +117,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         role: res.data.user.role,
         // createdAt: res.user.createdAt,
       };
-      const token = res.token
+      const token = res.token;
 
-      console.log(res)
+      console.log(res);
 
       cookie.set("user", JSON.stringify(user), {
         maxAge: 60 * 60 * 24 * 1, // 1 day
@@ -323,7 +323,6 @@ export const signOut = async () => {
   };
   try {
     const res = await $http.get("/auth/signout", config);
-    console.log(res)
 
     if (res?.status === 200) {
       cookie.delete("access_token");

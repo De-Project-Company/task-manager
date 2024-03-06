@@ -20,7 +20,9 @@ export default function middleware(request: NextRequest) {
   const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
 
   if (!isLoggedIn && isProtectedRoute) {
-    return NextResponse.redirect(DEFAULT_REVALIDATE_REDIRECT);
+    return NextResponse.redirect(
+      new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
+    );
   }
 
   return NextResponse.next();
