@@ -28,7 +28,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({ selectedUser }) => {
 
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Sending message:", messageText);
+    // console.log("Sending message:", messageText);
 
     const newMessage = {
       id: messages.length + 1,
@@ -42,23 +42,23 @@ const ChatBody: React.FC<ChatBodyProps> = ({ selectedUser }) => {
   };
 
   return (
-    <div className=" bg-[#F7F7F8] px-3 py-4 h-full relative overflow-hidden">
+    <div className=" bg-[#F7F7F8] h-full overflow-hidden relative">
       {/* Displaying messages */}
-      <div>
+      <div
+        className=" flex flex-col justify-end overflow-y-scroll px-2 py-2 relative"
+        style={{ height: "calc(100% - 42px) " }}
+      >
         {messages.map((msg, index) => (
-          <div key={index}>
+          <div key={index} className="relative">
             <MessageBubble message={msg} />
           </div>
         ))}
       </div>
 
       {/* add message form */}
-      <div className="fixed bottom-0">
-        <form
-          onSubmit={handleSubmitMessage}
-          className=" bottom-0 bg-red-200 block"
-        >
-          <div className="inputWrapper flex items-center space-x-4">
+      <div className="absolute w-full h-[42px] bottom-2 ">
+        <form onSubmit={handleSubmitMessage} className="">
+          <div className="inputWrapper flex items-center">
             <input
               type="text"
               placeholder="Type to message"
