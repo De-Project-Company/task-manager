@@ -31,7 +31,7 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const { user } = useUserCtx();
 
   const [Status, setStatus] = useState("idle");
-  console.log(Status);
+  // console.log(Status);
   const [commentText, setCommentText] = useState("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
@@ -101,6 +101,9 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const handleSeeMore = () => {
     setVisibleComments((prevCount) => prevCount + 3);
   };
+ const handleViewLess = () => {
+   setVisibleComments((prevCount) => Math.max(3, prevCount - 3));
+ };
 
   const isLoaading = Status === "loading";
 
@@ -139,13 +142,25 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
               </div>
             </div>
           ))}
-          {Comments.length > visibleComments && (
-            <button
-              onClick={handleSeeMore}
-              className="text-sm text-primary cursor-pointer"
-            >
-              See More
-            </button>
+          {Comments.length > 3 && visibleComments < Comments.length && (
+            <div className="flex justify-center">
+              <button
+                onClick={handleSeeMore}
+                className="text-sm text-primary cursor-pointer"
+              >
+                See More
+              </button>
+            </div>
+          )}
+          {visibleComments > 3 && (
+            <div className="flex justify-center">
+              <button
+                onClick={handleViewLess}
+                className="text-sm text-primary cursor-pointer"
+              >
+                View Less
+              </button>
+            </div>
           )}
         </>
       ) : (
