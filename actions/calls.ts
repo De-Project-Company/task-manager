@@ -1,5 +1,3 @@
-"use server";
-
 import axios, { AxiosInstance } from "axios";
 
 const Calls = (
