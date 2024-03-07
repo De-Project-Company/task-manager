@@ -9,6 +9,14 @@ import { assignTask } from "@/actions/task";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import Button from "@/components/ui/Button";
+import { format } from "date-fns";
+import { Button as Butt } from "@/components/ui/butt";
+import { Calendar } from "@/components/ui/Calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 
 type StatusProps = {
   id?: number;
@@ -44,6 +52,7 @@ interface FormData {
   task: TaskData;
   email: string;
   name: string;
+  dueDate: Date;
 }
 
 const AssignTask = ({ projectid }: AssognTaskProp) => {
@@ -57,10 +66,9 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     },
     email: "",
     name: "",
+    dueDate: new Date(),
   });
 
-  // console.log(formData);
-  // Maximum length for description
   const MAX_DESC = 200;
 
   const isDisabled = !formData.task || !formData.email || !formData.name;
@@ -84,6 +92,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             },
             email: "",
             name: "",
+            dueDate: new Date(),
           });
           setaddTaskModal(false);
         }

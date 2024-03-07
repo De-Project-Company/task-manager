@@ -3,8 +3,8 @@
 import * as React from "react";
 import { DayPicker } from "react-day-picker";
 import { cn } from "@/utils";
-import { buttonVariants } from "./buttonVariant";
 import { ArrowSquareLeft, ArrowSquareRight } from "iconsax-react";
+import { buttonVariants } from "./butt";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 

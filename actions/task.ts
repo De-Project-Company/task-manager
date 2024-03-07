@@ -4,7 +4,6 @@ import { CreateTaskschema } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
 
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -24,9 +23,8 @@ export const assignTask = async (
   }
 
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
 
-  if (!authToken && !hasToken) {
+  if (!authToken) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
@@ -37,7 +35,7 @@ export const assignTask = async (
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken}`,
     },
   };
 
