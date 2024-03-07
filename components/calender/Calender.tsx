@@ -1,50 +1,12 @@
 "use client";
-import { add, format, isToday, parse } from "date-fns";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import React, { useState } from "react";
-import {
-  getHoursOfDay,
-  getDaysOfMonth,
-  getCurrentMonth,
-  getWeek,
-} from "./CalenderUtils";
-
-import { getWeeksInMonth } from "date-fns";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import dayjs from "dayjs";
 
 const Calender = () => {
-  const currentDate = new Date();
-  const month = getCurrentMonth(currentDate); // this is a string
-  const hoursOfDay = getHoursOfDay(currentDate); // this is an array so we have to map through it
-  const days = getDaysOfMonth(1); // this is an array so we have to map through it
-  const week = getWeek(currentDate); // this is an array so we have to map through it
+  const localizer = momentLocalizer(dayjs);
 
-  const result = getWeeksInMonth(new Date(2017, 6, 5), { weekStartsOn: 1 });
-
-  console.log(result);
-
-  return (
-    <div>
-      {/* present month */}
-      <p>{month}</p>
-
-      {/* Week of the month */}
-      <p>Week {week}</p>
-
-      {/* calender days can go in here !!!!! */}
-      <div className="grid grid-cols-7 gap-6 sm:gap-12 mt-8 place-items-center">
-        {days.map((day, index) => (
-          <div key={index}>{day}</div>
-        ))}
-      </div>
-
-      {/* Render hours */}
-      <div>
-        {hoursOfDay.map((hour, index) => (
-          <div key={index}>{hour}</div>
-        ))}
-      </div>
-    </div>
-  );
+  return <></>;
 };
 
 export default Calender;
