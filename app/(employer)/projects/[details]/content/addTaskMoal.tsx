@@ -17,13 +17,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import { Calendar as Cal } from "iconsax-react";
+import { CreateTaskForm } from "./CreateTaskForm";
 
 type StatusProps = {
   id?: number;
   label: string;
 };
 
-interface AssognTaskProp {
+export interface AssognTaskProp {
   projectid?: string;
 }
 
@@ -137,163 +139,8 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             <X size={24} />
           </button>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-8 mb-5 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start"
-        >
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="tittle"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Task Title
-            </label>
-            <input
-              type="text"
-              placeholder="Task title..."
-              id="Task-title"
-              name="task.title"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.task.title}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  task: { ...formData.task, title: e.target.value },
-                })
-              }
-            />
-          </div>
 
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="description"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Add Description
-            </label>
-            <textarea
-              placeholder="Task description..."
-              id="description"
-              name="task.description"
-              maxLength={MAX_DESC}
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600 h-[150px] sm:h-[185px] resize-none sidebar-scroll text-sm sm:text-base"
-              value={formData.task.description}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  task: { ...formData.task, description: e.target.value },
-                })
-              }
-            />
-            <WordCounter word={formData.task.description} length={MAX_DESC} />
-          </div>
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="name"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Assigne Name
-            </label>
-            <input
-              type="text"
-              placeholder="enter assignee name"
-              id="name"
-              name="name"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="email"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Assignee Email
-            </label>
-            <input
-              type="text"
-              placeholder="enter assignee name"
-              id="email"
-              name="email"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
-          </div>
-          {/* <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
-            <p className="text-center  font-medium dark:text-gray-100">
-              Select Status
-            </p>
-            <div className="flex md:flex-col gap-4 flex-wrap mb-2">
-              {STATUSES.map((status) => (
-                <p
-                  key={status.id}
-                  className={cn(
-                    "text-center text-sm md:text-base flex items-center gap-x-2 transition-all duration-300",
-                    {
-                      " font-medium": status.label === formData.task.status,
-                      "text-[#eea300] ": status.label === "in-progress",
-                      "text-[#008d36] ": status.label === "completed",
-                      "text-primary dark:text-white ":
-                        status.label === "pending",
-                    }
-                  )}
-                >
-                  <button
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        task: { ...formData.task, status: status.label },
-                      })
-                    }
-                    type="button"
-                    className={cn(
-                      "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light",
-                      {
-                        " p-1": status.label === formData.task.status,
-                      }
-                    )}
-                  >
-                    {formData.task.status === status.label && (
-                      <span className="bg-primary  dark:bg-white h-full w-full rounded-full" />
-                    )}
-                  </button>
-                  <span className="capitalize">{status.label} </span>
-                </p>
-              ))}
-            </div>
-          </div> */}
-          <FormError message={error} />
-          <FormSuccess message={success} />
-          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">
-            <Button
-              type="submit"
-              tabIndex={0}
-              aria-label="Submit"
-              disabled={isDisabled || isLoading}
-              spinnerColor="#fff"
-              className={cn(
-                "rounded-lg bg-primary dark:bg-white dark:text-primary text-white min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600",
-                isLoading ? "[&>div>span]:opacity-0" : ""
-              )}
-            >
-              Create Task
-            </Button>
-            {isLoading && (
-              <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <span />
-                <span />
-                <span />
-              </div>
-            )}
-          </div>
-        </form>
+        <CreateTaskForm projectid={projectid} />
       </div>
     </>
   );

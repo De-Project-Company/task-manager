@@ -7,7 +7,7 @@ import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
 
-interface TeamMember {
+export interface TeamMember {
   user: string;
   role: string;
   accepted: boolean;
