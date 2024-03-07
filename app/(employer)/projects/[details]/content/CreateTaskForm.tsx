@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { TextArea } from "@/components/ui/Textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -29,12 +28,13 @@ import { AssognTaskProp } from "./addTaskMoal";
 import { useStateCtx } from "@/context/StateCtx";
 
 import WordCounter from "@/components/cards/wordCount";
+import { cn } from "@/utils";
 
 export const CreateTaskForm = ({ projectid }: AssognTaskProp) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, startTransition] = useTransition();
-  const { addTaskModal, setaddTaskModal } = useStateCtx();
+  const { setaddTaskModal } = useStateCtx();
 
   const MAX_DESC = 200;
   const form = useForm<z.infer<typeof AddTask>>({
@@ -155,6 +155,47 @@ export const CreateTaskForm = ({ projectid }: AssognTaskProp) => {
                   />
                 </div>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="dueDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Due Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <Cal className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

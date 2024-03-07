@@ -123,7 +123,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             : "translate-x-full duration-300 pointer-events-none"
         )}
       >
-        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
+        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky z-[99] top-0 bg-white">
           <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-white">
             Create New Task
           </h3>
@@ -139,7 +139,6 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             <X size={24} />
           </button>
         </div>
-
         <CreateTaskForm projectid={projectid} />
       </div>
     </>
