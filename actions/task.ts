@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateTaskschema, AddTask } from "@/schemas";
+import { AddTask } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import Calls from "./calls";
@@ -11,10 +11,10 @@ const BaseUrl =
 const $http = Calls(BaseUrl);
 
 export const assignTask = async (
-  values: z.infer<typeof CreateTaskschema>,
+  values: z.infer<typeof AddTask>,
   projectId: string
 ) => {
-  const validatedFields = CreateTaskschema.safeParse(values);
+  const validatedFields = AddTask.safeParse(values);
 
   if (!validatedFields.success) {
     return {
@@ -56,6 +56,10 @@ export const assignTask = async (
     if (e?.response?.status === 401) {
       return {
         error: "Unauthorized. Please check your access token.",
+      };
+    } else if (e?.response?.status === 400) {
+      return {
+        error: "This user does not exist!",
       };
     } else if (e?.response?.status === 403) {
       return {
