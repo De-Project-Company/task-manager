@@ -1,30 +1,41 @@
 "use client";
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import dayjs from "dayjs";
+import moment from "moment";
 
-const Calender = () => {
-  const localizer = momentLocalizer(dayjs);
+const Calender: React.FC = () => {
+  const localizer = momentLocalizer(moment);
 
-  return <></>;
+  const MK_EVT = [
+    {
+      id: 1,
+      title: "fix homepage",
+      start: "2022-05-31",
+      end: "2022-06-04",
+      description: "We are to fix homepage",
+      color: "red",
+    },
+  ];
+
+  const events = MK_EVT.map((event) => {
+    return {
+      title: event.title,
+      start: new Date(event.start),
+      end: new Date(event.end),
+      color: event.color,
+    };
+  });
+
+  return (
+    <div className="myCustomHeight">
+      {/* <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+      /> */}
+    </div>
+  );
 };
 
 export default Calender;
-
-//  <div>
-//       {/* only for testing, thhis should remove since it is not included in the desing */}
-//       <div className="flex items-center justify-between">
-//         <p className="font-semibold text-xl">
-//           {format(firstDayOfMonth, "MMMM yyyy")}
-//         </p>
-//         <div className="flex items-center justify-evenly gap-6 sm:gap-12">
-//           <ArrowLeft2
-//             className="w-6 h-6 cursor-pointer"
-//             onClick={getPrevMonth}
-//           />
-//           <ArrowRight2
-//             className="w-6 h-6 cursor-pointer"
-//             onClick={getNextMonth}
-//           />
-//         </div>
-//       </div>
