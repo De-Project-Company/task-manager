@@ -7,9 +7,16 @@ import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
 
+interface TeamMember {
+  user: string;
+  role: string;
+  accepted: boolean;
+  _id: string;
+  name: string;
+}
 interface TasksessionProp {
   projectid?: string;
-  teamMembers?: string[];
+  teamMembers?: TeamMember[];
 }
 
 const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
@@ -32,6 +39,8 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
+
+  console.log(teamMembers);
   return (
     <>
       <div
@@ -94,8 +103,8 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
         ) : (
           <>
             {teamMembers &&
-              teamMembers.map((member, index) => (
-                <Member key={index} name={member} />
+              teamMembers.map((member) => (
+                <Member key={member._id} name={member.name} />
               ))}
           </>
         )}
