@@ -114,3 +114,12 @@ export const CreateTaskschema = z.object({
   email: z.string(),
   name: z.string(),
 });
+
+export const AddTask = z.object({
+  task: taskSchema,
+  email: z.string(),
+  name: z.string(),
+  dueDate: z.date({
+    required_error: "DueDate is required.",
+  }),
+});

@@ -15,7 +15,7 @@ type StatusProps = {
   label: string;
 };
 
-interface AssognTaskProp {
+export interface AssognTaskProp {
   projectid?: string;
 }
 
@@ -44,6 +44,7 @@ interface FormData {
   task: TaskData;
   email: string;
   name: string;
+  dueDate: Date;
 }
 
 const AssignTask = ({ projectid }: AssognTaskProp) => {
@@ -57,6 +58,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     },
     email: "",
     name: "",
+    dueDate: new Date(),
   });
 
   // console.log(formData);
@@ -72,7 +74,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     e.preventDefault();
     startTransition(() => {
       assignTask(formData, projectid!).then((data) => {
-        console.log(data);
+        // console.log(data);
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
@@ -84,6 +86,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             },
             email: "",
             name: "",
+            dueDate: new Date(),
           });
           setaddTaskModal(false);
         }
@@ -187,7 +190,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             </label>
             <input
               type="text"
-              placeholder="enter assignee name"
+              placeholder="Assignee name ..."
               id="name"
               name="name"
               className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
@@ -207,7 +210,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             </label>
             <input
               type="text"
-              placeholder="enter assignee name"
+              placeholder="Assignee email ...."
               id="email"
               name="email"
               className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
@@ -217,49 +220,25 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
               }
             />
           </div>
-          {/* <div className="flex  xl:pt-2 items-start flex-col gap-y-4 dark:bg-primary-light dark:w-full dark:rounded-xl dark:p-5">
-            <p className="text-center  font-medium dark:text-gray-100">
-              Select Status
-            </p>
-            <div className="flex md:flex-col gap-4 flex-wrap mb-2">
-              {STATUSES.map((status) => (
-                <p
-                  key={status.id}
-                  className={cn(
-                    "text-center text-sm md:text-base flex items-center gap-x-2 transition-all duration-300",
-                    {
-                      " font-medium": status.label === formData.task.status,
-                      "text-[#eea300] ": status.label === "in-progress",
-                      "text-[#008d36] ": status.label === "completed",
-                      "text-primary dark:text-white ":
-                        status.label === "pending",
-                    }
-                  )}
-                >
-                  <button
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        task: { ...formData.task, status: status.label },
-                      })
-                    }
-                    type="button"
-                    className={cn(
-                      "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light",
-                      {
-                        " p-1": status.label === formData.task.status,
-                      }
-                    )}
-                  >
-                    {formData.task.status === status.label && (
-                      <span className="bg-primary  dark:bg-white h-full w-full rounded-full" />
-                    )}
-                  </button>
-                  <span className="capitalize">{status.label} </span>
-                </p>
-              ))}
-            </div>
-          </div> */}
+          <div className="flex flex-col  gap-y-2 w-full">
+            <label
+              htmlFor="email"
+              className="text-sm sm:text-base font-medium dark:text-white"
+            >
+              Task Due Date
+            </label>
+            <input
+              type="date"
+              id="dueDate"
+              name="dueDate"
+              // value={formData.dueDate}
+              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
+              onChange={(e) =>
+                setFormData({ ...formData, dueDate: new Date(e.target.value) })
+              }
+            />
+          </div>
+
           <FormError message={error} />
           <FormSuccess message={success} />
           <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">

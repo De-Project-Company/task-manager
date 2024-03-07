@@ -1,9 +1,4 @@
-import {
-  Document,
-  DocumentDownload,
-  Share,
-  ProfileCircle,
-} from "iconsax-react";
+import { ProfileCircle } from "iconsax-react";
 import React from "react";
 
 interface Members {
