@@ -1,5 +1,3 @@
-"use server";
-
 import axios, { AxiosInstance } from "axios";
 
 const Calls = (
@@ -8,7 +6,7 @@ const Calls = (
 ): AxiosInstance => {
   return axios.create({
     baseURL,
-    timeout: 300000,
+    timeout: 10000,
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Access-Control-Allow-Origin": "*",

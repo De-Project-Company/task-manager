@@ -38,6 +38,14 @@ interface Owner {
   __v?: number;
 }
 
+interface TeamMember {
+  user: string;
+  role: string;
+  accepted: boolean;
+  _id: string;
+  name: string;
+}
+
 export interface ProjectProps {
   _id?: string;
   title?: string;
@@ -48,7 +56,7 @@ export interface ProjectProps {
   status?: "to-do" | "in-progress" | "completed";
   startDate?: string;
   endDate?: string;
-  teamMembers?: string[];
+  teamMembers?: TeamMember[];
   tasks?: any[];
   __v?: number;
 }

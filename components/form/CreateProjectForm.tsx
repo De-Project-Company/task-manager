@@ -17,7 +17,6 @@ import WordCounter from "../cards/wordCount";
 import { useRouter } from "next/navigation";
 
 function CreateProjectForm() {
-  const { setToast } = useStateCtx();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, startTransition] = useTransition();

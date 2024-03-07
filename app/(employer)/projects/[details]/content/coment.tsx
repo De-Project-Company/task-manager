@@ -101,9 +101,9 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const handleSeeMore = () => {
     setVisibleComments((prevCount) => prevCount + 3);
   };
- const handleViewLess = () => {
-   setVisibleComments((prevCount) => Math.max(3, prevCount - 3));
- };
+  const handleViewLess = () => {
+    setVisibleComments((prevCount) => Math.max(3, prevCount - 3));
+  };
 
   const isLoaading = Status === "loading";
 
@@ -114,34 +114,42 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
       </h3>
       {Comments && Comments.length > 0 ? (
         <>
-          {Comments.slice(0, visibleComments).map((comment) => (
-            <div
-              className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
-              key={comment._id}
-            >
-              {comment.commentBy && comment.commentBy.name && (
-                <Image
-                  src={`https://ui-avatars.com/api/?name=${comment.commentBy
-                    .name!}&background=random`}
-                  alt={comment.commentBy.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              )}
-              <div className="flex flex-col w-full">
-                <div className="flex w-full justify-between">
-                  <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
-                    {comment.commentBy.name}
-                  </p>
-                  <p className="text-xs text-header dark:text-gray-300 italic">
-                    {timeAgo(comment.createdAt)}
+          {Comments.slice(0, visibleComments)
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            )
+            .map((comment) => (
+              <div
+                className="flex items-start gap-x-2 py-2 w-full border-b border-[#e1e1e1] dark:border-primary-light"
+                key={comment._id}
+              >
+                {comment.commentBy && comment.commentBy.name && (
+                  <Image
+                    src={`https://ui-avatars.com/api/?name=${comment.commentBy
+                      .name!}&background=random`}
+                    alt={comment.commentBy.name}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                )}
+                <div className="flex flex-col w-full">
+                  <div className="flex w-full justify-between">
+                    <p className="text-sm lg:text-base font-medium dark:text-gray-100 tracking-wide">
+                      {comment.commentBy.name}
+                    </p>
+                    <p className="text-xs text-header dark:text-gray-300 italic">
+                      {timeAgo(comment.createdAt)}
+                    </p>
+                  </div>
+                  <p className="text-sm dark:text-gray-300">
+                    {comment.comment}
                   </p>
                 </div>
-                <p className="text-sm dark:text-gray-300">{comment.comment}</p>
               </div>
-            </div>
-          ))}
+            ))}
           {Comments.length > 3 && visibleComments < Comments.length && (
             <div className="flex justify-center">
               <button
