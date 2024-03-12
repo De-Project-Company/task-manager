@@ -1,11 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { EventInfo, SlotInfo } from "@/types";
+import { useStateCtx } from "@/context/StateCtx";
+import AddEventModal from "./AddEventModal";
+import { useEventCtx } from "@/context/Events";
 
 const Calender: React.FC = () => {
+  const [showCalenderEventModal, setShowCalenderEventModal] = useState(false);
+  const { openCalendarEvent, setOpenCalendarEvent } = useStateCtx();
+  const { Events } = useEventCtx();
+
+  console.log(Events);
+
   const localizer = momentLocalizer(moment);
+
+  // checks if the calenderEvent modal is up
+  useEffect(() => {
+    if (showCalenderEventModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenCalendarEvent(false);
+      }
+    };
+  }, [setOpenCalendarEvent, showCalenderEventModal]);
 
   const MK_EVT = [
     {
@@ -57,6 +82,8 @@ const Calender: React.FC = () => {
   MK_EVT[3].start = moment(today).day(2).hours(6).minutes(0).toISOString(); // Tuesday
   MK_EVT[3].end = moment(today).day(2).hours(16).minutes(0).toISOString();
 
+  // const [event, setEvents] = useState([]);
+
   const events = MK_EVT.map((event) => {
     return {
       title: event?.title,
@@ -66,27 +93,45 @@ const Calender: React.FC = () => {
     };
   });
 
+  const handleSelected = (slotInfo: SlotInfo) => {
+    setShowCalenderEventModal(true);
+    setOpenCalendarEvent(!openCalendarEvent);
+  };
+
+  const handleEventSelected = (eventInfo: EventInfo) => {
+    console.log(eventInfo);
+  };
+
   return (
-    <div className="h-[100vh] bg-red ">
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView={Views.WEEK}
-        eventPropGetter={(event) => {
-          return {
-            style: {
-              backgroundColor: event.color,
-              border: 0,
-              boxShadow: `0 0 0 1px rgba(87, 102, 238, .1)`,
-              padding: "10px",
-            },
-          };
-        }}
-        views={[Views.WEEK]}
-      />
-    </div>
+    <>
+      <div className="h-[100vh] bg-red ">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          defaultView={Views.WEEK}
+          // defaultDate={defaultDate}
+          views={[Views.WEEK]}
+          eventPropGetter={(event) => {
+            return {
+              style: {
+                backgroundColor: event.color,
+                border: 0,
+                boxShadow: `0 0 0 1px rgba(87, 102, 238, .1)`,
+                padding: "10px",
+              },
+            };
+          }}
+          selectable={true}
+          onSelectSlot={handleSelected}
+          onSelectEvent={handleEventSelected}
+        />
+      </div>
+
+      {/* AddEvent Modal */}
+      <AddEventModal />
+    </>
   );
 };
 

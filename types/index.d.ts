@@ -76,3 +76,64 @@ export type SelectProps = {
 export interface ProjectStatus {
   status: "to-do" | "in-progress" | "completed";
 }
+
+/**
+ * StateContextProps
+ */
+export interface StateContextProps {
+  currentPath: string;
+  openSidebar: boolean;
+  setOpenSidebar: Dispatch<SetStateAction<boolean>>;
+  openSidebarMain: boolean;
+  setOpenSidebarMain: Dispatch<SetStateAction<boolean>>;
+  OTPModal: boolean;
+  setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
+  DeleteProjectModal: boolean;
+  setDeleteProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
+  Toast: boolean;
+  setToast: React.Dispatch<React.SetStateAction<boolean>>;
+  ChangeProjectStatusModal: boolean;
+  setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
+  addTeamMemberMoal: boolean;
+  setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
+  addTaskModal: boolean;
+  setaddTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
+  swipeIndicator: boolean;
+  setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
+  landingMobileMenu: boolean;
+  setLandingMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  SessionModal: boolean;
+  setSessionModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openNotification: boolean;
+  setopenNotification: React.Dispatch<React.SetStateAction<boolean>>;
+
+  // Added context for CalendarEvent
+
+  openCalendarEvent: boolean;
+  setOpenCalendarEvent: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+/**
+ * Calender
+ */
+export interface SlotInfo {
+  slots?: Array<Date>;
+  start?: Date;
+  end?: Date;
+  resourceId?: string | number | undefined;
+  action?: string;
+  bounds?: any;
+  box?: {
+    x: number;
+    y: number;
+    clientX: number;
+    clientY: number;
+  };
+}  
+
+export interface EventInfo {
+  title: string;
+  start: Date;
+  end: Date;
+  color: string;
+}
