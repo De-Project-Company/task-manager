@@ -1,9 +1,21 @@
-import React from 'react'
+import React from "react";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <div className="p-4">
+        <h1 className="text-[#1B0354] text-xl md:text-3xl font-bold ">
+          Total Projects
+        </h1>
+        <span className="text-[#6B7B8F] text-xs md:text-sm">
+          Describe exactly what your product or service does
+        </span>
 
-export default page
+        {/* Project table can come in here */}
+        <p className="mt-4">Project table can come in here </p>
+      </div>
+    </>
+  );
+};
+
+export default page;
