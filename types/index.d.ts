@@ -46,6 +46,23 @@ interface TeamMember {
   name: string;
 }
 
+interface User2 {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
+}
+
+interface UserWithRole {
+  user: User2;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
+
 export interface ProjectProps {
   _id?: string;
   title?: string;
@@ -56,7 +73,7 @@ export interface ProjectProps {
   status?: "to-do" | "in-progress" | "completed";
   startDate?: string;
   endDate?: string;
-  teamMembers?: TeamMember[];
+  teamMembers?: UserWithRole[];
   tasks?: any[];
   __v?: number;
 }
@@ -129,7 +146,7 @@ export interface SlotInfo {
     clientX: number;
     clientY: number;
   };
-}  
+}
 
 export interface EventInfo {
   title: string;
