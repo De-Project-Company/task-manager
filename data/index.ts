@@ -1,24 +1,5 @@
-export const getUserById = async (id: string) => {
-  try {
-    // logic here
-  } catch (error) {
-    throw new Error("Something went wrong");
-  }
-};
+import { baseUrl } from "../actions/baseurl";
 
-export const getUserByEmail = async (email: string) => {
-  try {
-    return {
-      id: "123",
-      name: "John Doe",
-      email,
-      password: null,
-    };
-  } catch (error) {
-    throw new Error("Something went wrong");
-  }
-};
-const BaseUrl = "https://traverse-pgpw.onrender.com/api/v1";
 export const signinUser = async ({
   email,
   password,
@@ -27,7 +8,7 @@ export const signinUser = async ({
   password: string;
 }) => {
   try {
-    const data = await fetch(`${BaseUrl}/auth/signin`, {
+    const data = await fetch(`${baseUrl}/auth/signin`, {
       method: "POST",
 
       headers: {
@@ -42,13 +23,13 @@ export const signinUser = async ({
     });
     console.log(data.status);
     const res = await data.json();
+    const user = res.admin;
     if (data.status === 200 || res.ok) {
       console.log(res);
 
       return {
         success: "Login successful!",
-        res,
-        // redirect: DEFAULT_LOGIN_REDIRECT
+        user,
       };
     }
     if (data.status === 400) {
