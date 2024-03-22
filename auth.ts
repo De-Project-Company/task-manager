@@ -26,9 +26,10 @@ export const {
           const values = { email, password };
 
           const user = await login(values);
+          console.log(user);
 
           if (!user) return null;
-          return user.User!;
+          return user.res;
         }
         return null;
       },

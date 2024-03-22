@@ -7,6 +7,23 @@ import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
+}
+
+interface UserWithRole {
+  user: User;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
+
 export interface TeamMember {
   user: string;
   role: string;
@@ -16,7 +33,7 @@ export interface TeamMember {
 }
 interface TasksessionProp {
   projectid?: string;
-  teamMembers?: TeamMember[];
+  teamMembers?: UserWithRole[];
 }
 
 const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
@@ -105,7 +122,12 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
           <>
             {teamMembers &&
               teamMembers.map((member) => (
-                <Member key={member._id} name={member.name} />
+                <Member
+                  key={member._id}
+                  name={member.user.name}
+                  accepted={member.accepted}
+                  memeberId={member._id}
+                />
               ))}
           </>
         )}

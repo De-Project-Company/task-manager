@@ -38,6 +38,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useLayoutEffect(() => {
+    console.log(session);
     if (!session?.user?.email) return;
     setUser({
       ...session?.user,
@@ -55,8 +56,6 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getUser();
 
         if (user?.status === "success") {
-          console.log("User came from Backend");
-          // console.log(user.user)
           setUser({
             name: user.user.name,
             email: user.user.email,
