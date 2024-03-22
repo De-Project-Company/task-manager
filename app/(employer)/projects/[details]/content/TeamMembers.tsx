@@ -20,6 +20,7 @@ interface TasksessionProp {
 }
 
 const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
+  console.log(teamMembers);
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
 
