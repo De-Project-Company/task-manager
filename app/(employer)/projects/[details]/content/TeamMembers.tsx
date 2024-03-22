@@ -58,7 +58,7 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-  console.log(teamMembers);
+
   return (
     <>
       <div
@@ -126,7 +126,7 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
                   key={member._id}
                   name={member.user.name}
                   accepted={member.accepted}
-                  memeberId={member._id}
+                  memberId={member.user._id}
                 />
               ))}
           </>

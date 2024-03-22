@@ -37,6 +37,8 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     website: "",
   });
 
+
+
   useLayoutEffect(() => {
     console.log(session);
     if (!session?.user?.email) return;
@@ -54,13 +56,12 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUserData = async () => {
       try {
         const user = await getUser();
+        console.log(user);
 
         if (user?.status === "success") {
           setUser({
-            name: user.user.name,
-            email: user.user.email,
-            role: user.user.role,
-            companyName: user.user.companyName,
+            ...user.user,
+            id: user.user._id,
             image:
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",
