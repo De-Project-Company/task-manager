@@ -25,12 +25,9 @@
     "iconsax-react": "^0.0.8",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.321.0",
-<<<<<<< HEAD
     "next": "^14.1.4",
-=======
     "moment": "^2.30.1",
-    "next": "^14.1.3",
->>>>>>> 4893ffc7c1e4c1c63a54cd8e7bb1d490f312e081
+
     "next-auth": "^5.0.0-beta.5",
     "react": "^18.2.0",
     "react-big-calendar": "^1.11.1",
