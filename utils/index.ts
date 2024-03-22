@@ -179,7 +179,7 @@ export const SetToSessionStorage = (key: string, value: any): void => {
  * Retrieves a value from the session storage based on the provided key.
  * @function GetFromSessionStorage
  * @param {string} key
- * @returns {string | null
+ * @returns {string | null}
  */
 
 export const GetFromSessionStorage = (key: string): string | null => {

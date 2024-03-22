@@ -123,3 +123,11 @@ export const AddTask = z.object({
     required_error: "DueDate is required.",
   }),
 });
+
+// Add calender event zod validation
+export const AddEvent = z.object({
+  title: z.string(),
+  start: z.date(),
+  end: z.date(),
+  color: z.string(),
+});

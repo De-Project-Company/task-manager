@@ -17,34 +17,7 @@ import {
   DEFAULT_LOGIN_REDIRECT,
 } from "@/routes";
 import { checkSession } from "@/actions/session";
-
-interface StateContextProps {
-  currentPath: string;
-  openSidebar: boolean;
-  setOpenSidebar: Dispatch<SetStateAction<boolean>>;
-  openSidebarMain: boolean;
-  setOpenSidebarMain: Dispatch<SetStateAction<boolean>>;
-  OTPModal: boolean;
-  setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
-  DeleteProjectModal: boolean;
-  setDeleteProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
-  Toast: boolean;
-  setToast: React.Dispatch<React.SetStateAction<boolean>>;
-  ChangeProjectStatusModal: boolean;
-  setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
-  addTeamMemberMoal: boolean;
-  setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
-  addTaskModal: boolean;
-  setaddTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
-  swipeIndicator: boolean;
-  setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
-  landingMobileMenu: boolean;
-  setLandingMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  SessionModal: boolean;
-  setSessionModal: React.Dispatch<React.SetStateAction<boolean>>;
-  openNotification: boolean;
-  setopenNotification: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { StateContextProps } from "@/types";
 
 const StateContext = createContext<StateContextProps | undefined>(undefined);
 
@@ -64,6 +37,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const [openCalendarEvent, setOpenCalendarEvent] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -224,7 +198,9 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (err) {}
     };
     check();
-  }, [pathname]);
+
+    // added router to the dependencie array
+  }, [pathname, router]);
 
   const value = useMemo(
     () => ({
@@ -253,10 +229,14 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setSessionModal,
       openNotification,
       setopenNotification,
+
+      // calenderEvent
+      openCalendarEvent,
+      setOpenCalendarEvent,
     }),
     [
       openSidebar,
-      anyMobileSidebarOpen,
+      // anyMobileSidebarOpen,
       landingMobileMenu,
       OTPModal,
       swipeIndicator,
@@ -269,6 +249,10 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ChangeProjectStatusModal,
       SessionModal,
       openNotification,
+
+      // calender added
+      openCalendarEvent,
+      setOpenCalendarEvent,
     ]
   );
 
