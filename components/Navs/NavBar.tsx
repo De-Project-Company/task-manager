@@ -50,9 +50,9 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "lg:px-9 px-3 border-b border-gray-200 h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 md:z-50 select-none dark:bg-primary dark:text-white bg-white/80 backdrop-blur-lg w-full",
+        "lg:px-9 px-3 border-b border-gray-200 dark:border-secondary h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-50 md:z-50 select-none bg-white/80 dark:bg-secondary backdrop-blur-lg w-full",
         {
-          "md:overflow-hidden": openSidebarMain,
+          //   "md:overflow-hidden": EmployerShowMobileMenu,
         }
       )}
     >
