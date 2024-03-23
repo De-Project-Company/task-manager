@@ -1,17 +1,26 @@
 import type { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { LoginSchema } from "./schemas";
+import { signinUser } from "./data";
 
-export const authConfig = {
-  pages: {
-    signIn: "/auth/signin",
-  },
-  providers: [],
+export default {
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const validatedFields = LoginSchema.safeParse(credentials);
 
-  callbacks: {
-    authorized({ auth }) {
-      const isAuthenticated = !!auth?.user;
+        if (validatedFields.success) {
+          const { email, password } = validatedFields.data;
 
-      return isAuthenticated;
-    },
-  },
-  secret: process.env.AUTH_SECRET,
+          const user = await signinUser({ email, password });
+          if (!user) return null;
+
+          return user.res;
+        }
+        return null;
+      },
+    }),
+  ],
+
+  secret: process.env.NEXT_PUBLIC_SECRET as string,
 } satisfies NextAuthConfig;

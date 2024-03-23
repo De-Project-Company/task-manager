@@ -3,7 +3,6 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { setCookie } from "cookies-next";
-import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -27,7 +26,7 @@ import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { SetToSessionStorage } from "@/utils";
-import { authenticate } from "@/actions/NextAUth";
+import { authenticate } from "@/actions/authenticate";
 
 const SigninForm = () => {
   const router = useRouter();

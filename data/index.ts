@@ -1,3 +1,5 @@
+"use server";
+
 import { baseUrl } from "../actions/baseurl";
 
 export const signinUser = async ({
@@ -30,6 +32,7 @@ export const signinUser = async ({
       return {
         success: "Login successful!",
         user,
+        res,
       };
     }
     if (data.status === 400) {
@@ -57,4 +60,4 @@ export const signinUser = async ({
       error: "Something went wrong.",
     };
   }
-}; 
+};

@@ -1,33 +1,39 @@
-import NextAuth from "next-auth";
-import { authConfig } from "./auth.config";
 import { cookies } from "next/headers";
 import {
-  publicRoutes,
-  protectedRoutes,
   DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
   DEFAULT_REVALIDATE_REDIRECT,
   authRoutes,
-  apiAuthPrefix,
+  protectedRoutes,
+  publicRoutes,
 } from "./routes";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const { auth } = NextAuth(authConfig);
-
-export default auth((req) => {
-  const { nextUrl } = req;
+export default function middleware(request: NextRequest) {
   const hasCookie = cookies().has("access_token");
-  const isLoggedIn = !!req.auth || hasCookie;
+  const isLoggedIn = hasCookie;
   console.log("LOGGED IN?: ", isLoggedIn);
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
+  const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
+  const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
-  if (isApiAuthRoute) return;
+  if (!isLoggedIn && isProtectedRoute) {
+    return NextResponse.redirect(
+      new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
+    );
+  }
 
-  if (isPublicRoute && isLoggedIn && isAuthRoute)
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-});
+  if (isLoggedIn && isAuthRoute) {
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url));
+  }
 
+  return NextResponse.next();
+}
+
+// Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
