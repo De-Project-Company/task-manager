@@ -7,11 +7,24 @@ import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
 import { encryptString } from "@/utils";
 import { format } from "date-fns";
+import { useUserCtx } from "@/context/UserCtx";
 
-const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
+const ProjectCard = ({
+  status,
+  title,
+  owner,
+  endDate,
+  _id,
+  teamMembers,
+}: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
+  const { user } = useUserCtx();
+  console.log(teamMembers);
+
+  const isProjectOwner = user.id === owner?._id;
+  // const hasAccepted = !isProjectOwner 
 
   const encryptTitle = encryptString(title!);
 

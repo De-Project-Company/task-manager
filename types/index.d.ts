@@ -28,7 +28,7 @@ export type NavbarLinkProps = {
   descText: string;
 };
 
-interface Owner {
+export interface Owner {
   _id?: string;
   name?: string;
   email?: string;

@@ -3,20 +3,20 @@
 import Image from "next/image";
 import React from "react";
 import { useUserCtx } from "@/context/UserCtx";
+import { Owner } from "@/types";
 
 interface Members {
   name?: string;
   accepted?: boolean;
   memberId?: string;
+  owner?: Owner;
 }
 
-const Member = ({ name, accepted, memberId }: Members) => {
+const Member = ({ name, accepted, memberId, owner }: Members) => {
   const { user } = useUserCtx();
-  const isCurrentUserAdmin = user?.id === memberId;
+  const isCurrentUserAdmin = user?.id === owner?._id;
 
   console.log(user);
-
-  // '65e0a35597de6248c3e410be',
 
   return (
     <div className="flex gap-y-2 w-full h-full max-h-[60px] sm:items-center justify-between border-b border-[#e1e1e1] dark:border-primary-light py-1 sm:py-0">

@@ -6,6 +6,7 @@ import Team from "./AddTeamModal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
+import { Owner } from "@/types";
 
 interface User {
   _id: string;
@@ -34,9 +35,10 @@ export interface TeamMember {
 interface TasksessionProp {
   projectid?: string;
   teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
+const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
 
@@ -125,6 +127,7 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
                   name={member.user.name}
                   accepted={member.accepted}
                   memberId={member.user._id}
+                  owner={owner}
                 />
               ))}
           </>
