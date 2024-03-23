@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import "./styles/globals.scss";
 import StateCtxProvider from "@/context/StateCtx";
 import ThemeProvider from "@/context/ThemeCtx";
-import { SessionProvider } from "next-auth/react";
 import SwipeIndicator from "@/components/SwiperIndicator";
+import AuthProvider from "./Providers";
 import UpdateSessionModal from "@/components/SessionModal";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <SessionProvider>
+      <AuthProvider>
         <StateCtxProvider>
           <ThemeProvider>
             <body
@@ -33,7 +33,7 @@ export default function RootLayout({
             </body>
           </ThemeProvider>
         </StateCtxProvider>
-      </SessionProvider>
+      </AuthProvider>
     </html>
   );
 }

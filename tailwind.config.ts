@@ -92,8 +92,18 @@ const config: Config = {
           transform: "rotateY(360deg)",
         },
       },
+      "accordion-down": {
+        from: { height: "0" },
+        to: { height: "var(--radix-accordion-content-height)" },
+      },
+      "accordion-up": {
+        from: { height: "var(--radix-accordion-content-height)" },
+        to: { height: "0" },
+      },
     },
     animation: {
+      "accordion-down": "accordion-down 0.2s ease-out",
+      "accordion-up": "accordion-up 0.2s ease-out",
       shimmer: "shimmer 1.5s infinite",
       slideUp: "slideUp 1s 0.2s ease forwards",
       loadspin: "loadspin 1.2s linear infinite",

@@ -126,7 +126,6 @@ const Team = ({ projectid }: AssognTaskProp) => {
               </div>
             ))}
           </div>
-
           <FormError message={error} />
           <FormSuccess message={success} />
           <div className="flex items-center justify-between w-full">
@@ -163,9 +162,7 @@ const Team = ({ projectid }: AssognTaskProp) => {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* <pre>{JSON.stringify({ teamMembers }, null, 2)}</pre> */}
+          </div>{" "}
         </form>
       </div>
     </>

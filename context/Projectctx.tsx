@@ -41,7 +41,6 @@ const ProjectContextProvider = ({
 
 
 
-  console.log(Project)
 
   
   useLayoutEffect(() => {

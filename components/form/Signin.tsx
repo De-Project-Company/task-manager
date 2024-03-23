@@ -2,8 +2,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { setCookie, deleteCookie } from "cookies-next";
-import Image from "next/image";
+import { setCookie } from "cookies-next";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -27,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { SetToSessionStorage } from "@/utils";
+import { authenticate } from "@/actions/authenticate";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -54,6 +54,7 @@ const SigninForm = () => {
         setError(data?.error);
         console.log("User came from signIn");
         if (data?.success) {
+          authenticate(values);
           setCookie("access_token", data?.token, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             httpOnly: true,

@@ -2,13 +2,15 @@
 import { Add, HambergerMenu, Notification, SearchNormal1 } from "iconsax-react";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn, decryptString } from "@/utils";
-import { handleMouseEnter } from "../../utils/text-effect";
 import { useSearchParams } from "next/navigation";
 import ThemeButtons from "../ThemeButton";
 import Image from "next/image";
 import MobileSidebar from "../sidebars/MobileSidebar";
 import { useUserCtx } from "@/context/UserCtx";
 import NotificationDopDown from "@/app/(employer)/notification/dropDown";
+import { getnotifications } from "@/actions/notification";
+import { NotificationProps } from "@/app/(employer)/notification/page";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const {
@@ -23,15 +25,32 @@ const Navbar = () => {
   const projectTitle = searchParams.get("project_title");
   const decrptedTitle = decryptString(projectTitle ?? "");
 
-
   const fullName = user?.name;
 
   const [firstName] = fullName!.split(/\s+/);
 
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  console.log(notifications);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const result = await getnotifications();
+
+      if (result?.status === "success") {
+        setNotifications(result.notifications);
+      } else {
+        setError(result?.error || "Unknown error");
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
   return (
     <header
       className={cn(
-        "lg:px-9 px-3 border-b border-gray-200 h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-[9999] select-none dark:bg-primary dark:text-white bg-white/80 backdrop-blur-lg w-full",
+        "lg:px-9 px-3 border-b border-gray-200 h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 md:z-50 select-none dark:bg-primary dark:text-white bg-white/80 backdrop-blur-lg w-full",
         {
           "md:overflow-hidden": openSidebarMain,
         }
@@ -88,15 +107,30 @@ const Navbar = () => {
       </div>
       {user && (
         <div className="flex items-center gap-x-3 xl:gap-x-5  [&>button]:font-medium [&>button]:text-header dark:[&>button]:text-white ">
-          <button
-            type="button"
-            onClick={() => setopenNotification(openNotification ? false : true)}
-          >
-            <Notification
-              size={24}
-              variant={openNotification ? "Bulk" : "Outline"}
-            />
-          </button>
+          <div className="relative">
+            <div className="t-[4] absolute left-4">
+              <p
+                className={cn(
+                  "flex h-1 w-1 items-center justify-center rounded-full  p-2 text-xs bg-red-200 text-green-600",
+                  notifications.length === undefined || 0 ? "hidden" : ""
+                )}
+              >
+                {notifications.length}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                setopenNotification(openNotification ? false : true)
+              }
+            >
+              <Notification
+                size={24}
+                variant={openNotification ? "Bulk" : "Outline"}
+              />
+            </button>
+          </div>
           {openNotification && <NotificationDopDown />}
           <button
             type="button"

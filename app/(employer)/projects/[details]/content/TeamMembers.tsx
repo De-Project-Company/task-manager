@@ -7,6 +7,23 @@ import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
+}
+
+interface UserWithRole {
+  user: User;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
+
 export interface TeamMember {
   user: string;
   role: string;
@@ -16,7 +33,7 @@ export interface TeamMember {
 }
 interface TasksessionProp {
   projectid?: string;
-  teamMembers?: TeamMember[];
+  teamMembers?: UserWithRole[];
 }
 
 const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
@@ -40,12 +57,11 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-  console.log(teamMembers);
   return (
     <>
       <div
         className={cn(
-          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12"
+          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12  max-h-[500px] overflow-y-auto overflow-x-hidden no-scroll"
         )}
       >
         <div className="flex w-full items-center justify-between pb-2 md:pb-3">
@@ -104,7 +120,12 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
           <>
             {teamMembers &&
               teamMembers.map((member) => (
-                <Member key={member._id} name={member.name} />
+                <Member
+                  key={member._id}
+                  name={member.user.name}
+                  accepted={member.accepted}
+                  memberId={member.user._id}
+                />
               ))}
           </>
         )}

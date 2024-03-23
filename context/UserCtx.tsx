@@ -9,7 +9,6 @@ import React, {
   useState,
 } from "react";
 import { User } from "@/types";
-import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";
 import { useRouter } from "next/navigation";
 import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
@@ -23,8 +22,6 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps);
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
-  // Add Your State(s) Here
-  const { data: session } = useSession();
   const router = useRouter();
   const [user, setUser] = useState<User>({
     name: "",
@@ -38,30 +35,15 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useLayoutEffect(() => {
-    if (!session?.user?.email) return;
-    setUser({
-      ...session?.user,
-      name: session?.user?.name!,
-      image: session?.user?.image!,
-      email: session?.user?.email!,
-    });
-
-    return;
-  }, [session]);
-
-  useLayoutEffect(() => {
     const fetchUserData = async () => {
       try {
         const user = await getUser();
+        console.log(user);
 
         if (user?.status === "success") {
-          console.log("User came from Backend");
-          // console.log(user.user)
           setUser({
-            name: user.user.name,
-            email: user.user.email,
-            role: user.user.role,
-            companyName: user.user.companyName,
+            ...user.user,
+            id: user.user._id,
             image:
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",
