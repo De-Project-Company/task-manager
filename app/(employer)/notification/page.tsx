@@ -4,9 +4,19 @@ import { useState, useEffect } from "react";
 import { getnotifications } from "@/actions/notification";
 import { timeAgo } from "@/utils";
 
+export interface NotificationProps {
+  _id: string;
+  user: string;
+  notification_type: string;
+  message: string;
+  createdAt: string;
+  __v: number;
+}
+
 const Notification = () => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
+  console.log(notifications);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -32,7 +42,7 @@ const Notification = () => {
         {notifications.length > 0 && (
           <ul>
             {notifications.map((notification) => (
-              <li key={notification.id}>
+              <li key={notification._id}>
                 <div className="flex w-full gap-4 m-auto items-center justify-center align-middle">
                   <p className="font-[400] text-[#5B5F5E]">
                     {notification.message}

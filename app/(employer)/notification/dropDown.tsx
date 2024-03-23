@@ -48,19 +48,19 @@ const NotificationDopDown = () => {
 
           <div>
             <ul className="flex flex-col w-full flex-wrap">
-              {notifications?.map((notification, index) => (
+              {notifications?.map((notification) => (
                 <li
-                  key={notification.id}
+                  key={notification._id}
                   className={`h-fit py-4 flex px-4 flex-col `}
                 >
-                  <div className="flex w-full gap-4 m-auto items-center justify-center align-middle">
+                  <div className="flex w-full gap-4 items-center justify-between">
                     <div className="m-auto w-fit p-2 rounded-full">
                       <NotificationIcon size="32" />
                     </div>
-                    <div className="flex m-auto items-center gap-2 justify-center w-full flex-col">
-                      <p className="font-[400] text-[#5B5F5E] text-sm ">
+                    <div className="flex m-auto items-center gap-2 justify-center flex-col w-fit truncate">
+                      <span className="font-[400] text-[#5B5F5E] text-sm line-clamp-">
                         {notification.message}
-                      </p>
+                      </span>
                       <p className="text-gray-600  w-full float-left text-sm text-left justify-start items-start align-baseline">
                         {timeAgo(notification.createdAt)}
                       </p>

@@ -3,6 +3,8 @@
 import { cookies } from "next/headers";
 import Calls from "./calls";
 import { GetFromSessionStorage } from "@/utils";
+import { auth } from "@/auth";
+
 
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -12,6 +14,7 @@ const $http = Calls(BaseUrl);
 export const getnotifications = async () => {
   const authToken = cookies()?.get("access_token")?.value;
   const hasToken = GetFromSessionStorage("access_token");
+  console.log(auth);
 
   if (!authToken && !hasToken) {
     return {

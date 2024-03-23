@@ -37,7 +37,6 @@ interface TasksessionProp {
 }
 
 const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
-  console.log(teamMembers);
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
 
@@ -58,12 +57,11 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-
   return (
     <>
       <div
         className={cn(
-          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12"
+          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12  max-h-[500px] overflow-y-auto overflow-x-hidden no-scroll"
         )}
       >
         <div className="flex w-full items-center justify-between pb-2 md:pb-3">

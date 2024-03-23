@@ -27,6 +27,7 @@ export const {
 
           const user = await login(values);
 
+          console.log(user.res);
           if (!user) return null;
           return user.res;
         }

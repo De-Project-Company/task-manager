@@ -95,7 +95,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       }),
     });
     const res = await data.json();
-    console.log(res);
+
 
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {

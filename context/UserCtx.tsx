@@ -9,7 +9,6 @@ import React, {
   useState,
 } from "react";
 import { User } from "@/types";
-import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";
 import { useRouter } from "next/navigation";
 import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
@@ -23,8 +22,6 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps);
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
-  // Add Your State(s) Here
-  const { data: session } = useSession();
   const router = useRouter();
   const [user, setUser] = useState<User>({
     name: "",
@@ -36,21 +33,6 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     companyName: "",
     website: "",
   });
-
-
-
-  useLayoutEffect(() => {
-    console.log(session);
-    if (!session?.user?.email) return;
-    setUser({
-      ...session?.user,
-      name: session?.user?.name!,
-      image: session?.user?.image!,
-      email: session?.user?.email!,
-    });
-
-    return;
-  }, [session]);
 
   useLayoutEffect(() => {
     const fetchUserData = async () => {
