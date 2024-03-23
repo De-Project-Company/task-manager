@@ -21,10 +21,13 @@ const ProjectCard = ({
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
   const { user } = useUserCtx();
-  console.log(teamMembers);
 
   const isProjectOwner = user.id === owner?._id;
-  // const hasAccepted = !isProjectOwner 
+  const desiredTeamMember = teamMembers?.find(
+    (member) => member._id === user.id
+  );
+
+  const hasAccepted = desiredTeamMember ? desiredTeamMember.accepted : false;
 
   const encryptTitle = encryptString(title!);
 
@@ -116,14 +119,25 @@ const ProjectCard = ({
         <p className="text-sm text-header dark:text-gray-200">
           Project end date: <strong>{formattedDate}</strong>
         </p>
-        <Link
-          href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
-          type="button"
-          tabIndex={0}
-          className="text-primary dark:text-white  dark:border-white border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
-        >
-          View more
-        </Link>
+        {hasAccepted || isProjectOwner ? (
+          <Link
+            href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
+            type="button"
+            tabIndex={0}
+            className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          >
+            View more
+          </Link>
+        ) : (
+          <button
+            // onClick={handleAcceptInvite}
+            type="button"
+            tabIndex={0}
+            className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          >
+            View Invite
+          </button>
+        )}
       </div>
     </div>
   );
