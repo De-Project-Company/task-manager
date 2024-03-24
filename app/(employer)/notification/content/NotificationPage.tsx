@@ -17,7 +17,21 @@ const NotificationPage = () => {
       const result = await getnotifications();
 
       if (result?.status === "success") {
-        setNotifications(result.notifications);
+        const sortedNotifications = result.notifications.map(
+          (notification: { createdAt: string | number | Date }) => ({
+            ...notification,
+            createdAt: new Date(notification.createdAt),
+          })
+        );
+
+        sortedNotifications.sort(
+          (
+            a: { createdAt: { getTime: () => number } },
+            b: { createdAt: { getTime: () => number } }
+          ) => b.createdAt.getTime() - a.createdAt.getTime()
+        );
+
+        setNotifications(sortedNotifications);
       } else {
         setError(result?.error || "Unknown error");
       }

@@ -46,13 +46,15 @@ export const assignTask = async (
       config
     );
 
+    // console.log(res);
+
     if (res?.status === 200) {
       return {
         success: "Task assigned successfully!",
       };
     }
   } catch (e: any) {
-    console.log(e);
+    // console.log(e);
     return {
       error: e.response.data.message,
     };
@@ -119,5 +121,39 @@ export const CreateTask = async (
         error: "An error occurred. Please try again later.",
       };
     }
+  }
+};
+
+export const getTask = async (projectId?: string) => {
+  const authToken = cookies()?.get("access_token")?.value;
+
+  if (!authToken) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  try {
+    const res = await $http.get(`/project/tasks`, config);
+    // console.log(res);
+    if (res.status === 200) {
+      return {
+        success: "Project Accepted successfully",
+      };
+    }
+  } catch (e: any) {
+    // console.log(e.response.data);
+    return {
+      error: e.response.data.message,
+    };
   }
 };

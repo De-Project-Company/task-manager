@@ -54,7 +54,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     task: {
       title: "",
       description: "",
-      status: "pending",
+      status: "Todo",
     },
     email: "",
     name: "",
@@ -74,7 +74,6 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     e.preventDefault();
     startTransition(() => {
       assignTask(formData, projectid!).then((data) => {
-        // console.log(data);
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
@@ -82,7 +81,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             task: {
               title: "",
               description: "",
-              status: "",
+              status: "Todo",
             },
             email: "",
             name: "",
