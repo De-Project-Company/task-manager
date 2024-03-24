@@ -11,6 +11,7 @@ import NotificationDopDown from "@/app/(employer)/notification/dropDown";
 import { getnotifications } from "@/actions/notification";
 import { NotificationProps } from "@/app/(employer)/notification/page";
 import { useState, useEffect } from "react";
+import { handleMouseEnter } from "@/utils/text-effect";
 
 const Navbar = () => {
   const {
@@ -24,6 +25,7 @@ const Navbar = () => {
   const searchParams = useSearchParams();
   const projectTitle = searchParams.get("project_title");
   const decrptedTitle = decryptString(projectTitle ?? "");
+  const titleLen = 27;
 
   const fullName = user?.name;
 
@@ -31,7 +33,6 @@ const Navbar = () => {
 
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
-  // console.log(notifications);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -89,16 +90,30 @@ const Navbar = () => {
         ) : (
           <div className="flex gap-x-2 sm:gap-x-4 items-center">
             <h2
-              //   onMouseEnter={handleMouseEnter}
+              onMouseEnter={handleMouseEnter}
               className="max-[370px]:text-base max-[500px]:text-lg text-xl sm:text-3xl capitalize font-medium text-header dark:text-white"
-              //   data-value={
-              //     decrptedTitle
-              //       ? currentPath.replace("projects", "project")
-              //       : decrptedName
-              //   }
+              data-value={
+                decrptedTitle
+                  ? currentPath.replace("projects", "project")
+                  : currentPath
+              }
             >
-              {decrptedTitle}
+              {decrptedTitle
+                ? currentPath.replace("projects", "project")
+                : currentPath}
             </h2>
+            {decrptedTitle && (
+              <div className="sm:flex items-center gap-x-2 hidden">
+                <span className="text-2xl sm:text-4xl text-gray-700 dark:text-gray-200 ">
+                  •
+                </span>
+                <h3 className="max-[500px]:text-sm  sm:text-xl md:text-3xl capitalize min-[390px]:font-medium text-header dark:text-white">
+                  {decrptedTitle.length > titleLen
+                    ? `${decrptedTitle.slice(0, titleLen)}...`
+                    : decrptedTitle}
+                </h3>
+              </div>
+            )}
           </div>
         )}
       </div>

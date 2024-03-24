@@ -63,6 +63,15 @@ interface UserWithRole {
   _id: string;
 }
 
+interface Task {
+  title: string;
+  description: string;
+  assignedTo: string;
+  dueDate: string;
+  status: string;
+  _id: string;
+}
+
 export interface ProjectProps {
   _id?: string;
   title?: string;
@@ -74,7 +83,7 @@ export interface ProjectProps {
   startDate?: string;
   endDate?: string;
   teamMembers?: UserWithRole[];
-  tasks?: any[];
+  tasks?: Task[];
   __v?: number;
 }
 

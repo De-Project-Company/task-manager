@@ -14,9 +14,7 @@ interface Members {
 
 const Member = ({ name, accepted, memberId, owner }: Members) => {
   const { user } = useUserCtx();
-  const isCurrentUserAdmin = user?.id === owner?._id;
-
-  console.log(user);
+  const isCurrentUserAdmin = user?.id === owner?._id && user?.id === memberId;
 
   return (
     <div className="flex gap-y-2 w-full h-full max-h-[60px] sm:items-center justify-between border-b border-[#e1e1e1] dark:border-primary-light py-1 sm:py-0">

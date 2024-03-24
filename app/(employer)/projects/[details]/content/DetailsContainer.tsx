@@ -243,13 +243,17 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
           {/* Projects Team members */}
           <TeamSection
-            projectid={id!}
-            teamMembers={projectData?.teamMembers!}
+            projectid={id}
+            teamMembers={projectData?.teamMembers}
             owner={projectData?.owner}
           />
 
           {/* Projects Task Section */}
-          <TaskSesion projectid={id!} />
+          <TaskSesion
+            projectid={id!}
+            tasks={projectData?.tasks}
+            teamMembers={projectData?.teamMembers}
+          />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
         </div>
