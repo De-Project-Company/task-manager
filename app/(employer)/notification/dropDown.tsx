@@ -73,12 +73,13 @@ const NotificationDopDown = () => {
                     <div className="m-auto w-fit p-2 rounded-full">
                       <NotificationIcon size="20" />
                     </div>
-                    <div className="flex m-auto items-center gap-2 justify-center flex-col w-fit truncate">
-                      <span className="font-[400] text-[#5B5F5E] text-xs line-clamp-">
-                        {notification.message > 3
+                    <div className="flex m-auto items-center gap-2 justify-center flex-col w-fit border-b-[1px] border-header">
+                      <span className="font-normal text-[#5B5F5E] text-xs">
+                        {notification.message.length > 3
                           ? notification.message.slice(0, 3) + "..."
                           : notification.message}
                       </span>
+
                       <p className="text-gray-600  w-full float-left text-sm text-left justify-start items-start align-baseline">
                         {timeAgo(notification.createdAt)}
                       </p>
