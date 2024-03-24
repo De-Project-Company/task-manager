@@ -1,3 +1,5 @@
+"use client";
+
 import { Folder2 } from "iconsax-react";
 import Link from "next/link";
 import React from "react";
@@ -8,6 +10,8 @@ import { useProjectCtx } from "@/context/Projectctx";
 import { encryptString } from "@/utils";
 import { format } from "date-fns";
 import { useUserCtx } from "@/context/UserCtx";
+import { useStateCtx } from "@/context/StateCtx";
+import { useRouter } from "next/navigation";
 
 const ProjectCard = ({
   status,
@@ -21,13 +25,19 @@ const ProjectCard = ({
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
   const { user } = useUserCtx();
+  const { setInviteModal } = useStateCtx();
+  const { replace } = useRouter();
 
   const isProjectOwner = user.id === owner?._id;
   const desiredTeamMember = teamMembers?.find(
-    (member) => member._id === user.id
+    (member) => member.user._id === user.id
   );
 
-  const hasAccepted = desiredTeamMember ? desiredTeamMember.accepted : false;
+  const hasAccepted = isProjectOwner
+    ? true
+    : desiredTeamMember
+    ? desiredTeamMember.accepted
+    : false;
 
   const encryptTitle = encryptString(title!);
 
@@ -130,7 +140,10 @@ const ProjectCard = ({
           </Link>
         ) : (
           <button
-            // onClick={handleAcceptInvite}
+            onClick={() => {
+              setInviteModal(true);
+              replace(`/dashboard?id=${_id}&project_title=${encryptTitle}`);
+            }}
             type="button"
             tabIndex={0}
             className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"

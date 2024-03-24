@@ -5,6 +5,7 @@ import SkeletonNavbar from "@/components/skeleton/SkeletonNavbar";
 import ProjectContextProvider from "@/context/Projectctx";
 import Navbar from "@/components/Navs/NavBar";
 import UserContextProvider from "@/context/UserCtx";
+import AcceptModal from "@/components/project/AcceptModal";
 
 export default function EmployersLayout({
   children,
@@ -26,6 +27,7 @@ export default function EmployersLayout({
         <div className="flex md:hidden">
           <Theme />
         </div>
+        <AcceptModal />
       </ProjectContextProvider>
     </UserContextProvider>
   );
