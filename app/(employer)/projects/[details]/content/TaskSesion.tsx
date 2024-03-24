@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import SingleTask from "./SingleTask";
 
 interface User {
   _id: string;
@@ -128,6 +129,29 @@ const TaskSesion = ({ projectid, tasks, teamMembers }: TasksessionProp) => {
             <span>Add Task</span>
           </button>
         </div>
+
+        {tasks && tasks.length > 0 ? (
+          <Accordion
+            type="multiple"
+            // type="single" collapsible
+            className="w-full"
+          >
+            {tasks &&
+              tasks?.map((task) => (
+                <SingleTask
+                  key={task?._id}
+                  task={task}
+                  projectid={projectid}
+                  teamMembers={teamMembers}
+                />
+              ))}
+          </Accordion>
+        ) : (
+          <p className="w-full text-center  dark:text-gray-200">
+            No Tasks Assigned yet.
+          </p>
+        )}
+
         {/* Create Task Modal */}
         <AssignTask projectid={projectid} />
       </div>
