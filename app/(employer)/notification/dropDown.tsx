@@ -39,7 +39,6 @@ const NotificationDopDown = () => {
     fetchNotifications();
   }, []);
 
-  
   return (
     <>
       <div
@@ -75,8 +74,8 @@ const NotificationDopDown = () => {
                     </div>
                     <div className="flex m-auto items-center gap-2 justify-center flex-col w-fit border-b-[1px] border-header">
                       <span className="font-normal text-[#5B5F5E] text-xs">
-                        {notification.message.length > 3
-                          ? notification.message.slice(0, 3) + "..."
+                        {notification.message.length > 50
+                          ? notification.message.slice(0, 40) + "..."
                           : notification.message}
                       </span>
 
