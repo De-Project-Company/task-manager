@@ -24,7 +24,7 @@ const AcceptModal = () => {
   const handleAcceptInvite = async () => {
     setLoading(true);
     const response = await acceptInvite(projctId!);
-    console.log(response);
+    // console.log(response);
     if (response?.success) {
       setLoading(false);
       setInviteAccepted(true);
