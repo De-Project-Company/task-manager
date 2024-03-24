@@ -17,14 +17,16 @@ const AcceptModal = () => {
   const projectTitle = searchParams.get("project_title");
   const [inviteAccepted, setInviteAccepted] = useState(false);
   const projctId = searchParams.get("id");
-  const title = decryptString(projectTitle!);
+  let title = "";
+  if (projectTitle) {
+    title = decryptString(projectTitle);
+  }
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleAcceptInvite = async () => {
     setLoading(true);
     const response = await acceptInvite(projctId!);
-    // console.log(response);
     if (response?.success) {
       setLoading(false);
       setInviteAccepted(true);

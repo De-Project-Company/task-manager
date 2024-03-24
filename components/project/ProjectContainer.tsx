@@ -53,7 +53,7 @@ const ProjectContainer = () => {
     );
 
     // Log or use the suggestions as needed
-    console.log("Search Suggestions:", suggestions);
+    // console.log("Search Suggestions:", suggestions);
   }, [selectedProjectFilter, projectSearchTerm, Project]);
 
   const itemsPerPage = 8;
