@@ -1,3 +1,5 @@
+"use client";
+
 import { Folder2 } from "iconsax-react";
 import Link from "next/link";
 import React from "react";
@@ -7,11 +9,35 @@ import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
 import { encryptString } from "@/utils";
 import { format } from "date-fns";
+import { useUserCtx } from "@/context/UserCtx";
+import { useStateCtx } from "@/context/StateCtx";
+import { useRouter } from "next/navigation";
 
-const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
+const ProjectCard = ({
+  status,
+  title,
+  owner,
+  endDate,
+  _id,
+  teamMembers,
+}: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
   const { projectSearchTerm } = useProjectCtx();
+  const { user } = useUserCtx();
+  const { setInviteModal } = useStateCtx();
+  const { replace } = useRouter();
+
+  const isProjectOwner = user.id === owner?._id;
+  const desiredTeamMember = teamMembers?.find(
+    (member) => member.user._id === user.id
+  );
+
+  const hasAccepted = isProjectOwner
+    ? true
+    : desiredTeamMember
+    ? desiredTeamMember.accepted
+    : false;
 
   const encryptTitle = encryptString(title!);
 
@@ -103,14 +129,28 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
         <p className="text-sm text-header dark:text-gray-200">
           Project end date: <strong>{formattedDate}</strong>
         </p>
-        <Link
-          href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
-          type="button"
-          tabIndex={0}
-          className="text-primary dark:text-white  dark:border-white border-primary rounded-lg  border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
-        >
-          View more
-        </Link>
+        {hasAccepted || isProjectOwner ? (
+          <Link
+            href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
+            type="button"
+            tabIndex={0}
+            className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          >
+            View more
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              setInviteModal(true);
+              replace(`/dashboard?id=${_id}&project_title=${encryptTitle}`);
+            }}
+            type="button"
+            tabIndex={0}
+            className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          >
+            View Invite
+          </button>
+        )}
       </div>
     </div>
   );

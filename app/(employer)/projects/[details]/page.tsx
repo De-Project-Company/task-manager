@@ -2,8 +2,6 @@ import React from "react";
 import { decryptString } from "@/utils";
 import DetailsContainer from "./content/DetailsContainer";
 
-import Image from "next/image";
-
 interface PageProps {
   searchParams: {
     [key: string]: string | undefined;
@@ -19,5 +17,5 @@ const page = ({ searchParams: { project_title, _id } }: PageProps) => {
     </>
   );
 };
- 
+
 export default page;

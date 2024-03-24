@@ -11,6 +11,7 @@ import { cn } from "@/utils";
 import ProjectNotFound from "./ProjectNotFound";
 import Empty from "./Empty";
 
+
 const ProjectContainer = () => {
   const { Project, projectSearchTerm, selectedProjectFilter, Loading } =
     useProjectCtx();
@@ -155,6 +156,8 @@ const ProjectContainer = () => {
           />
         </div>
       </section>
+
+      
     </section>
   ) : (
     <Empty />

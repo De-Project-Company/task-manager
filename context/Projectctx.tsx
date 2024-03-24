@@ -64,7 +64,7 @@ const ProjectContextProvider = ({
     fetchData();
   }, [setProject]);
 
-  // console.log(Project);
+  console.log(Project);
 
   const value = useMemo(
     () => ({

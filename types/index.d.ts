@@ -28,7 +28,7 @@ export type NavbarLinkProps = {
   descText: string;
 };
 
-interface Owner {
+export interface Owner {
   _id?: string;
   name?: string;
   email?: string;
@@ -109,6 +109,8 @@ export interface StateContextProps {
   setDeleteProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
   Toast: boolean;
   setToast: React.Dispatch<React.SetStateAction<boolean>>;
+  InviteModal: boolean;
+  setInviteModal: React.Dispatch<React.SetStateAction<boolean>>;
   ChangeProjectStatusModal: boolean;
   setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTeamMemberMoal: boolean;
