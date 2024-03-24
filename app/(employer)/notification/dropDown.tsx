@@ -51,7 +51,7 @@ const NotificationDopDown = () => {
       <div
         role="dialog"
         className={cn(
-          " absolute max-h-[200px] overflow-y-auto overflow-x-hidden border dark:border-success/80 p-4 border-soft-light top-[50px] md:top-16 right-1 z-[9999] dark:bg-black/60  bg-white backdrop-blur-xl flex flex-col gap-y-2   justify-between  shadow-[0_10px_40px_rgba(0,0,0,0.23)] rounded-xl before:absolute before:content-[''] before:h-[20px] before:w-[20px] before:bg-gradient-to-tl dark:from-transparent dark:via-transparent dark:to-success from-white  to-white before:overflow-hidden before:-top-2 before:rotate-[45deg] lg:before:right-[105px] md:before:right-[90px] before:right-[65px] before:z-[-1] transform-gpu transition-all ",
+          " absolute max-h-[200px] max-w-[300px] p-2 overflow-y-auto overflow-x-hidden border dark:border-success/80 border-soft-light top-[50px] md:top-16 right-1 z-[9999] dark:bg-black/60  bg-white backdrop-blur-xl flex flex-col gap-y-2   justify-between  shadow-[0_10px_40px_rgba(0,0,0,0.23)] rounded-xl before:absolute before:content-[''] before:h-[20px] before:w-[20px] before:bg-gradient-to-tl dark:from-transparent dark:via-transparent dark:to-success from-white  to-white before:overflow-hidden before:-top-2 before:rotate-[45deg] lg:before:right-[105px] md:before:right-[90px] before:right-[65px] before:z-[-1] transform-gpu transition-all ",
           openNotification
             ? "opacity-100 h-[200px] duration-500 "
             : "opacity-0 h-0 duration-200 overflow-hidden pointer-events-none"
@@ -63,20 +63,20 @@ const NotificationDopDown = () => {
           </div>
 
           <div>
-            <ul className="flex flex-col w-full flex-wrap">
+            <ul className="flex flex-col w-full">
               {notifications?.map((notification) => (
                 <li
                   key={notification._id}
-                  className={`h-fit py-4 flex px-4 flex-col `}
+                  className={`h-fit py-4 flex px-1 flex-col `}
                 >
                   <div className="flex w-full gap-1 items-center justify-between">
                     <div className="m-auto w-fit p-2 rounded-full">
-                      <NotificationIcon size="32" />
+                      <NotificationIcon size="20" />
                     </div>
                     <div className="flex m-auto items-center gap-2 justify-center flex-col w-fit truncate">
-                      <span className="font-[400] text-[#5B5F5E] text-sm line-clamp-">
-                        {notification.message > 10
-                          ? notification.message.slice(0, 10) + "..."
+                      <span className="font-[400] text-[#5B5F5E] text-xs line-clamp-">
+                        {notification.message > 3
+                          ? notification.message.slice(0, 3) + "..."
                           : notification.message}
                       </span>
                       <p className="text-gray-600  w-full float-left text-sm text-left justify-start items-start align-baseline">
