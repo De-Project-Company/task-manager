@@ -103,24 +103,10 @@ export const CreateTask = async (
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to assign a task.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    // console.log(e.response.data);
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 

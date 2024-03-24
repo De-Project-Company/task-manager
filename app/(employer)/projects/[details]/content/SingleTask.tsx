@@ -71,7 +71,7 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
     DueDate
   );
 
-  console.log(taskOwner);
+  //   console.log(taskOwner);
   return (
     <AccordionItem value={task?._id!}>
       <AccordionTrigger>{task?.title}</AccordionTrigger>
@@ -83,15 +83,24 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
               <p className="text-xs text-header dark:text-gray-200 font-normal">
                 Due Date: {formattedDate}
               </p>
-              {/* <p className="flex items-center gap-x-2 text-primary-light dark:text-[#23a8d4]">
-                <MessageEdit />
-   
-              </p> */}
             </div>
-            <p className="py-4 text-justify text-header dark:text-gray-300">
-              {task?.description}
-            </p>
+            <div className="flex items-center gap-x-3">
+              <button className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]">
+                <MessageEdit />
+                <span>Edit</span>
+              </button>
+              {/* <button
+
+                className="flex items-center gap-x-2 text-[#FF3333]"
+              >
+                <Trash color={"#FF3333"} variant="Bold" />
+                <span>Delete</span>
+              </button> */}
+            </div>
           </div>
+          <p className="py-4 text-justify text-header dark:text-gray-300">
+            {task?.description}
+          </p>
         </div>
       </AccordionContent>
     </AccordionItem>

@@ -72,7 +72,7 @@ const TaskSesion = ({ projectid, tasks, teamMembers }: TasksessionProp) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-  console.log(tasks);
+  // console.log(tasks);
 
   return (
     <>

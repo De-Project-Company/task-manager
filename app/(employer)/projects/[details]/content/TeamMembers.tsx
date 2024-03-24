@@ -114,24 +114,6 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
             <span>Add Team</span>
           </button>
         </div>
-        {/* {(teamMembers && teamMembers.length === 0) || undefined ? (
-          <p className="w-full text-center  dark:text-gray-200">
-            No team members yet.
-          </p>
-        ) : (
-          <>
-            {teamMembers &&
-              teamMembers.map((member) => (
-                <Member
-                  key={member._id}
-                  name={member.user.name}
-                  accepted={member.accepted}
-                  memberId={member.user._id}
-                  owner={owner}
-                />
-              ))}
-          </>
-        )} */}
 
         {teamMembers && teamMembers.length > 0 ? (
           <>
