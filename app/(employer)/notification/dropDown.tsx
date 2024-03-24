@@ -69,7 +69,7 @@ const NotificationDopDown = () => {
                   key={notification._id}
                   className={`h-fit py-4 flex px-4 flex-col `}
                 >
-                  <div className="flex w-full gap-4 items-center justify-between">
+                  <div className="flex w-full gap-1 items-center justify-between">
                     <div className="m-auto w-fit p-2 rounded-full">
                       <NotificationIcon size="32" />
                     </div>
