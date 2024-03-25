@@ -14,6 +14,7 @@ const ProjectCard = ({ status, title, owner, endDate, _id }: ProjectProps) => {
   const { projectSearchTerm } = useProjectCtx();
 
   const encryptTitle = encryptString(title!);
+  console.log(title);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;

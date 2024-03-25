@@ -15,8 +15,7 @@ const Member = ({ name, accepted, memberId }: Members) => {
   const isCurrentUserAdmin = user?.id === memberId;
 
   console.log(user);
-
-  // '65e0a35597de6248c3e410be',
+  console.log(name);
 
   return (
     <div className="flex gap-y-2 w-full h-full max-h-[60px] sm:items-center justify-between border-b border-[#e1e1e1] dark:border-primary-light py-1 sm:py-0">
