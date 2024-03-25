@@ -102,13 +102,14 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ projects}) => {
               <td className="border px-4 py-2">
                 <div className='flex'>
                   {project.teamMembers && project.teamMembers.map((member, index) => (
-                    <div key={index} className='mr-[-7px] border-white border-2 rounded-full'>
+                  <div key={index} className='mr-[-7px] border-white border-2 rounded-full' title={member.user.name}>
                       <Image
                         src={`https://ui-avatars.com/api/?name=${member.user.name}&background=random`}
                         alt={member.user.name}
                         width={20}
                         height={20}
                         className='rounded-full '
+                        
                       />
                     </div>
                   ))}
