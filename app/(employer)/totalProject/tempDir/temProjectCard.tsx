@@ -84,7 +84,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ projects}) => {
               </td>
               <td className="border px-4 py-2">{project.title}</td>
               <td className="border px-4 py-2">
-                {project.duration ? `${Math.ceil(project.duration / 7)} week(s)` : "Duration Not Available"}
+                {project.duration ? `${Math.ceil(project.duration / 7)} week(s)` : "Duration is Not Available"}
               </td>
               <td className="border px-4 py-2">{project.description ? project.description.split(' ').slice(0, 3).join(' ') + '...' : ""}</td>
               <td className="border px-4 py-2">
