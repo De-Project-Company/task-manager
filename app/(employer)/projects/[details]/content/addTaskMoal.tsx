@@ -9,6 +9,7 @@ import { assignTask } from "@/actions/task";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import Button from "@/components/ui/Button";
+import { searchTeam } from "@/actions/search";
 
 type StatusProps = {
   id?: number;
@@ -54,15 +55,13 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     task: {
       title: "",
       description: "",
-      status: "pending",
+      status: "Todo",
     },
     email: "",
     name: "",
     dueDate: new Date(),
   });
 
-  // console.log(formData);
-  // Maximum length for description
   const MAX_DESC = 200;
 
   const isDisabled = !formData.task || !formData.email || !formData.name;
@@ -74,7 +73,6 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
     e.preventDefault();
     startTransition(() => {
       assignTask(formData, projectid!).then((data) => {
-        // console.log(data);
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
@@ -82,7 +80,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             task: {
               title: "",
               description: "",
-              status: "",
+              status: "Todo",
             },
             email: "",
             name: "",
@@ -109,7 +107,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         role="dialog"
         aria-labelledby="create task modal"
         className={cn(
-          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[650px] md:h-[720px] lg:h-[750px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
+          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[500px] md:h-[550px] lg:h-[600px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
           addTaskModal
             ? "-translate-x-1/2 duration-700 opacity-100 sm:rounded-xl md:rounded-2xl"
             : "translate-x-full duration-300 pointer-events-none"
@@ -131,6 +129,7 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             <X size={24} />
           </button>
         </div>
+
         <form
           onSubmit={handleSubmit}
           className="flex w-full flex-col gap-y-4 lg:gap-y-6 py-8 mb-5 px-2 sm:px-4 md:px-6 lg:px-8 h-full items-start"

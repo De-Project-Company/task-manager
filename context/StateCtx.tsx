@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useLayoutEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   protectedRoutes,
@@ -34,6 +25,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [addTaskModal, setaddTaskModal] = useState(false);
   const [openNotification, setopenNotification] = useState(false);
   const [SessionModal, setSessionModal] = useState(false);
+  const [InviteModal, setInviteModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -50,7 +42,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     ChangeProjectStatusModal ||
     addTaskModal ||
     SessionModal ||
-    openNotification;
+    openNotification ||
+    InviteModal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -189,10 +182,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
         const res = await checkSession();
         const isProtectedRoute = protectedRoutes.includes(pathname);
         if (isProtectedRoute && res?.error) {
-          // If it's a protected route and there's an error, redirect to revalidate
           router.push(DEFAULT_REVALIDATE_REDIRECT);
         } else if (!isProtectedRoute && res?.success) {
-          // If it's not a protected route and there's success, redirect to login
           router.push(DEFAULT_LOGIN_REDIRECT);
         }
       } catch (err) {}
@@ -205,6 +196,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(
     () => ({
       openSidebar,
+      InviteModal,
+      setInviteModal,
       setOpenSidebar,
       OTPModal,
       landingMobileMenu,
@@ -236,7 +229,6 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     }),
     [
       openSidebar,
-      // anyMobileSidebarOpen,
       landingMobileMenu,
       OTPModal,
       swipeIndicator,
@@ -249,6 +241,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ChangeProjectStatusModal,
       SessionModal,
       openNotification,
+      InviteModal,
 
       // calender added
       openCalendarEvent,

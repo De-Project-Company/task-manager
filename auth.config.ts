@@ -14,6 +14,7 @@ export default {
 
           const user = await signinUser({ email, password });
           if (!user) return null;
+          console.log(user.res);
 
           return user.res;
         }

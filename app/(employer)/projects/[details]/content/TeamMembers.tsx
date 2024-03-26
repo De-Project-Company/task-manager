@@ -6,6 +6,8 @@ import Team from "./AddTeamModal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
+import { Owner } from "@/types";
+import { useUserCtx } from "@/context/UserCtx";
 
 interface User {
   _id: string;
@@ -34,11 +36,20 @@ export interface TeamMember {
 interface TasksessionProp {
   projectid?: string;
   teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
+const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
+  const { user } = useUserCtx();
+
+  const admin = teamMembers?.find((member) => member.user._id === user?.id);
+  const filteredTeamMembers = teamMembers?.filter(
+    (member) => member.user._id !== user?.id
+  );
+
+  // console.log(admin);
 
   useEffect(() => {
     if (isMenu) {
@@ -112,22 +123,36 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
             <span>Add Team</span>
           </button>
         </div>
-        {teamMembers && teamMembers.length === 0 ? (
-          <p className="w-full text-center  dark:text-gray-200">
+
+        {teamMembers && teamMembers.length > 0 ? (
+          <>
+            {admin && (
+              <Member
+                key={admin._id}
+                name={admin.user.name}
+                accepted={admin.accepted}
+                memberId={admin.user._id}
+                owner={owner}
+              />
+            )}
+            {filteredTeamMembers && filteredTeamMembers.length > 0 && (
+              <>
+                {filteredTeamMembers.map((member) => (
+                  <Member
+                    key={member._id}
+                    name={member.user.name}
+                    accepted={member.accepted}
+                    memberId={member.user._id}
+                    owner={owner}
+                  />
+                ))}
+              </>
+            )}
+          </>
+        ) : (
+          <p className="w-full text-center h-full  dark:text-gray-200">
             No team members yet.
           </p>
-        ) : (
-          <>
-            {teamMembers &&
-              teamMembers.map((member) => (
-                <Member
-                  key={member._id}
-                  name={member.user.name}
-                  accepted={member.accepted}
-                  memberId={member.user._id}
-                />
-              ))}
-          </>
         )}
 
         <Team projectid={projectid} />

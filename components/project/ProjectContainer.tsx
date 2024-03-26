@@ -11,6 +11,7 @@ import { cn } from "@/utils";
 import ProjectNotFound from "./ProjectNotFound";
 import Empty from "./Empty";
 
+
 const ProjectContainer = () => {
   const { Project, projectSearchTerm, selectedProjectFilter, Loading } =
     useProjectCtx();
@@ -52,7 +53,7 @@ const ProjectContainer = () => {
     );
 
     // Log or use the suggestions as needed
-    console.log("Search Suggestions:", suggestions);
+    // console.log("Search Suggestions:", suggestions);
   }, [selectedProjectFilter, projectSearchTerm, Project]);
 
   const itemsPerPage = 8;
@@ -155,6 +156,8 @@ const ProjectContainer = () => {
           />
         </div>
       </section>
+
+      
     </section>
   ) : (
     <Empty />

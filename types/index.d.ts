@@ -28,7 +28,7 @@ export type NavbarLinkProps = {
   descText: string;
 };
 
-interface Owner {
+export interface Owner {
   _id?: string;
   name?: string;
   email?: string;
@@ -63,6 +63,15 @@ interface UserWithRole {
   _id: string;
 }
 
+interface Task {
+  title: string;
+  description: string;
+  assignedTo: string;
+  dueDate: string;
+  status: string;
+  _id: string;
+}
+
 export interface ProjectProps {
   _id?: string;
   title?: string;
@@ -74,7 +83,7 @@ export interface ProjectProps {
   startDate?: string;
   endDate?: string;
   teamMembers?: UserWithRole[];
-  tasks?: any[];
+  tasks?: Task[];
   __v?: number;
 }
 
@@ -109,6 +118,8 @@ export interface StateContextProps {
   setDeleteProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
   Toast: boolean;
   setToast: React.Dispatch<React.SetStateAction<boolean>>;
+  InviteModal: boolean;
+  setInviteModal: React.Dispatch<React.SetStateAction<boolean>>;
   ChangeProjectStatusModal: boolean;
   setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTeamMemberMoal: boolean;

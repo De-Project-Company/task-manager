@@ -5,12 +5,53 @@ import { useStateCtx } from "@/context/StateCtx";
 import AssignTask from "./addTaskMoal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import SingleTask from "./SingleTask";
 
-interface TasksessionProp {
-  projectid?: string;
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
 }
 
-const TaskSesion = ({ projectid }: TasksessionProp) => {
+interface UserWithRole {
+  user: User;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
+
+export interface TeamMember {
+  user: string;
+  role: string;
+  accepted: boolean;
+  _id: string;
+  name: string;
+}
+interface Task {
+  title: string;
+  description: string;
+  assignedTo: string;
+  dueDate: string;
+  status: string;
+  _id: string;
+}
+interface TasksessionProp {
+  projectid?: string;
+  tasks?: Task[];
+  teamMembers?: UserWithRole[];
+}
+
+const TaskSesion = ({ projectid, tasks, teamMembers }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTaskModal } = useStateCtx();
 
@@ -30,6 +71,8 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
+
+  // console.log(tasks);
 
   return (
     <>
@@ -86,6 +129,29 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
             <span>Add Task</span>
           </button>
         </div>
+
+        {tasks && tasks.length > 0 ? (
+          <Accordion
+            type="multiple"
+            // type="single" collapsible
+            className="w-full"
+          >
+            {tasks &&
+              tasks?.map((task) => (
+                <SingleTask
+                  key={task?._id}
+                  task={task}
+                  projectid={projectid}
+                  teamMembers={teamMembers}
+                />
+              ))}
+          </Accordion>
+        ) : (
+          <p className="w-full text-center  dark:text-gray-200">
+            No Tasks Assigned yet.
+          </p>
+        )}
+
         {/* Create Task Modal */}
         <AssignTask projectid={projectid} />
       </div>

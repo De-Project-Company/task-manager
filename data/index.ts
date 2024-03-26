@@ -1,5 +1,3 @@
-"use server";
-
 import { baseUrl } from "../actions/baseurl";
 
 export const signinUser = async ({
