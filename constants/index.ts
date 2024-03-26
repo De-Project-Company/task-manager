@@ -5,24 +5,12 @@ import React from "react";
 import {
   type Icon,
   Category,
-  Briefcase,
-  WalletMoney,
-  MessageText,
-  Personalcard,
+  Call,
   Notification1,
   Profile2User,
   ArchiveBook,
   TrendUp,
-  Box,
-  DiscountShape,
-  InfoCircle,
-  ArrowCircleRight2,
   Setting2,
-  Logout,
-  BoxTick,
-  I3DRotate,
-  ShoppingCart,
-  Coin1,
   Message,
 } from "iconsax-react";
 import { SidebarProps, ProjectCounterProps, SelectProps } from "@/types";
@@ -44,9 +32,9 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   },
   {
     id: 3,
-    label: "Calender",
-    icon: Profile2User,
-    link: "calender",
+    label: "Meeting",
+    icon: Call,
+    link: "meetings",
   },
   {
     id: 4,
@@ -65,6 +53,12 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
     label: "settings",
     icon: Setting2,
     link: "settings",
+  },
+  {
+    id: 7,
+    label: "Calender",
+    icon: Profile2User,
+    link: "calender",
   },
 ];
 const NAVLINKS = [

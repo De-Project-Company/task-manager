@@ -283,3 +283,4 @@ export const timeTogo = (dateString: string): string => {
   if (seconds > 1) return `${seconds} seconds ago`;
   return "just now";
 };
+

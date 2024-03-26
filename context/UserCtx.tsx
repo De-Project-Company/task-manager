@@ -38,6 +38,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     token: "",
     companyName: "",
     website: "",
+    type: "unauthenticated",
   });
 
   useLayoutEffect(() => {
@@ -47,6 +48,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
       name: session?.user?.name!,
       image: session?.user?.image!,
       email: session?.user?.email!,
+      type: "authenticated",
     });
 
     return;
@@ -79,6 +81,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
           setUser({
             ...user.user,
             id: user.user._id,
+            type: "authenticated",
             image:
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",

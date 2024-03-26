@@ -16,9 +16,10 @@ export interface User {
   companyName?: string;
   website?: string;
   role?: string;
-  // createdAt?: string;
+  createdAt?: string;
   image?: string | StaticImport;
   token?: string;
+  type?: "authenticated" | "guest" | "anonymous" | "unauthenticated";
 }
 
 export type NavbarLinkProps = {
