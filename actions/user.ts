@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
+import { auth } from "@/auth";
 
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -11,23 +11,26 @@ const $http = Calls(BaseUrl);
 
 export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
+
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
-
   try {
     const res = await $http.get("/auth/me", config);
     if (res.status === 200) {

@@ -15,8 +15,6 @@ import { UserDetails } from "@/types";
 import Calls from "./calls";
 import { DeleteFromSessionStorage, GetFromSessionStorage } from "@/utils";
 
-
-
 const cookie = cookies();
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -96,7 +94,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     });
     const res = await data.json();
 
-
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
@@ -105,6 +102,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         priority: "high",
       });
       setCookie("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+      cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
         path: "/",

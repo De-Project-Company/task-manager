@@ -23,7 +23,7 @@ export const signinUser = async ({
     });
     console.log(data.status);
     const res = await data.json();
-    const user = res.admin;
+    const user = res.data && res.token;
     if (data.status === 200 || res.ok) {
       console.log(res);
 

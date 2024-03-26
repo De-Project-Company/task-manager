@@ -9,10 +9,15 @@ import {
 } from "./routes";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { auth } from "./auth";
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const hasCookie = cookies().has("access_token");
-  const isLoggedIn = hasCookie;
+  const session = await auth();
+  const isLoggedIn = hasCookie || session;
+  const cookie = cookies();
+
+  // console.log(session);
   console.log("LOGGED IN?: ", isLoggedIn);
 
   const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
