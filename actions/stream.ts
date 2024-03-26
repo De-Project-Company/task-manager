@@ -31,7 +31,7 @@ export async function getToken() {
     issuedAt
   );
 
-  console.log("Successfully generated token: ", token);
+  // console.log("Successfully generated token: ", token);
 
   return token;
 }

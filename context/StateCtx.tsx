@@ -32,7 +32,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentPath, setCurrentPath] = useState("");
   const [openCalendarEvent, setOpenCalendarEvent] = useState(false);
   const [Introduction, setIntroduction] = useState(false);
-
+  const [CreateMeet, setCreateMeet] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -48,7 +48,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     openNotification ||
     InviteModal ||
     ApprovalModal ||
-    Introduction;
+    Introduction ||
+    CreateMeet;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -238,6 +239,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setApprovalModal,
       Introduction,
       setIntroduction,
+      CreateMeet,
+      setCreateMeet,
       // calenderEvent
       openCalendarEvent,
       setOpenCalendarEvent,
@@ -249,6 +252,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       swipeIndicator,
       addTaskModal,
       Toast,
+      CreateMeet,
       addTeamMemberMoal,
       currentPath,
       openSidebarMain,
