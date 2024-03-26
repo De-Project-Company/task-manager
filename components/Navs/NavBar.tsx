@@ -68,10 +68,9 @@ const Navbar = () => {
           aria-expanded={openSidebarMain}
           type="button"
           className={cn(
-            "md:hidden rounded-full focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light",
+            "md:hidden rounded-full focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light text-black dark:text-white",
             {
-              "rotate-45 absolute right-1 top-1 z-[9999] text-white":
-                openSidebarMain,
+              "rotate-45 absolute right-1 top-1 z-[9999]": openSidebarMain,
             }
           )}
           onClick={() => setOpenSidebarMain(!openSidebarMain)}
@@ -136,6 +135,7 @@ const Navbar = () => {
 
             <button
               type="button"
+              className="text-black dark:text-white"
               onClick={() =>
                 setopenNotification(openNotification ? false : true)
               }
