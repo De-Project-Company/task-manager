@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
 import { useSession } from "next-auth/react";
 import { setCookie } from "cookies-next";
+import { useStateCtx } from "./StateCtx";
 
 // Add Your Props here
 interface UserContextProps {
@@ -26,7 +27,8 @@ export const UserContext = createContext({} as UserContextProps);
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  // console.log(session);
+  const { Introduction, setIntroduction } = useStateCtx();
+
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
@@ -90,6 +92,15 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     fetchUserData();
   }, []);
+
+  useLayoutEffect(() => {
+    const onboarded = localStorage.getItem("onboarded");
+
+    if (onboarded !== "true") {
+      setIntroduction(true);
+      localStorage.setItem("onboarded", "false");
+    }
+  }, [setIntroduction]);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 

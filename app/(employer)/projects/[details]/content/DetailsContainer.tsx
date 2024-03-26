@@ -45,6 +45,11 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     fetchProjectDetails();
   }, [id]);
 
+  const admin = projectData?.teamMembers?.find(
+    (member) => member.user._id === projectData?.owner?._id
+  );
+  const isNotAdmin = admin?.user._id !== user?.id;
+
   const fullName = user?.name;
   const [firstName] = fullName!.split(/\s+/);
   const hours = daysToHours(projectData?.duration!);
@@ -147,7 +152,10 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
               aria-haspopup
               aria-expanded={isDotMenu}
               onClick={() => setIsDotMenu((prev) => !prev)}
-              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-heade"
+              className={cn(
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-header",
+                isNotAdmin ? "hidden" : "block"
+              )}
             >
               <More />
             </button>
@@ -253,6 +261,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             projectid={id!}
             tasks={projectData?.tasks}
             teamMembers={projectData?.teamMembers}
+            owner={projectData?.owner}
           />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
