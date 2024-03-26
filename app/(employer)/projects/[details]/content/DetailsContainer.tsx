@@ -129,7 +129,12 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             {projectData?.status}
           </span>
           <span className="block py-1 px-2 bg-[#EAEBF0] text-neutraly w-fit rounded-full text-xs md:text-sm">
-            {hours}hrs
+            {/* {hours}hrs */}
+            {projectData?.duration
+              ? `${Math.ceil(projectData?.duration / 7)} week${
+                  Math.ceil(projectData?.duration / 7) !== 1 ? "s" : ""
+                }`
+              : "Duration is Not Available"}
           </span>
         </div>
 
