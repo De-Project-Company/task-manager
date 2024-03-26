@@ -101,6 +101,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         path: "/",
         priority: "high",
       });
+      cookies()?.set("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
       setCookie("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
