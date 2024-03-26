@@ -1,5 +1,6 @@
-import React from "react";
 
+import React from "react";
+import TemProjectContainer from "./tempDir/temProjectContainer";
 const page = () => {
   return (
     <>
@@ -14,6 +15,7 @@ const page = () => {
         {/* Project table can come in here */}
         <p className="mt-4">Project table can come in here </p>
       </div>
+      <TemProjectContainer/>
     </>
   );
 };
