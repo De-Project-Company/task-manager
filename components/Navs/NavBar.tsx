@@ -51,7 +51,7 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "lg:px-9 px-3 border-b border-gray-200 dark:border-secondary h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-50 md:z-50 select-none bg-white/80 dark:bg-secondary backdrop-blur-lg w-full",
+        "lg:px-9 px-3 border-b border-gray-200 dark:border-secondary h-[50px] sm:h-[70px] md:h-[89px] flex items-center justify-between fixed md:relative max-md:top-0 max-md:left-0 max-md:z-50 md:z-50 select-none bg-white/80 dark:bg-primary backdrop-blur-lg w-full",
         {
           //   "md:overflow-hidden": EmployerShowMobileMenu,
         }
@@ -68,10 +68,9 @@ const Navbar = () => {
           aria-expanded={openSidebarMain}
           type="button"
           className={cn(
-            "md:hidden rounded-full focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light",
+            "md:hidden rounded-full focus-visible:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light text-black dark:text-white",
             {
-              "rotate-45 absolute right-1 top-1 z-[9999] text-white":
-                openSidebarMain,
+              "rotate-45 absolute right-1 top-1 z-[9999]": openSidebarMain,
             }
           )}
           onClick={() => setOpenSidebarMain(!openSidebarMain)}
@@ -136,6 +135,7 @@ const Navbar = () => {
 
             <button
               type="button"
+              className="text-black dark:text-white"
               onClick={() =>
                 setopenNotification(openNotification ? false : true)
               }

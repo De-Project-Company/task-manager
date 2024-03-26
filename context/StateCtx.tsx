@@ -26,6 +26,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openNotification, setopenNotification] = useState(false);
   const [SessionModal, setSessionModal] = useState(false);
   const [InviteModal, setInviteModal] = useState(false);
+  const [ApprovalModal, setApprovalModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
@@ -43,7 +44,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     addTaskModal ||
     SessionModal ||
     openNotification ||
-    InviteModal;
+    InviteModal ||
+    ApprovalModal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -140,7 +142,14 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ].join(";");
     console.log(t, n);
   }, []);
+  useEffect(() => {
+    const isFirstTimeUser = localStorage.getItem("firstTimeUser") !== "false";
 
+    if (isFirstTimeUser) {
+      setApprovalModal(true);
+      localStorage.setItem("firstTimeUser", "false");
+    }
+  }, [setApprovalModal]);
   useEffect(() => {
     if (pathname === "/") return;
     let timeoutId: any;
@@ -222,7 +231,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setSessionModal,
       openNotification,
       setopenNotification,
-
+      ApprovalModal,
+      setApprovalModal,
       // calenderEvent
       openCalendarEvent,
       setOpenCalendarEvent,
@@ -242,10 +252,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       SessionModal,
       openNotification,
       InviteModal,
-
-      // calender added
+      ApprovalModal,
       openCalendarEvent,
-      setOpenCalendarEvent,
     ]
   );
 

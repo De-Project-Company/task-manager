@@ -41,7 +41,9 @@ const NotificationPage = () => {
   }, []);
   return (
     <section className="w-full flex-col flex">
-      <h2 className="ml-4 mt-4 font-medium text-[28px]">Notifications</h2>
+      <h2 className="ml-4 mt-4 font-medium text-[28px] dark:text-white">
+        Notifications
+      </h2>
       <div className="w-full px-5">
         {notifications.length === 0 ? (
           <EmptyState />

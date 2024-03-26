@@ -99,7 +99,7 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
             </div>
           </div>
           <p className="py-4 text-justify text-header dark:text-gray-300">
-            {task?.description}
+            Description: {task?.description}
           </p>
         </div>
       </AccordionContent>

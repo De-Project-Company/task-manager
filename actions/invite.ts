@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
+import { auth } from "@/auth";
 
 const BaseUrl =
   process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
@@ -10,19 +11,24 @@ const $http = Calls(BaseUrl);
 
 export const acceptInvite = async (projectId?: string) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
 
-  if (!authToken) {
+
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
+
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
