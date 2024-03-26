@@ -14,6 +14,9 @@ interface Members {
 
 const Member = ({ name, accepted, memberId, owner }: Members) => {
   const { user } = useUserCtx();
+
+  console.log(user);
+  console.log(name);
   const isCurrentUserAdmin = user?.id === owner?._id && user?.id === memberId;
 
   return (
