@@ -6,7 +6,7 @@ const Calls = (
 ): AxiosInstance => {
   return axios.create({
     baseURL,
-    timeout: 1000,
+    timeout: 30000,
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       "Access-Control-Allow-Origin": "*",

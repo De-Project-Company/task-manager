@@ -22,7 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import { format } from "date-fns";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/butt";
 
 const CreateMeet = () => {
   const { user } = useUserCtx();
