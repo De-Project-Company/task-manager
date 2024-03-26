@@ -5,13 +5,10 @@ import { useStateCtx } from "@/context/StateCtx";
 import AssignTask from "./addTaskMoal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import SingleTask from "./SingleTask";
+import { Owner } from "@/types";
+import { useUserCtx } from "@/context/UserCtx";
 
 interface User {
   _id: string;
@@ -49,11 +46,20 @@ interface TasksessionProp {
   projectid?: string;
   tasks?: Task[];
   teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const TaskSesion = ({ projectid, tasks, teamMembers }: TasksessionProp) => {
+const TaskSesion = ({
+  projectid,
+  tasks,
+  teamMembers,
+  owner,
+}: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTaskModal } = useStateCtx();
+  const { user } = useUserCtx();
+  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
+  const isNotAdmin = admin?.user._id !== user?.id;
 
   useEffect(() => {
     if (isMenu) {
@@ -92,7 +98,10 @@ const TaskSesion = ({ projectid, tasks, teamMembers }: TasksessionProp) => {
             aria-haspopup
             aria-expanded={isMenu}
             onClick={() => setIsMenu((prev) => !prev)}
-            className="text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
+            className={cn(
+              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
+              isNotAdmin ? "hidden" : "block"
+            )}
           >
             <Add size={24} />
           </button>

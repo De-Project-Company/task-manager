@@ -31,6 +31,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
   const [openCalendarEvent, setOpenCalendarEvent] = useState(false);
+  const [Introduction, setIntroduction] = useState(false);
+
 
   const pathname = usePathname();
   const router = useRouter();
@@ -45,7 +47,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     SessionModal ||
     openNotification ||
     InviteModal ||
-    ApprovalModal;
+    ApprovalModal ||
+    Introduction;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -233,6 +236,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setopenNotification,
       ApprovalModal,
       setApprovalModal,
+      Introduction,
+      setIntroduction,
       // calenderEvent
       openCalendarEvent,
       setOpenCalendarEvent,
@@ -254,6 +259,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       InviteModal,
       ApprovalModal,
       openCalendarEvent,
+      Introduction,
     ]
   );
 

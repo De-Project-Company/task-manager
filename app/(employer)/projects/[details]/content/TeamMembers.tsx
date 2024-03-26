@@ -44,12 +44,12 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
   const { setaddTeamMemberMoal } = useStateCtx();
   const { user } = useUserCtx();
 
-  const admin = teamMembers?.find((member) => member.user._id === user?.id);
+  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
   const filteredTeamMembers = teamMembers?.filter(
-    (member) => member.user._id !== user?.id
+    (member) => member.user._id !== owner?._id
   );
 
-  // console.log(admin);
+  const isNotAdmin = admin?.user._id !== user?.id;
 
   useEffect(() => {
     if (isMenu) {
@@ -86,7 +86,10 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
             aria-haspopup
             aria-expanded={isMenu}
             onClick={() => setIsMenu((prev) => !prev)}
-            className="text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
+            className={cn(
+              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
+              isNotAdmin ? "hidden" : ""
+            )}
           >
             <Add size={24} />
           </button>
