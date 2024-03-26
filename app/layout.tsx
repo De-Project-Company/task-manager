@@ -6,6 +6,7 @@ import ThemeProvider from "@/context/ThemeCtx";
 import SwipeIndicator from "@/components/SwiperIndicator";
 import AuthProvider from "./Providers";
 import UpdateSessionModal from "@/components/SessionModal";
+import { ApprovalModal } from "@/components/ApprovalModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
               {children}
               <SwipeIndicator />
               <UpdateSessionModal />
+              <ApprovalModal />
             </body>
           </ThemeProvider>
         </StateCtxProvider>

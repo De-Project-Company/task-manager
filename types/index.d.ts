@@ -134,6 +134,8 @@ export interface StateContextProps {
   setSessionModal: React.Dispatch<React.SetStateAction<boolean>>;
   openNotification: boolean;
   setopenNotification: React.Dispatch<React.SetStateAction<boolean>>;
+  ApprovalModal: boolean;
+  setApprovalModal: React.Dispatch<React.SetStateAction<boolean>>;
 
   // Added context for CalendarEvent
 
