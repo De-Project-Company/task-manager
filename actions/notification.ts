@@ -5,8 +5,7 @@ import Calls from "./calls";
 import { GetFromSessionStorage } from "@/utils";
 import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 

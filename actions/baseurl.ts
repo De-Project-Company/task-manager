@@ -1,1 +1,1 @@
-export const baseUrl = "https://traverse-pgpw.onrender.com/api/v1";
+export const baseUrl = process.env.BASEURL;

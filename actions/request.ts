@@ -4,8 +4,7 @@ import Calls from "./calls";
 import * as z from "zod";
 import { RequestSchema } from "@/schemas";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 

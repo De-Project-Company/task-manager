@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const Calls = (
-  baseURL: string | undefined = "https://traverse-pgpw.onrender.com/api/v1",
+  baseURL: string | undefined = process.env.BASEURL,
   authorization?: string
 ): AxiosInstance => {
   return axios.create({

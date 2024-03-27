@@ -16,8 +16,7 @@ import Calls from "./calls";
 import { DeleteFromSessionStorage, GetFromSessionStorage } from "@/utils";
 
 const cookie = cookies();
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 

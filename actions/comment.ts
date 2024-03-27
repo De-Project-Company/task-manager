@@ -4,15 +4,13 @@ import { cookies } from "next/headers";
 import Calls from "./calls";
 import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
 export const getcomment = async (id: string) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
-
 
   if (!authToken && !session) {
     return {
@@ -22,7 +20,6 @@ export const getcomment = async (id: string) => {
   }
   // @ts-ignore
   const token = session?.user?.token;
-
 
   const config = {
     headers: {
@@ -59,7 +56,6 @@ export const makecomment = async (id: string, comment: string) => {
   }
   // @ts-ignore
   const token = session?.user?.token;
-
 
   const config = {
     headers: {
