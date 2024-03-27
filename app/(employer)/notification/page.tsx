@@ -8,6 +8,7 @@ export interface NotificationProps {
   createdAt: string;
   __v: number;
   link: string;
+  read?: boolean;
 }
 
 const Notification = () => {

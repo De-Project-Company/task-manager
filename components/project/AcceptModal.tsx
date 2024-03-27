@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useStateCtx } from "@/context/StateCtx";
-import { cn } from "@/utils";
+import { cn, encryptString } from "@/utils";
 import { X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { decryptString } from "@/utils";
@@ -10,6 +10,7 @@ import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
 import Link from "next/link";
 import { acceptInvite } from "@/actions/invite";
+import { useRouter } from "next/navigation";
 
 const AcceptModal = () => {
   const { InviteModal, setInviteModal } = useStateCtx();
@@ -23,6 +24,7 @@ const AcceptModal = () => {
   }
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleAcceptInvite = async () => {
     setLoading(true);
@@ -31,6 +33,9 @@ const AcceptModal = () => {
       setLoading(false);
       setInviteAccepted(true);
       setError("");
+      setTimeout(() => {
+        router.refresh();
+      }, 1000);
     } else {
       setLoading(false);
       setInviteAccepted(false);
@@ -61,6 +66,8 @@ const AcceptModal = () => {
     }
   }, [projctId, InviteModal]);
 
+  const encryptTitle = encryptString(projectData?.title!);
+
   return (
     <>
       <div
@@ -78,14 +85,15 @@ const AcceptModal = () => {
           "py-6   flex flex-col max-[350px]:h-[410px] w-[90%] h-[450px] min-[550px]:w-[500px] md:w-[682px] md:h-[450px] items-center bg-white dark:bg-primary  fixed top-1/2 left-1/2  z-[999]  transition-all opacity-0 select-none  -translate-y-1/2 -translate-x-1/2",
           InviteModal
             ? "scale-100 duration-500 opacity-100 rounded-xl md:rounded-2xl"
-            : "scale-0 duration-200 pointer-events-none"
+            : "scale-0 duration-200 pointer-events-none",
+          inviteAccepted ? "h-full" : ""
         )}
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] dark:border-primary-light pb-4 pl-4 px-4 md:pl-8 ">
           <h3 className="text-sm min-[450px]:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
             Accept{" "}
             <span className="font-medium lg:font-bold">
-              {title ?? "Project"}?
+              {title ? "Project" : projectData?.title}?
             </span>
           </h3>
           <button
@@ -187,7 +195,8 @@ const AcceptModal = () => {
             <div className="bg-emerald-700/10 p-3 rounded-md flex  items-center gap-x-2 text-sm text-emerald-700">
               Invite accepted successfully!
             </div>
-            <button
+            <Link
+              href={`/projects/details?_id=${projectData?._id}&project_title=${encryptTitle}`}
               onClick={() => setInviteModal(false)}
               type="button"
               tabIndex={0}
@@ -196,8 +205,8 @@ const AcceptModal = () => {
                 "rounded-lg border border-primary text-primary w-[178px] min-[450px]:h-[56px] h-[40px] px-2  text-lg hover:opacity-80 transition-opacity duration-300 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary dark:text-color-dark dark:border-color-dark"
               )}
             >
-              Close
-            </button>
+              View Project
+            </Link>
           </div>
         )}
       </div>
@@ -206,3 +215,6 @@ const AcceptModal = () => {
 };
 
 export default AcceptModal;
+
+//
+// const encryptTitle = encryptString(title!);

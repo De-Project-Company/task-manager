@@ -10,7 +10,6 @@ import EmptyState from "./NoNOtification";
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
-  // console.log(notifications);
 
   useEffect(() => {
     const fetchNotifications = async () => {
