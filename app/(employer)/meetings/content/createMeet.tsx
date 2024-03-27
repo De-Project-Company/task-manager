@@ -15,25 +15,34 @@ import { useStateCtx } from "@/context/StateCtx";
 import { cn } from "@/utils";
 import { X } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
-import { Calendar } from "@/components/ui/Calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import { format } from "date-fns";
+import { Calendar } from "@/components/ui/Calendar";
 import { Button } from "@/components/ui/butt";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { addDays, format } from "date-fns";
 
 const CreateMeet = () => {
   const { user } = useUserCtx();
   const { CreateMeet, setCreateMeet } = useStateCtx();
   const client = useStreamVideoClient();
   const [participantsInput, setParticipantsInput] = useState("");
-  const [startTimeInput, setStartTimeInput] = useState("");
+  const [date, setDate] = useState<Date>(new Date());
   const [descriptionInput, setDescriptionInput] = useState("");
   const [call, setCall] = useState(null);
 
   const [Adddescription, setAdddescription] = useState(false);
+  const [Time, setTime] = useState(false);
 
   // async function createMeeting() {
   //   if (!client || !user) {
@@ -91,10 +100,11 @@ const CreateMeet = () => {
         role="dialog"
         aria-labelledby="remove-client"
         className={cn(
-          "py-6   flex flex-col max-[350px]:h-[450px] w-[90%] h-[420px] min-[550px]:w-[500px] md:w-[682px] md:h-[500px] items-center bg-white dark:bg-primary  fixed top-1/2 left-1/2  z-[999]  transition-all opacity-0 select-none  -translate-y-1/2 -translate-x-1/2",
+          "py-6   flex flex-col max-[350px]:h-[450px] w-[90%] h-[420px] min-[550px]:w-[500px] md:w-[682px] md:h-[500px] items-center bg-white dark:bg-primary  fixed top-1/2 left-1/2  z-[99]  transition-all opacity-0 select-none  -translate-y-1/2 -translate-x-1/2",
           CreateMeet
             ? "scale-100 duration-500 opacity-100 rounded-xl md:rounded-2xl"
-            : "scale-0 duration-200 pointer-events-none"
+            : "scale-0 duration-200 pointer-events-none",
+          Adddescription || Time ? "overflow-y-auto overflow-x-hidden" : ""
         )}
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
@@ -142,13 +152,13 @@ const CreateMeet = () => {
           </>
           <>
             <p className="text-[16px] md:text-[20px] ">Meeting Time</p>
-            <RadioGroup defaultValue="comfortable">
+            <RadioGroup defaultValue="now" onValueChange={() => setTime(!Time)}>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="default" id="r1" />
                 <Label htmlFor="r1">Start meeting immediately</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="comfortable" id="r2" />
+                <RadioGroupItem value="later" id="r2" />
                 <Label htmlFor="r2"> Start meeting at a later date</Label>
               </div>
             </RadioGroup>
@@ -165,6 +175,58 @@ const CreateMeet = () => {
                 <Label htmlFor="r2">Private</Label>
               </div>
             </RadioGroup>
+            {Time && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="flex w-full flex-col space-y-2 p-2 z-[500]"
+                >
+                  <Select
+                    onValueChange={(value) =>
+                      setDate(addDays(new Date(), parseInt(value)))
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Time Frame" />
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      className="z-[999] bg-white"
+                    >
+                      <SelectItem value="0">Today</SelectItem>
+                      <SelectItem value="1">Tomorrow</SelectItem>
+                      <SelectItem value="3">In 3 days</SelectItem>
+                      <SelectItem value="7">In a week</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="rounded-md border">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={(selectedDate: Date | undefined) => {
+                        if (selectedDate) {
+                          setDate(selectedDate);
+                        }
+                      }}
+                      disabled={(date) => date < new Date()}
+                      // initialFocus
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            )}
           </>
         </div>
         <div className="flex w-full items-center justify-center pt-8 bottom-0">
