@@ -66,7 +66,10 @@ const AcceptModal = () => {
     }
   }, [projctId, InviteModal]);
 
-  const encryptTitle = encryptString(projectData?.title!);
+  let encryptTitle = "";
+  if (projectData?.title) {
+    encryptTitle = encryptString(projectData?.title!);
+  }
 
   return (
     <>
