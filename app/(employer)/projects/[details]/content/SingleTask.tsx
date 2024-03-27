@@ -71,7 +71,6 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
     DueDate
   );
 
-  //   console.log(taskOwner);
   return (
     <AccordionItem value={task?._id!}>
       <AccordionTrigger>{task?.title}</AccordionTrigger>

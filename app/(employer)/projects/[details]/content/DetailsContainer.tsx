@@ -30,7 +30,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     const fetchProjectDetails = async () => {
       try {
         const project = await getPojectdetails(id!);
-        // console.log(project);
         if (project?.status === "success") {
           setProjectData(project.project);
         }

@@ -31,13 +31,11 @@ export const searchTeam = async (query?: string) => {
 
   try {
     const res = await $http.post("/user/search", query, config);
-    console.log(res.data);
     const data = res.data;
     return {
       data,
     };
   } catch (e: any) {
-    // console.log(e);
     return {
       error: e.response.data.message,
     };

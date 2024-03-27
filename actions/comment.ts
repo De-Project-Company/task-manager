@@ -37,7 +37,6 @@ export const getcomment = async (id: string) => {
       };
     }
   } catch (e: any) {
-    // console.log(e);
     return {
       error: e.response.data.message,
     };
@@ -78,7 +77,6 @@ export const makecomment = async (id: string, comment: string) => {
       };
     }
   } catch (e: any) {
-    // console.log(e);
     return {
       error: e.response.data.message,
     };

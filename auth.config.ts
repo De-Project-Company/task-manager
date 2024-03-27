@@ -51,7 +51,6 @@ export default {
   //   //   return { ...token, ...user };
   //   // },
   //   session: ({ session, token, user }) => {
-  //     console.log(session, token, user);
   //     return {
   //       ...session,
   //       user: {
@@ -61,7 +60,6 @@ export default {
   //     };
   //   },
   //   jwt: ({ token, user }) => {
-  //     // console.log
   //     if (user) {
   //       const u = user as unknown as any;
   //       return {
@@ -78,7 +76,6 @@ export default {
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
-      // console.log(session);
       session.user = token as any;
       return session;
     },

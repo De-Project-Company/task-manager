@@ -31,14 +31,12 @@ export const acceptInvite = async (projectId?: string) => {
 
   try {
     const res = await $http.get(`/project/accept?id=${projectId}`, config);
-    // console.log(res);
     if (res.status === 200) {
       return {
         success: "Project Accepted successfully",
       };
     }
   } catch (e: any) {
-    // console.log(e.response.data);
     return {
       error: e.response.data.message,
     };

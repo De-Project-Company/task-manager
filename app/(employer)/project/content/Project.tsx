@@ -9,13 +9,12 @@ const ProjectDetails = () => {
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
   const searchParams = useSearchParams();
   const ProjectId = searchParams.get("id");
-  console.log(ProjectId);
+
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         const project = await getPojectdetails(ProjectId!);
-        console.log(project);
         if (project?.status === "success") {
           setProjectData(project.project);
         }

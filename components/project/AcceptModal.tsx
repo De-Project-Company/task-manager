@@ -49,7 +49,7 @@ const AcceptModal = () => {
     const fetchProjectDetails = async () => {
       try {
         const project = await getPojectdetails(projctId!);
-        // console.log(project);
+
         if (project?.status === "success") {
           setProjectData(project.project);
         }
@@ -215,6 +215,3 @@ const AcceptModal = () => {
 };
 
 export default AcceptModal;
-
-//
-// const encryptTitle = encryptString(title!);

@@ -91,7 +91,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (swipeDis < -swipeThreshold) {
           localStorage.setItem("swiped", "true");
-          console.log("first");
+
           setOpenSidebarMain(false);
           setOpenSidebar(false);
         }

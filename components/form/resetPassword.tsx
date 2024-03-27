@@ -52,7 +52,6 @@ const ResetPasswordForm: React.FC<ResetPasswordProps> = ({ token }) => {
       ResetPassword(values, token).then((data) => {
         setSuccess(data?.success);
         setError(data?.error);
-        console.log("User came from signIn");
         if (data?.success) {
           setTimeout(() => {
             setSuccess("Redirecting....");
@@ -67,20 +66,20 @@ const ResetPasswordForm: React.FC<ResetPasswordProps> = ({ token }) => {
   return (
     <div className="relative py-4 min-[850px]:py-6 rounded-[16px] bg-white shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
       <Link href="/">
-                   <Image
-              src="/assets/traverseLogo.png"
-              alt="traverse logo"
-              width={150}
-              height={150}
-              className="dark:hidden block"
-            />
-            <Image
-              src="/logo.svg"
-              alt="traverse logo"
-              width={150}
-              height={150}
-              className="dark:block hidden"
-            />
+        <Image
+          src="/assets/traverseLogo.png"
+          alt="traverse logo"
+          width={150}
+          height={150}
+          className="dark:hidden block"
+        />
+        <Image
+          src="/logo.svg"
+          alt="traverse logo"
+          width={150}
+          height={150}
+          className="dark:block hidden"
+        />
       </Link>
       <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2">
         Create New Password

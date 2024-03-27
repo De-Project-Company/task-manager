@@ -65,8 +65,6 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         path: "/",
         priority: "high",
       });
-      //@ts-ignore
-      // console.log("setted", session?.user?.token);
     }
     return;
   }, [session]);
@@ -75,7 +73,6 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUserData = async () => {
       try {
         const user = await getUser();
-        // console.log(user);
 
         if (user?.status === "success") {
           setUser({

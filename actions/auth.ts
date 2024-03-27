@@ -41,23 +41,15 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
 
   try {
     const res = await $http.post("/auth/signup", values);
-    console.log("Registration successful:", res.data);
     if (res?.status === 201) {
       return {
         success: "Account created successfully, check your email!",
       };
     }
   } catch (e: any) {
-    console.log("signup call error from api call", e);
-    if (e?.response?.status === 400) {
-      return {
-        error: "user already exists",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -179,7 +171,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       error: res.message,
     };
   } catch (error) {
-    console.log(error);
     return {
       error: "Something went wrong.",
     };
@@ -210,28 +201,13 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e?.response?.data?.status);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid license." };
-    } else if (e?.response?.status === 404) {
-      return { error: "Unable to activate. License not found." };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else if (e?.response?.data?.status == "fail") {
-      return { error: "Invalid Licence Number" };
-    } else {
-      return {
-        error:
-          // e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
-export const ForgetPassword = async (
-  values: z.infer<typeof ForgetPasswordSchema>
-) => {
+export const ForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
   const validatedFields = ForgetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -249,20 +225,9 @@ export const ForgetPassword = async (
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid license." };
-    } else if (e?.response?.status === 404) {
-      return { error: "User does not exist!" };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -297,20 +262,9 @@ export const ResetPassword = async (
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid Token Try again" };
-    } else if (e?.response?.status === 404) {
-      return { error: "User does not exist!" };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -343,17 +297,8 @@ export const signOut = async () => {
       };
     }
   } catch (e: any) {
-    console.log("Sign-out API call error", e);
-    if (e?.response?.status === 401) {
-      return { error: "Unauthorized access. Please log in." };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };

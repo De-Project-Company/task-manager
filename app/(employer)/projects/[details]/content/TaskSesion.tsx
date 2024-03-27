@@ -78,7 +78,6 @@ const TaskSesion = ({
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-  // console.log(tasks);
 
   return (
     <>

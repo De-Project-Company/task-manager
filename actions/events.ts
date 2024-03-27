@@ -37,22 +37,9 @@ export const createEvent = async (values: {} | any) => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      error: "Unauthorized. Please check your access token.";
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -81,31 +68,14 @@ export const getAllEvents = async () => {
     const res = await $http.get("/calendar", config);
 
     if (res.status === 200) {
-      console.log(res);
       return {
         status: "success",
         event: res.data.calendar,
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a new event.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
