@@ -40,12 +40,6 @@ const NotificationDopDown = () => {
     fetchNotifications();
   }, []);
 
-  // const [read, setRead] = useState(() => {
-  //   const readStatus = localStorage.getItem(`read_${notifications?._id}`);
-
-  //   return readStatus ? JSON.parse(readStatus) : false;
-  // });
-
   return (
     <>
       <div
