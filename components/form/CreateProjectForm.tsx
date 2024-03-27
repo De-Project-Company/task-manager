@@ -43,8 +43,8 @@ function CreateProjectForm() {
     price: undefined,
     teamMembers: [],
     Date: {
-      from: new Date(),
-      to: addDays(new Date(), 7),
+      from: addDays(new Date(), 7),
+      to: addDays(new Date(), 14),
     },
   });
   const router = useRouter();
