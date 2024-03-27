@@ -44,6 +44,13 @@ const CreateMeet = () => {
   const [Adddescription, setAdddescription] = useState(false);
   const [Time, setTime] = useState(false);
 
+  if (!CreateMeet) {
+    if (Adddescription || Time) {
+      setAdddescription(false);
+      setTime(false);
+    }
+  }
+
   // async function createMeeting() {
   //   if (!client || !user) {
   //     return;
@@ -152,7 +159,10 @@ const CreateMeet = () => {
           </>
           <>
             <p className="text-[16px] md:text-[20px] ">Meeting Time</p>
-            <RadioGroup defaultValue="now" onValueChange={() => setTime(!Time)}>
+            <RadioGroup
+              defaultValue="fasle"
+              onValueChange={() => setTime(!Time)}
+            >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="default" id="r1" />
                 <Label htmlFor="r1">Start meeting immediately</Label>
@@ -165,7 +175,7 @@ const CreateMeet = () => {
           </>
           <>
             <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
-            <RadioGroup defaultValue="comfortable">
+            <RadioGroup defaultValue="false">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="default" id="r1" />
                 <Label htmlFor="r1">Every One</Label>
