@@ -31,7 +31,6 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const { user } = useUserCtx();
 
   const [Status, setStatus] = useState("idle");
-  // console.log(Status);
   const [commentText, setCommentText] = useState("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");

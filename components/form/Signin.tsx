@@ -52,7 +52,6 @@ const SigninForm = () => {
       login(values).then((data) => {
         setSuccess(data?.success);
         setError(data?.error);
-        console.log("User came from signIn");
         if (data?.success) {
           authenticate(values);
           setCookie("access_token", data?.token, {

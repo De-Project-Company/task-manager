@@ -57,7 +57,6 @@ export const CreateTaskForm = ({ projectid }: AssognTaskProp) => {
 
     startTransition(() => {
       CreateTask(values, projectid!).then((data) => {
-        console.log(data);
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {

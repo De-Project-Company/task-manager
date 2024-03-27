@@ -2,28 +2,30 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
+import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
 export const createEvent = async (values: {} | any) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
-  if (!authToken && !hasToken) {
+  const session = await auth();
+
+  if (!authToken && !session) {
     return {
-      error: "You are not authorized, Missing access token",
+      error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -35,40 +37,30 @@ export const createEvent = async (values: {} | any) => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      error: "Unauthorized. Please check your access token.";
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
 export const getAllEvents = async () => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
-  if (!authToken && !hasToken) {
+  const session = await auth();
+
+  if (!authToken && !session) {
     return {
-      error: "You are not authorized, Missing access token",
+      error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -76,32 +68,14 @@ export const getAllEvents = async () => {
     const res = await $http.get("/calendar", config);
 
     if (res.status === 200) {
-      console.log(res);
       return {
         status: "success",
         event: res.data.calendar,
       };
     }
-
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a new event.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };

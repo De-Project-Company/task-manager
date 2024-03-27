@@ -8,7 +8,6 @@ interface PageProps {
 }
 
 const PasswordReset = ({ searchParams: { token } }: PageProps) => {
-//   console.log(token);
   return (
     <>
       <ResetPasswordForm token={token} />

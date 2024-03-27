@@ -38,6 +38,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     token: "",
     companyName: "",
     website: "",
+    type: "unauthenticated",
   });
 
   useLayoutEffect(() => {
@@ -47,6 +48,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
       name: session?.user?.name!,
       image: session?.user?.image!,
       email: session?.user?.email!,
+      type: "authenticated",
     });
 
     return;
@@ -63,8 +65,6 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         path: "/",
         priority: "high",
       });
-      //@ts-ignore
-      // console.log("setted", session?.user?.token);
     }
     return;
   }, [session]);
@@ -73,12 +73,12 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUserData = async () => {
       try {
         const user = await getUser();
-        // console.log(user);
 
         if (user?.status === "success") {
           setUser({
             ...user.user,
             id: user.user._id,
+            type: "authenticated",
             image:
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",

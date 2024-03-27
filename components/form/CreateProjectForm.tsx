@@ -11,22 +11,41 @@ import FormSuccess from "./Success";
 import { CreateProject } from "@/actions/project";
 import { TextArea } from "../ui/Textarea";
 import TOAST from "../toast";
-import { useStateCtx } from "@/context/StateCtx";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
+import { Calendar } from "@/components/ui/Calendar";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import WordCounter from "../cards/wordCount";
 import { useRouter } from "next/navigation";
+import { Button as Butt } from "@/components/ui/butt";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { addDays, format } from "date-fns";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { DateRange } from "react-day-picker";
 
 function CreateProjectForm() {
+  const { isMobile } = useMediaQuery();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, startTransition] = useTransition();
-  const [projectData, setProjectData] = useState({
+  const [projectData, setProjectData] = useState<{
+    title: string;
+    description: string;
+    price?: number;
+    teamMembers: never[];
+    Date: DateRange | undefined;
+  }>({
     title: "",
     description: "",
     price: undefined,
     teamMembers: [],
-    startDate: "",
-    endDate: "",
+    Date: {
+      from: addDays(new Date(), 7),
+      to: addDays(new Date(), 14),
+    },
   });
   const router = useRouter();
 
@@ -40,7 +59,16 @@ function CreateProjectForm() {
   };
 
   const handleSubmit = async () => {
-    const values = projectData;
+    const { title, description, price, teamMembers, Date } = projectData;
+    const values = {
+      title,
+      description,
+      price,
+      teamMembers,
+      startDate: Date?.from ? Date.from.toISOString() : "",
+      endDate: Date?.to ? Date.to.toISOString() : "",
+    };
+
     setError("");
     setSuccess("");
     startTransition(() => {
@@ -54,16 +82,6 @@ function CreateProjectForm() {
         }
       });
     });
-  };
-
-  const datePickerStyles = {
-    display: "block",
-    margin: "8px 0",
-    padding: "8px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-    width: "100%", // Set the width to 100% for full-width appearance
   };
 
   return (
@@ -130,26 +148,49 @@ function CreateProjectForm() {
           </div>
 
           <div className="flex flex-col space-y-4 justify-between ">
-            <Label>Start Date:</Label>
-            <FormInput
-              disabled={isLoading}
-              type="date"
-              value={projectData.startDate}
-              onChange={(e) => handleChange("startDate", e.target.value)}
-              className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
-            />
-          </div>
+            <Label>End Date: (Double click on a date to reset the date) </Label>
 
-          <div className="flex flex-col space-y-4 justify-between ">
-            <Label>End Date:</Label>
-
-            <FormInput
-              disabled={isLoading}
-              type="date"
-              value={projectData.endDate}
-              onChange={(e) => handleChange("endDate", e.target.value)}
-              className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Butt
+                  variant={"outline"}
+                  className={cn(
+                    "w-full pl-3 justify-start text-left font-normal",
+                    !projectData.Date && "text-muted-foreground"
+                  )}
+                >
+                  <span>Pick an EndDate</span>
+                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  {projectData.Date?.from ? (
+                    projectData.Date.to ? (
+                      <>
+                        {format(projectData.Date.from, "LLL dd, y")} -{" "}
+                        {format(projectData.Date.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(projectData.Date.from, "LLL dd, y")
+                    )
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Butt>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Calendar
+                  mode="range"
+                  numberOfMonths={isMobile ? 1 : 2}
+                  selected={projectData.Date}
+                  onSelect={(date) =>
+                    setProjectData((prevData) => ({
+                      ...prevData,
+                      Date: date,
+                    }))
+                  }
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />

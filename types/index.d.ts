@@ -16,9 +16,10 @@ export interface User {
   companyName?: string;
   website?: string;
   role?: string;
-  // createdAt?: string;
+  createdAt?: string;
   image?: string | StaticImport;
   token?: string;
+  type?: "authenticated" | "guest" | "anonymous" | "unauthenticated";
 }
 
 export type NavbarLinkProps = {
@@ -138,6 +139,8 @@ export interface StateContextProps {
   setApprovalModal: React.Dispatch<React.SetStateAction<boolean>>;
   Introduction: boolean;
   setIntroduction: React.Dispatch<React.SetStateAction<boolean>>;
+  CreateMeet: boolean;
+  setCreateMeet: React.Dispatch<React.SetStateAction<boolean>>;
 
   // Added context for CalendarEvent
 

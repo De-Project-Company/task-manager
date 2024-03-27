@@ -5,9 +5,10 @@ import { getnotifications } from "@/actions/notification";
 import { cn, timeAgo } from "@/utils";
 import Link from "next/link";
 import { useStateCtx } from "@/context/StateCtx";
+import { NotificationProps } from "./page";
 
 const NotificationDopDown = () => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { openNotification, setopenNotification } = useStateCtx();
 
@@ -38,6 +39,12 @@ const NotificationDopDown = () => {
 
     fetchNotifications();
   }, []);
+
+  // const [read, setRead] = useState(() => {
+  //   const readStatus = localStorage.getItem(`read_${notifications?._id}`);
+
+  //   return readStatus ? JSON.parse(readStatus) : false;
+  // });
 
   return (
     <>

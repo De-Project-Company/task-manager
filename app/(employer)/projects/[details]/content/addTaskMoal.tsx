@@ -2,14 +2,30 @@
 
 import { X } from "lucide-react";
 import { cn } from "@/utils";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import WordCounter from "@/components/cards/wordCount";
 import { assignTask } from "@/actions/task";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import Button from "@/components/ui/Button";
-import { searchTeam } from "@/actions/search";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
+import { Calendar } from "@/components/ui/Calendar";
+import { Button as Butt } from "@/components/ui/butt";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { addDays, format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 type StatusProps = {
   id?: number;
@@ -50,6 +66,7 @@ interface FormData {
 
 const AssignTask = ({ projectid }: AssognTaskProp) => {
   const { addTaskModal, setaddTaskModal } = useStateCtx();
+  const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
     task: {
@@ -86,10 +103,38 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             name: "",
             dueDate: new Date(),
           });
-          setaddTaskModal(false);
+          setTimeout(() => {
+            setaddTaskModal(false);
+            router.refresh();
+          }, 3000);
         }
       });
     });
+  };
+
+  const handleDueDateChange = (value?: string) => {
+    if (!value) return;
+
+    let newDueDate: Date;
+
+    switch (value) {
+      case "1":
+        newDueDate = addDays(new Date(), 1);
+        break;
+      case "3":
+        newDueDate = addDays(new Date(), 3);
+        break;
+      case "7":
+        newDueDate = addDays(new Date(), 7);
+        break;
+      default:
+        newDueDate = new Date();
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      dueDate: newDueDate,
+    }));
   };
 
   return (
@@ -107,13 +152,13 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
         role="dialog"
         aria-labelledby="create task modal"
         className={cn(
-          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[500px] md:h-[550px] lg:h-[600px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none ",
+          "py-6   flex flex-col w-[98%] sm:w-[95%] overflow-y-auto overflow-x-hidden no-scroll min-[500px]:h-[500px] md:h-[550px] lg:h-[600px] md:w-[682px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[99]  transition-all opacity-0 select-none pb-5 ",
           addTaskModal
             ? "-translate-x-1/2 duration-700 opacity-100 sm:rounded-xl md:rounded-2xl"
             : "translate-x-full duration-300 pointer-events-none"
         )}
       >
-        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
+        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] dark:border-primary-light pb-4 pl-4 px-4 md:pl-8 ">
           <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-white">
             Create New Task
           </h3>
@@ -220,27 +265,63 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             />
           </div>
           <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="email"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
+            <label className="text-sm sm:text-base font-medium dark:text-white">
               Task Due Date
             </label>
-            <input
-              type="date"
-              id="dueDate"
-              name="dueDate"
-              // value={formData.dueDate}
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              onChange={(e) =>
-                setFormData({ ...formData, dueDate: new Date(e.target.value) })
-              }
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Butt
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
+                    !formData?.dueDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {formData?.dueDate ? (
+                    format(formData?.dueDate, "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Butt>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                className="flex w-full flex-col space-y-2 p-2 z-[500]"
+              >
+                <Select onValueChange={handleDueDateChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Time Frame" />
+                  </SelectTrigger>
+                  <SelectContent position="popper" className="z-[999] bg-white">
+                    <SelectItem value="0">Today</SelectItem>
+                    <SelectItem value="1">Tomorrow</SelectItem>
+                    <SelectItem value="3">In 3 days</SelectItem>
+                    <SelectItem value="7">In a week</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="rounded-md border">
+                  <Calendar
+                    mode="single"
+                    selected={formData?.dueDate}
+                    disabled={(date) => date < new Date()}
+                    // initialFocus
+                    onSelect={(date) =>
+                      date &&
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        dueDate: date,
+                      }))
+                    }
+                  />
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <FormError message={error} />
           <FormSuccess message={success} />
-          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6">
+          <div className="flex relative items-center justify-end [perspective:300px] transform-gpu min-[450px]:w-[180px] sm:gap-x-3 md:gap-x-6 mb-5">
             <Button
               type="submit"
               tabIndex={0}

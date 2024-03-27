@@ -4,15 +4,13 @@ import { cookies } from "next/headers";
 import Calls from "./calls";
 import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
 export const acceptInvite = async (projectId?: string) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
-
 
   if (!authToken && !session) {
     return {
@@ -22,7 +20,6 @@ export const acceptInvite = async (projectId?: string) => {
   }
   // @ts-ignore
   const token = session?.user?.token;
-
 
   const config = {
     headers: {
@@ -34,14 +31,12 @@ export const acceptInvite = async (projectId?: string) => {
 
   try {
     const res = await $http.get(`/project/accept?id=${projectId}`, config);
-    // console.log(res);
     if (res.status === 200) {
       return {
         success: "Project Accepted successfully",
       };
     }
   } catch (e: any) {
-    // console.log(e.response.data);
     return {
       error: e.response.data.message,
     };

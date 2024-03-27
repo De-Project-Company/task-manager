@@ -10,7 +10,6 @@ import EmptyState from "./NoNOtification";
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
-  // console.log(notifications);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -41,10 +40,10 @@ const NotificationPage = () => {
   }, []);
   return (
     <section className="w-full flex-col flex">
-      <h2 className="ml-4 mt-4 font-medium text-[28px] dark:text-white">
+      <h2 className="mt-4 font-medium text-[28px] dark:text-white px-5">
         Notifications
       </h2>
-      <div className="w-full px-5">
+      <div className="w-full">
         {notifications.length === 0 ? (
           <EmptyState />
         ) : (

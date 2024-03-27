@@ -4,15 +4,13 @@ import { cookies } from "next/headers";
 import Calls from "./calls";
 import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
 export const searchTeam = async (query?: string) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
-
 
   if (!authToken && !session) {
     return {
@@ -22,7 +20,6 @@ export const searchTeam = async (query?: string) => {
   }
   // @ts-ignore
   const token = session?.user?.token;
-
 
   const config = {
     headers: {
@@ -34,13 +31,11 @@ export const searchTeam = async (query?: string) => {
 
   try {
     const res = await $http.post("/user/search", query, config);
-    console.log(res.data);
     const data = res.data;
     return {
       data,
     };
   } catch (e: any) {
-    // console.log(e);
     return {
       error: e.response.data.message,
     };

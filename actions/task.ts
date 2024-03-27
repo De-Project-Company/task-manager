@@ -6,8 +6,7 @@ import { cookies } from "next/headers";
 import Calls from "./calls";
 import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
@@ -49,15 +48,12 @@ export const assignTask = async (
       config
     );
 
-    // console.log(res);
-
     if (res?.status === 200) {
       return {
         success: "Task assigned successfully!",
       };
     }
   } catch (e: any) {
-    // console.log(e);
     return {
       error: e.response.data.message,
     };
@@ -109,7 +105,6 @@ export const CreateTask = async (
       };
     }
   } catch (e: any) {
-    // console.log(e.response.data);
     return {
       error: e.response.data.message,
     };
@@ -139,14 +134,12 @@ export const getTask = async (projectId?: string) => {
 
   try {
     const res = await $http.get(`/project/tasks`, config);
-    // console.log(res);
     if (res.status === 200) {
       return {
         success: "Project Accepted successfully",
       };
     }
   } catch (e: any) {
-    // console.log(e.response.data);
     return {
       error: e.response.data.message,
     };
@@ -176,7 +169,6 @@ export const getAllTask = async () => {
 
   try {
     const res = await $http.get("/project/tasks", config);
-    // console.log(res.data);
     if (res.status === 200) {
       return {
         status: "success",
@@ -184,7 +176,6 @@ export const getAllTask = async () => {
       };
     }
   } catch (e: any) {
-    // console.log(e.response.data);
     return {
       error: e.response.data.message,
     };

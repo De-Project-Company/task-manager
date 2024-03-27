@@ -21,12 +21,10 @@ export const signinUser = async ({
         password,
       }),
     });
-    console.log(data.status);
+
     const res = await data.json();
     const user = res.data && res.token;
     if (data.status === 200 || res.ok) {
-      console.log(res);
-
       return {
         success: "Login successful!",
         user,
@@ -53,7 +51,6 @@ export const signinUser = async ({
       error: res.message,
     };
   } catch (error) {
-    console.log(error);
     return {
       error: "Something went wrong.",
     };
