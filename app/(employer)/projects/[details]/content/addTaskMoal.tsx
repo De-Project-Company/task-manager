@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { cn } from "@/utils";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import WordCounter from "@/components/cards/wordCount";
 import { assignTask } from "@/actions/task";

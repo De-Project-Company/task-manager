@@ -48,7 +48,6 @@ function CreateProjectForm() {
     },
   });
   const router = useRouter();
-  // console.log(projectData.Date);
 
   const MAX_DESC_LEN = 500;
 
@@ -149,7 +148,7 @@ function CreateProjectForm() {
           </div>
 
           <div className="flex flex-col space-y-4 justify-between ">
-            <Label>End Date:</Label>
+            <Label>End Date: (Double click on a date to reset the date) </Label>
 
             <Popover>
               <PopoverTrigger asChild>
