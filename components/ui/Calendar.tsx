@@ -47,7 +47,7 @@ function Calendar({
         day_outside: "text-muted-foreground opacity-50",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
-          "aria-selected:bg-[#FAE6FA] dark:aria-selected:bg-[#FAF9F6] dark:aria-selected:bg-opacity-[50%] dark:aria-selected:text-white aria-selected:text-accent-foreground",
+          "aria-selected:bg-[#FAE6FA] dark:aria-selected:bg-[#FAF9F6] dark:aria-selected:bg-opacity-[50%] dark:aria-selected:text-white aria-selected:text-primary",
         day_hidden: "invisible",
         ...classNames,
       }}
