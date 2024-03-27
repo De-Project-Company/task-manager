@@ -172,19 +172,6 @@ const CreateMeet = () => {
                 <Label htmlFor="r2"> Start meeting at a later date</Label>
               </div>
             </RadioGroup>
-          </>
-          <>
-            <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
-            <RadioGroup defaultValue="false">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="default" id="r1" />
-                <Label htmlFor="r1">Every One</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="comfortable" id="r2" />
-                <Label htmlFor="r2">Private</Label>
-              </div>
-            </RadioGroup>
             {Time && (
               <Popover>
                 <PopoverTrigger asChild>
@@ -237,6 +224,19 @@ const CreateMeet = () => {
                 </PopoverContent>
               </Popover>
             )}
+          </>
+          <>
+            <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
+            <RadioGroup defaultValue="false">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="default" id="r1" />
+                <Label htmlFor="r1">Every One</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="comfortable" id="r2" />
+                <Label htmlFor="r2">Private</Label>
+              </div>
+            </RadioGroup>
           </>
         </div>
         <div className="flex w-full items-center justify-center pt-8 bottom-0">
