@@ -33,6 +33,7 @@ const Navbar = () => {
 
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -46,7 +47,14 @@ const Navbar = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [notifications]);
+
+  useEffect(() => {
+    const readNotificationCount =
+      Number(localStorage.getItem("readNotifications")) || 0;
+    const unreadCount = notifications.length - readNotificationCount;
+    setUnreadCount(unreadCount);
+  }, [notifications]);
 
   return (
     <header
@@ -126,10 +134,10 @@ const Navbar = () => {
               <p
                 className={cn(
                   "flex h-1 w-1 items-center justify-center rounded-full  p-2 text-xs bg-red-200 text-green-600",
-                  notifications.length === undefined || 0 ? "hidden" : ""
+                  unreadCount === undefined || 0 ? "hidden" : ""
                 )}
               >
-                {notifications.length}
+                {unreadCount}
               </p>
             </div>
 

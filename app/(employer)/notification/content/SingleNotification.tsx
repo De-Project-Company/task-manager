@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NotificationProps } from "../page";
 import { timeAgo, cn } from "@/utils";
 import { Check } from "lucide-react";
@@ -8,12 +8,25 @@ const SingleNotification = ({
   message,
   createdAt,
   notification_type,
-  read,
 }: NotificationProps) => {
+  const [read, setRead] = useState(() => {
+    const readStatus = localStorage.getItem(`read_${_id}`);
+
+    return readStatus ? JSON.parse(readStatus) : false;
+  });
+
+  const markAsRead = () => {
+    localStorage.setItem(`read_${_id}`, JSON.stringify(true));
+    setRead(true);
+    const prevCount = JSON.parse(
+      localStorage.getItem("readNotifications") || "0"
+    );
+    localStorage.setItem("readNotifications", JSON.stringify(prevCount + 1));
+  };
   return (
     <div
       className={cn(
-        "w-full flex justify-between items-start border-b border-[#e1e1e1] dark:border-primary/20 relative hover:bg-black/10 transition-all duration-300 py-1",
+        "w-full flex justify-between items-center border-b border-[#e1e1e1] dark:border-primary/20 relative hover:bg-black/10 transition-all duration-300 py-1 pl-7",
         read ? "bg-[#e1e1e1] dark:bg-primary/20" : ""
       )}
     >
@@ -26,7 +39,7 @@ const SingleNotification = ({
             {timeAgo(createdAt)}
           </p>
           {notification_type === "invite" && (
-            <button className="text-sm text-blue-500 hover:underline">
+            <button className="text-sm text-blue-500 hover:underline w-full">
               View Invite
             </button>
           )}
@@ -35,7 +48,8 @@ const SingleNotification = ({
 
       {!read && (
         <button
-          onClick={() => localStorage.setItem("read", "true")}
+          onClick={markAsRead}
+          aria-label="MarkAsRead"
           className="border border-purple-500 dark:border-white rounded-full "
         >
           <Check className="h-4 w-4" />
@@ -46,7 +60,3 @@ const SingleNotification = ({
 };
 
 export default SingleNotification;
-
-
-
-// mrh-vdat-cje
