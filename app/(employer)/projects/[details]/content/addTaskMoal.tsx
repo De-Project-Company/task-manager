@@ -69,15 +69,15 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
-    task: {
-      title: "",
-      description: "",
-      status: "Todo",
-    },
-    email: "",
-    name: "",
-    dueDate: new Date(),
-  });
+  task: {
+    title: "",
+    description: "",
+    status: "Todo",
+  },
+  email: "",
+  name: "",
+  dueDate: new Date() as Date, // Explicitly specify the type as Date
+});
 
   const MAX_DESC = 200;
 
