@@ -2,7 +2,6 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
 import { auth } from "@/auth";
 
 const BaseUrl = process.env.BASEURL;

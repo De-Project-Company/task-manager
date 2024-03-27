@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
+import { auth } from "@/auth";
 
 const BaseUrl = process.env.BASEURL;
 
@@ -10,19 +10,22 @@ const $http = Calls(BaseUrl);
 
 export const createEvent = async (values: {} | any) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
-  if (!authToken && !hasToken) {
+  const session = await auth();
+
+  if (!authToken && !session) {
     return {
-      error: "You are not authorized, Missing access token",
+      error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -55,19 +58,22 @@ export const createEvent = async (values: {} | any) => {
 
 export const getAllEvents = async () => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
-  if (!authToken && !hasToken) {
+  const session = await auth();
+
+  if (!authToken && !session) {
     return {
-      error: "You are not authorized, Missing access token",
+      error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 

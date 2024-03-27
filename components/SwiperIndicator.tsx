@@ -23,6 +23,7 @@ const SwipeIndicator = () => {
         src="/swipe.gif"
         priority
         loading="eager"
+        unoptimized
         width={150}
         height={150}
         alt="swipe"
