@@ -131,3 +131,17 @@ export const AddEvent = z.object({
   end: z.date(),
   color: z.string(),
 });
+
+export const ProjectData = z.object({
+  title: z.string(),
+  start: z.date(),
+  end: z.date(),
+  color: z.string(),
+});
+
+// title: "",
+// description: "",
+// price: undefined,
+// teamMembers: [],
+// startDate: "",
+// endDate: "",

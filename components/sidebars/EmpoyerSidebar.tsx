@@ -10,7 +10,7 @@ import { useUserCtx } from "@/context/UserCtx";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import Image from "next/image";
 import { signOut as logOut } from "@/actions/auth";
-// import { signOut } from "@/auth";
+import { signOut } from "@/auth";
 
 const EmployerSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -20,7 +20,6 @@ const EmployerSidebar = () => {
 
   const handleSignOut = async () => {
     const result = await logOut();
-    // console.log(result);
     if (result?.success) {
       router.push("/");
     } else {

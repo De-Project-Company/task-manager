@@ -9,10 +9,12 @@ import React, {
   useState,
 } from "react";
 import { User } from "@/types";
-import { useSession } from "next-auth/react";
 import { getUser } from "@/actions/user";
 import { useRouter } from "next/navigation";
 import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
+import { useSession } from "next-auth/react";
+import { setCookie } from "cookies-next";
+import { useStateCtx } from "./StateCtx";
 
 // Add Your Props here
 interface UserContextProps {
@@ -23,9 +25,10 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps);
 
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
-  // Add Your State(s) Here
-  const { data: session } = useSession();
   const router = useRouter();
+  const { data: session } = useSession();
+  const { Introduction, setIntroduction } = useStateCtx();
+
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
@@ -35,6 +38,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     token: "",
     companyName: "",
     website: "",
+    type: "unauthenticated",
   });
 
   useLayoutEffect(() => {
@@ -44,8 +48,24 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
       name: session?.user?.name!,
       image: session?.user?.image!,
       email: session?.user?.email!,
+      type: "authenticated",
     });
 
+    return;
+  }, [session]);
+
+  useLayoutEffect(() => {
+    //@ts-ignore
+    if (!session?.user?.token) return;
+    if (session) {
+      //@ts-ignore
+      setCookie("access_token", session?.user?.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+    }
     return;
   }, [session]);
 
@@ -55,13 +75,10 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getUser();
 
         if (user?.status === "success") {
-          console.log("User came from Backend");
-          // console.log(user.user)
           setUser({
-            name: user.user.name,
-            email: user.user.email,
-            role: user.user.role,
-            companyName: user.user.companyName,
+            ...user.user,
+            id: user.user._id,
+            type: "authenticated",
             image:
               `https://ui-avatars.com/api/?name=${user.user
                 .name!}&background=random` ?? "/facemoji.png",
@@ -75,6 +92,15 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     fetchUserData();
   }, []);
+
+  useLayoutEffect(() => {
+    const onboarded = localStorage.getItem("onboarded");
+
+    if (onboarded !== "true") {
+      setIntroduction(true);
+      localStorage.setItem("onboarded", "false");
+    }
+  }, [setIntroduction]);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 

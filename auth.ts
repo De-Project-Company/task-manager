@@ -17,6 +17,7 @@ export const {
       console.log("signIn", user.email);
     },
   },
+
   ...authConfig,
 });
 

@@ -246,8 +246,7 @@ export const calculateCountdown = (
   return { days, hours, minutes, seconds };
 };
 
-
-export  const timeAgo = (dateString: string): string => {
+export const timeAgo = (dateString: string): string => {
   const now: Date = new Date();
   const date = new Date(dateString);
   const diff = now.getTime() - date.getTime();
@@ -265,3 +264,23 @@ export  const timeAgo = (dateString: string): string => {
   if (seconds > 1) return `${seconds} seconds ago`;
   return "just now";
 };
+
+export const timeTogo = (dateString: string): string => {
+  const now: Date = new Date();
+  const date = new Date(dateString);
+  const diff = now.getTime() + date.getTime();
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 1) return `${days} days to go`;
+  if (days === 1) return "1 day ago";
+  if (hours > 1) return `${hours} hours ago`;
+  if (hours === 1) return "1 hour ago";
+  if (minutes > 1) return `${minutes} minutes ago`;
+  if (minutes === 1) return "1 minute ago";
+  if (seconds > 1) return `${seconds} seconds ago`;
+  return "just now";
+};
+

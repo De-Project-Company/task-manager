@@ -38,12 +38,6 @@ const ProjectContextProvider = ({
   const [projectCount, setprojectCount] = useState(0);
   const [Loading, setLoading] = useState(false);
 
-
-
-
-  console.log(Project)
-
-  
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,8 +59,6 @@ const ProjectContextProvider = ({
     fetchData();
   }, [setProject]);
 
-  // console.log(Project);
-
   const value = useMemo(
     () => ({
       Project,
@@ -86,8 +78,6 @@ const ProjectContextProvider = ({
     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
   );
 };
-
-
 
 // Call this function whenever you want to use the context
 export const useProjectCtx = () => {

@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useLayoutEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   protectedRoutes,
@@ -34,10 +25,14 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [addTaskModal, setaddTaskModal] = useState(false);
   const [openNotification, setopenNotification] = useState(false);
   const [SessionModal, setSessionModal] = useState(false);
+  const [InviteModal, setInviteModal] = useState(false);
+  const [ApprovalModal, setApprovalModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
   const [currentPath, setCurrentPath] = useState("");
   const [openCalendarEvent, setOpenCalendarEvent] = useState(false);
+  const [Introduction, setIntroduction] = useState(false);
+  const [CreateMeet, setCreateMeet] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -50,7 +45,11 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     ChangeProjectStatusModal ||
     addTaskModal ||
     SessionModal ||
-    openNotification;
+    openNotification ||
+    InviteModal ||
+    ApprovalModal ||
+    Introduction ||
+    CreateMeet;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -92,7 +91,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (swipeDis < -swipeThreshold) {
           localStorage.setItem("swiped", "true");
-          console.log("first");
+
           setOpenSidebarMain(false);
           setOpenSidebar(false);
         }
@@ -147,7 +146,14 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ].join(";");
     console.log(t, n);
   }, []);
+  useEffect(() => {
+    const isFirstTimeUser = localStorage.getItem("firstTimeUser") !== "false";
 
+    if (isFirstTimeUser) {
+      setApprovalModal(true);
+      localStorage.setItem("firstTimeUser", "false");
+    }
+  }, [setApprovalModal]);
   useEffect(() => {
     if (pathname === "/") return;
     let timeoutId: any;
@@ -189,10 +195,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
         const res = await checkSession();
         const isProtectedRoute = protectedRoutes.includes(pathname);
         if (isProtectedRoute && res?.error) {
-          // If it's a protected route and there's an error, redirect to revalidate
           router.push(DEFAULT_REVALIDATE_REDIRECT);
         } else if (!isProtectedRoute && res?.success) {
-          // If it's not a protected route and there's success, redirect to login
           router.push(DEFAULT_LOGIN_REDIRECT);
         }
       } catch (err) {}
@@ -205,6 +209,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(
     () => ({
       openSidebar,
+      InviteModal,
+      setInviteModal,
       setOpenSidebar,
       OTPModal,
       landingMobileMenu,
@@ -229,19 +235,24 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setSessionModal,
       openNotification,
       setopenNotification,
-
+      ApprovalModal,
+      setApprovalModal,
+      Introduction,
+      setIntroduction,
+      CreateMeet,
+      setCreateMeet,
       // calenderEvent
       openCalendarEvent,
       setOpenCalendarEvent,
     }),
     [
       openSidebar,
-      // anyMobileSidebarOpen,
       landingMobileMenu,
       OTPModal,
       swipeIndicator,
       addTaskModal,
       Toast,
+      CreateMeet,
       addTeamMemberMoal,
       currentPath,
       openSidebarMain,
@@ -249,10 +260,10 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ChangeProjectStatusModal,
       SessionModal,
       openNotification,
-
-      // calender added
+      InviteModal,
+      ApprovalModal,
       openCalendarEvent,
-      setOpenCalendarEvent,
+      Introduction,
     ]
   );
 

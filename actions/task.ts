@@ -4,9 +4,9 @@ import { AddTask } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 import Calls from "./calls";
+import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
@@ -23,22 +23,24 @@ export const assignTask = async (
   }
 
   const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
 
-  if (!authToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
-
   try {
     const res = await $http.patch(
       `/project/${projectId}/assignTask`,
@@ -52,28 +54,9 @@ export const assignTask = async (
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-      };
-    } else if (e?.response?.status === 400) {
-      return {
-        error: "This user does not exist!",
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to assign a task.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -90,19 +73,22 @@ export const CreateTask = async (
   }
 
   const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
 
-  if (!authToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -119,23 +105,79 @@ export const CreateTask = async (
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
+    return {
+      error: e.response.data.message,
+    };
+  }
+};
+
+export const getTask = async (projectId?: string) => {
+  const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
+
+  if (!authToken && !session) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+  // @ts-ignore
+  const token = session?.user?.token;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken || token}`,
+    },
+  };
+
+  try {
+    const res = await $http.get(`/project/tasks`, config);
+    if (res.status === 200) {
       return {
-        error: "Unauthorized. Please check your access token.",
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to assign a task.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
+        success: "Project Accepted successfully",
       };
     }
+  } catch (e: any) {
+    return {
+      error: e.response.data.message,
+    };
+  }
+};
+
+export const getAllTask = async () => {
+  const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
+
+  if (!authToken && !session) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+  // @ts-ignore
+  const token = session?.user?.token;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken || token}`,
+    },
+  };
+
+  try {
+    const res = await $http.get("/project/tasks", config);
+    if (res.status === 200) {
+      return {
+        status: "success",
+        tasks: res.data.tasks,
+      };
+    }
+  } catch (e: any) {
+    return {
+      error: e.response.data.message,
+    };
   }
 };

@@ -18,7 +18,7 @@ const TOAST: React.FC<TOASTProps> = ({ status, message }) => {
     } else if (status === "error") {
       return <Image src="/error.gif" alt="error" width={40} height={40} />;
     } else {
-      return null; // Handle other status values or provide a default image
+      return null;
     }
   };
 

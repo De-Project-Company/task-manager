@@ -5,14 +5,61 @@ import { useStateCtx } from "@/context/StateCtx";
 import AssignTask from "./addTaskMoal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
+import { Accordion } from "@/components/ui/accordion";
+import SingleTask from "./SingleTask";
+import { Owner } from "@/types";
+import { useUserCtx } from "@/context/UserCtx";
 
-interface TasksessionProp {
-  projectid?: string;
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
 }
 
-const TaskSesion = ({ projectid }: TasksessionProp) => {
+interface UserWithRole {
+  user: User;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
+
+export interface TeamMember {
+  user: string;
+  role: string;
+  accepted: boolean;
+  _id: string;
+  name: string;
+}
+interface Task {
+  title: string;
+  description: string;
+  assignedTo: string;
+  dueDate: string;
+  status: string;
+  _id: string;
+}
+interface TasksessionProp {
+  projectid?: string;
+  tasks?: Task[];
+  teamMembers?: UserWithRole[];
+  owner?: Owner;
+}
+
+const TaskSesion = ({
+  projectid,
+  tasks,
+  teamMembers,
+  owner,
+}: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTaskModal } = useStateCtx();
+  const { user } = useUserCtx();
+  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
+  const isNotAdmin = admin?.user._id !== user?.id;
 
   useEffect(() => {
     if (isMenu) {
@@ -30,6 +77,7 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
+
 
   return (
     <>
@@ -49,7 +97,10 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
             aria-haspopup
             aria-expanded={isMenu}
             onClick={() => setIsMenu((prev) => !prev)}
-            className="text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
+            className={cn(
+              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
+              isNotAdmin ? "hidden" : "block"
+            )}
           >
             <Add size={24} />
           </button>
@@ -86,6 +137,29 @@ const TaskSesion = ({ projectid }: TasksessionProp) => {
             <span>Add Task</span>
           </button>
         </div>
+
+        {tasks && tasks.length > 0 ? (
+          <Accordion
+            type="multiple"
+            // type="single" collapsible
+            className="w-full"
+          >
+            {tasks &&
+              tasks?.map((task) => (
+                <SingleTask
+                  key={task?._id}
+                  task={task}
+                  projectid={projectid}
+                  teamMembers={teamMembers}
+                />
+              ))}
+          </Accordion>
+        ) : (
+          <p className="w-full text-center  dark:text-gray-200">
+            No Tasks Assigned yet.
+          </p>
+        )}
+
         {/* Create Task Modal */}
         <AssignTask projectid={projectid} />
       </div>

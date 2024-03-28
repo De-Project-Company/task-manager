@@ -30,7 +30,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     const fetchProjectDetails = async () => {
       try {
         const project = await getPojectdetails(id!);
-        // console.log(project);
         if (project?.status === "success") {
           setProjectData(project.project);
         }
@@ -44,6 +43,11 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
     fetchProjectDetails();
   }, [id]);
+
+  const admin = projectData?.teamMembers?.find(
+    (member) => member.user._id === projectData?.owner?._id
+  );
+  const isNotAdmin = admin?.user._id !== user?.id;
 
   const fullName = user?.name;
   const [firstName] = fullName!.split(/\s+/);
@@ -124,7 +128,12 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             {projectData?.status}
           </span>
           <span className="block py-1 px-2 bg-[#EAEBF0] text-neutraly w-fit rounded-full text-xs md:text-sm">
-            {hours}hrs
+            {/* {hours}hrs */}
+            {projectData?.duration
+              ? `${Math.ceil(projectData?.duration / 7)} week${
+                  Math.ceil(projectData?.duration / 7) !== 1 ? "s" : ""
+                }`
+              : "Duration is Not Available"}
           </span>
         </div>
 
@@ -147,7 +156,10 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
               aria-haspopup
               aria-expanded={isDotMenu}
               onClick={() => setIsDotMenu((prev) => !prev)}
-              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-heade"
+              className={cn(
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-header",
+                isNotAdmin ? "hidden" : "block"
+              )}
             >
               <More />
             </button>
@@ -242,10 +254,19 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </div>
 
           {/* Projects Team members */}
-          <TeamSection projectid={id!} teamMembers={projectData?.teamMembers} />
+          <TeamSection
+            projectid={id}
+            teamMembers={projectData?.teamMembers}
+            owner={projectData?.owner}
+          />
 
           {/* Projects Task Section */}
-          <TaskSesion projectid={id!} />
+          <TaskSesion
+            projectid={id!}
+            tasks={projectData?.tasks}
+            teamMembers={projectData?.teamMembers}
+            owner={projectData?.owner}
+          />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
         </div>

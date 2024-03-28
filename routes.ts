@@ -15,7 +15,7 @@ export const authRoutes = [
  * @type {string[]}
  */
 
-export const publicRoutes = ["/", ...authRoutes, "/about", "/request"];
+export const publicRoutes = ["/"];
 
 /**
  * The prefix for API routes
@@ -61,4 +61,5 @@ export const protectedRoutes = [
   "/project/approve",
   "/notification",
   "/totalProject",
-]
+  "/meetings",
+];

@@ -2,83 +2,78 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
-import { GetFromSessionStorage } from "@/utils";
+import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
-
+const BaseUrl = process.env.BASEURL;
 const $http = Calls(BaseUrl);
 
 export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
   try {
     const res = await $http.post("/project", values, config);
-    // console.log("project creates successfully:", res.data);
     if (res?.status === 200) {
       return {
         success: "Project created successfully, check your email!",
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
-
 export const getProject = async () => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
+  // session?.user?.token!;
 
-  if (!authToken && !hasToken) {
+  if (session) {
+    // @ts-ignore
+    cookies()?.set("access_token", session?.user?.token, {
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      httpOnly: true,
+      path: "/",
+      priority: "high",
+    });
+  }
+
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
   try {
     const res = await $http.get("/project", config);
-    // console.log(res.data);
     if (res.status === 200) {
       return {
         status: "success",
@@ -87,25 +82,9 @@ export const getProject = async () => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -114,20 +93,22 @@ export const AddMembers = async (
   projectId: string
 ) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
   try {
@@ -143,44 +124,30 @@ export const AddMembers = async (
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
 export const getPojectdetails = async (id: string) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
   try {
@@ -192,44 +159,30 @@ export const getPojectdetails = async (id: string) => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
 export const deleteProject = async (projectId: string) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -242,50 +195,32 @@ export const deleteProject = async (projectId: string) => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to delete the project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The project with the specified ID was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
-export const updateProjectStatus = async (
-  projectId: string,
-  newStatus?: string
-) => {
+export const updateProjectStatus = async (projectId: string, newStatus?: string) => {
   const authToken = cookies()?.get("access_token")?.value;
-  const hasToken = GetFromSessionStorage("access_token");
+  const session = await auth();
 
-  if (!authToken && !hasToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken || hasToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
-
   const requestBody = {
     status: newStatus,
   };
@@ -300,29 +235,8 @@ export const updateProjectStatus = async (
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error:
-          "Forbidden. You don't have permission to update the project status.",
-      };
-    } else if (e?.response?.status === 400) {
-      return {
-        error: "Sorry, this project does not exist!",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The project with the specified ID was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };

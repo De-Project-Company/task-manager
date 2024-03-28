@@ -11,7 +11,6 @@ const AddEventModal: React.FC = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const { openCalendarEvent, setOpenCalendarEvent } = useStateCtx();
-  // console.log(openCalendarEvent);
 
   const handleSubmit = () => {
     console.log("Clicked !!");

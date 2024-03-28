@@ -6,6 +6,25 @@ import Team from "./AddTeamModal";
 import { cn } from "@/utils";
 import { Add } from "iconsax-react";
 import Member from "./Members";
+import { Owner } from "@/types";
+import { useUserCtx } from "@/context/UserCtx";
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  role: string;
+  createdAt: string;
+  __v: number;
+}
+
+interface UserWithRole {
+  user: User;
+  role: string;
+  accepted: boolean;
+  _id: string;
+}
 
 export interface TeamMember {
   user: string;
@@ -16,12 +35,21 @@ export interface TeamMember {
 }
 interface TasksessionProp {
   projectid?: string;
-  teamMembers?: TeamMember[];
+  teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
+const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTeamMemberMoal } = useStateCtx();
+  const { user } = useUserCtx();
+
+  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
+  const filteredTeamMembers = teamMembers?.filter(
+    (member) => member.user._id !== owner?._id
+  );
+
+  const isNotAdmin = admin?.user._id !== user?.id;
 
   useEffect(() => {
     if (isMenu) {
@@ -40,12 +68,11 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
-  console.log(teamMembers);
   return (
     <>
       <div
         className={cn(
-          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12"
+          "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12  max-h-[500px] overflow-y-auto overflow-x-hidden no-scroll"
         )}
       >
         <div className="flex w-full items-center justify-between pb-2 md:pb-3">
@@ -59,7 +86,10 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
             aria-haspopup
             aria-expanded={isMenu}
             onClick={() => setIsMenu((prev) => !prev)}
-            className="text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
+            className={cn(
+              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
+              isNotAdmin ? "hidden" : ""
+            )}
           >
             <Add size={24} />
           </button>
@@ -96,17 +126,36 @@ const TeamSection = ({ projectid, teamMembers }: TasksessionProp) => {
             <span>Add Team</span>
           </button>
         </div>
-        {teamMembers && teamMembers.length === 0 ? (
-          <p className="w-full text-center  dark:text-gray-200">
+
+        {teamMembers && teamMembers.length > 0 ? (
+          <>
+            {admin && (
+              <Member
+                key={admin._id}
+                name={admin.user.name}
+                accepted={admin.accepted}
+                memberId={admin.user._id}
+                owner={owner}
+              />
+            )}
+            {filteredTeamMembers && filteredTeamMembers.length > 0 && (
+              <>
+                {filteredTeamMembers.map((member) => (
+                  <Member
+                    key={member._id}
+                    name={member.user.name}
+                    accepted={member.accepted}
+                    memberId={member.user._id}
+                    owner={owner}
+                  />
+                ))}
+              </>
+            )}
+          </>
+        ) : (
+          <p className="w-full text-center h-full  dark:text-gray-200">
             No team members yet.
           </p>
-        ) : (
-          <>
-            {teamMembers &&
-              teamMembers.map((member) => (
-                <Member key={member._id} name={member.name} />
-              ))}
-          </>
         )}
 
         <Team projectid={projectid} />

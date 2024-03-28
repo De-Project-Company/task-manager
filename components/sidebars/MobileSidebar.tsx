@@ -21,7 +21,6 @@ const MobileSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
 
   const pathname = usePathname();
-  // remove the / from the pathname
   useEffect(() => {
     const currentPath = pathname?.replace(/^\/([^\/]+).*$/, "$1");
 
@@ -30,7 +29,6 @@ const MobileSidebar = () => {
 
   const handleSignOut = async () => {
     const result = await logOut();
-    // console.log(result);
     if (result?.success) {
       router.push("/");
     } else {

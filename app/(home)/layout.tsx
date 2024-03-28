@@ -3,6 +3,7 @@ import Footer from "@/components/home/Footer";
 import GotoTop from "@/components/GoToTop";
 import Theme from "@/components/Theme";
 
+
 export default function HomeLayout({
   children,
 }: {

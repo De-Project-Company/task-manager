@@ -16,8 +16,7 @@ import Calls from "./calls";
 import { DeleteFromSessionStorage, GetFromSessionStorage } from "@/utils";
 
 const cookie = cookies();
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
@@ -42,23 +41,15 @@ export const register = async (values: z.infer<typeof RegistrationSchema>) => {
 
   try {
     const res = await $http.post("/auth/signup", values);
-    console.log("Registration successful:", res.data);
     if (res?.status === 201) {
       return {
         success: "Account created successfully, check your email!",
       };
     }
   } catch (e: any) {
-    console.log("signup call error from api call", e);
-    if (e?.response?.status === 400) {
-      return {
-        error: "user already exists",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -93,7 +84,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       }),
     });
     const res = await data.json();
-    console.log(res);
 
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
@@ -102,7 +92,19 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         path: "/",
         priority: "high",
       });
+      cookies()?.set("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
       setCookie("access_token", res.token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
+      cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
         path: "/",
@@ -117,9 +119,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         role: res.data.user.role,
         // createdAt: res.user.createdAt,
       };
-      const token = res.token;
 
-      console.log(res);
+      const token = res.token;
 
       cookie.set("user", JSON.stringify(user), {
         maxAge: 60 * 60 * 24 * 1, // 1 day
@@ -143,6 +144,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
       return {
         user,
+
+        res,
         token,
         success: "Login successful!",
         // redirect: DEFAULT_LOGIN_REDIRECT,
@@ -168,7 +171,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       error: res.message,
     };
   } catch (error) {
-    console.log(error);
     return {
       error: "Something went wrong.",
     };
@@ -199,28 +201,13 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e?.response?.data?.status);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid license." };
-    } else if (e?.response?.status === 404) {
-      return { error: "Unable to activate. License not found." };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else if (e?.response?.data?.status == "fail") {
-      return { error: "Invalid Licence Number" };
-    } else {
-      return {
-        error:
-          // e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
-export const ForgetPassword = async (
-  values: z.infer<typeof ForgetPasswordSchema>
-) => {
+export const ForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
   const validatedFields = ForgetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -238,20 +225,9 @@ export const ForgetPassword = async (
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid license." };
-    } else if (e?.response?.status === 404) {
-      return { error: "User does not exist!" };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -286,20 +262,9 @@ export const ResetPassword = async (
       };
     }
   } catch (e: any) {
-    console.log("Activate call error from API call", e);
-    if (e?.response?.status === 401) {
-      return { error: "Invalid Token Try again" };
-    } else if (e?.response?.status === 404) {
-      return { error: "User does not exist!" };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
@@ -332,17 +297,8 @@ export const signOut = async () => {
       };
     }
   } catch (e: any) {
-    console.log("Sign-out API call error", e);
-    if (e?.response?.status === 401) {
-      return { error: "Unauthorized access. Please log in." };
-    } else if (e?.response?.status === 500) {
-      return { error: "Internal server error" };
-    } else {
-      return {
-        error:
-          e?.response?.data ??
-          "Unknown error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };

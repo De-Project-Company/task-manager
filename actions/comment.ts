@@ -2,27 +2,30 @@
 
 import { cookies } from "next/headers";
 import Calls from "./calls";
+import { auth } from "@/auth";
 
-const BaseUrl =
-  process.env.BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1";
+const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
 export const getcomment = async (id: string) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
 
-  if (!authToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
   try {
@@ -34,43 +37,30 @@ export const getcomment = async (id: string) => {
       };
     }
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a project.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The requested endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
 
 export const makecomment = async (id: string, comment: string) => {
   const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
 
-  if (!authToken) {
+  if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
       status: 401,
     };
   }
+  // @ts-ignore
+  const token = session?.user?.token;
 
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
       accept: "application/json",
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken || token}`,
     },
   };
 
@@ -87,25 +77,8 @@ export const makecomment = async (id: string, comment: string) => {
       };
     }
   } catch (e: any) {
-    console.error(e);
-
-    if (e?.response?.status === 401) {
-      return {
-        error: "Unauthorized. Please check your access token.",
-        status: 401,
-      };
-    } else if (e?.response?.status === 403) {
-      return {
-        error: "Forbidden. You don't have permission to create a comment.",
-      };
-    } else if (e?.response?.status === 404) {
-      return {
-        error: "Not Found. The project or comment endpoint was not found.",
-      };
-    } else {
-      return {
-        error: "An error occurred. Please try again later.",
-      };
-    }
+    return {
+      error: e.response.data.message,
+    };
   }
 };
