@@ -20,6 +20,7 @@ const ProjectContainer = () => {
     [] as ProjectProps[]
   );
 
+  console.log(Project);
   useEffect(() => {
     const searchTerm =
       projectSearchTerm && projectSearchTerm.trim().toLowerCase();
