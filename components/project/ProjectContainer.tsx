@@ -3,14 +3,13 @@
 import { Suspense, useEffect, useState } from "react";
 import CardSkelon from "../skeleton/ProjectSkel";
 import { useProjectCtx } from "@/context/Projectctx";
-import LoadingSpinner from "../loader";
 import ReactPaginate from "react-paginate";
 import ProjectCard from "../cards/projectCard";
 import { ProjectProps } from "@/types";
 import { cn } from "@/utils";
 import ProjectNotFound from "./ProjectNotFound";
 import Empty from "./Empty";
-
+import { ProjectCardSkeleton } from "../cards/ProjecttCardSkel";
 
 const ProjectContainer = () => {
   const { Project, projectSearchTerm, selectedProjectFilter, Loading } =
@@ -74,8 +73,18 @@ const ProjectContainer = () => {
 
   if (Loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <LoadingSpinner />
+      <div
+        className={cn(
+          " w-full min-h-[941px] grid grid-cols-1 min-[929px]:grid-cols-2 gap-x-4 lg:gap-x-6 xl:gap-x-8  place-content-start place-items-center gap-y-16 max-[929px]:gap-y-8"
+        )}
+      >
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
+        <ProjectCardSkeleton />
       </div>
     );
   }
@@ -156,8 +165,6 @@ const ProjectContainer = () => {
           />
         </div>
       </section>
-
-      
     </section>
   ) : (
     <Empty />
