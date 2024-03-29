@@ -27,6 +27,7 @@ import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { SetToSessionStorage } from "@/utils";
 import { authenticate } from "@/actions/authenticate";
+import { Eye, EyeSlash } from "iconsax-react";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -34,6 +35,7 @@ const SigninForm = () => {
 
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [isLoading, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -77,7 +79,7 @@ const SigninForm = () => {
   return (
     <div
       className="relative py-4 md:py-6 rounded-[16px] bg-white transition-colors duration-500
-     dark:text-white dark:bg-primary px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto"
+     dark:text-white dark:bg-primary px-4 sm:px-6 z-20 w-full max-w-[600px] mx-auto"
     >
       {/* Logo is been removed here  */}
       {/* <Link href="/">
@@ -138,15 +140,36 @@ const SigninForm = () => {
               <FormItem>
                 <FormLabel className="font-semibold ">Password</FormLabel>
                 <FormControl>
-                  <div className="flex w-full relative items-center">
+                  <div
+                    className="flex w-full border-2 border-input relative rounded-md items-center  
+                  border-input pr-2"
+                  >
                     <FormInput
                       disabled={isLoading}
                       {...field}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       name="password"
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
+                    {showPassword ? (
+                      <EyeSlash
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                    ) : (
+                      <Eye
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                    )}
                   </div>
                 </FormControl>
                 <div className="flex items-center justify-between w-full">
