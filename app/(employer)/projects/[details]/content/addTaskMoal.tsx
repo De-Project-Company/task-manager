@@ -29,6 +29,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandDialog,
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
@@ -65,8 +66,6 @@ interface FormData {
 
 const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
   const { addTaskModal, setaddTaskModal } = useStateCtx();
-
-  console.log(endDate);
 
   const router = useRouter();
 
@@ -263,7 +262,7 @@ const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
                     <CommandInput placeholder="Search By Name ...." />
                     <CommandList className="w-full z-[800]">
                       <CommandEmpty>No results found.</CommandEmpty>
-                      <CommandGroup heading="Suggestions">
+                      <CommandGroup heading="Suggestions" className="z-[850]">
                         {teamMembers?.map((teamMember) => (
                           <CommandItem
                             key={teamMember.user._id}
@@ -337,9 +336,15 @@ const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
                     <Calendar
                       mode="single"
                       selected={formData?.dueDate}
-                      disabled={(date) =>
-                        date > new Date() || date > new Date(endDate!)
-                      }
+                      // disabled={(date) =>
+                      //   date > new Date() || date > new Date(endDate!)
+                      // }
+                      disabled={(date) => {
+                        const currentDate = new Date();
+                        const endDateTime = endDate ? new Date(endDate) : null;
+
+                        return date < currentDate || date > endDateTime!;
+                      }}
                       initialFocus
                       onSelect={(date) => {
                         date &&
