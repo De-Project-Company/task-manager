@@ -9,6 +9,7 @@ import FormError from "@/components/form/Error";
 import { X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { MinusCirlce } from "iconsax-react";
+import { useProjectCtx } from "@/context/Projectctx";
 
 interface AssognTaskProp {
   projectid?: string;
@@ -20,6 +21,7 @@ const Team = ({ projectid }: AssognTaskProp) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [teamMembers, setTeamMembers] = useState<string[]>([""]);
+  const { setUpdate } = useProjectCtx();
 
   const handleInputChange = (index: number, value: string) => {
     const updatedTeamMembers = [...teamMembers];
@@ -46,6 +48,7 @@ const Team = ({ projectid }: AssognTaskProp) => {
       AddMembers({ teamMembers }, projectid!).then((data) => {
         setSuccess(data?.success);
         setError(data?.error);
+        setUpdate(true);
         if (data?.success) {
           setTimeout(() => {
             setaddTeamMemberMoal(false);
