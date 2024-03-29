@@ -16,6 +16,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/currency";
 import { Calendar } from "@/components/ui/Calendar";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import WordCounter from "../cards/wordCount";
@@ -25,8 +32,12 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { DateRange } from "react-day-picker";
+import { useProjectCtx } from "@/context/Projectctx";
+import { getProject } from "@/actions/project";
+import { selectCurrencies } from "@/constants";
 
 function CreateProjectForm() {
+  const { setProject } = useProjectCtx();
   const { isMobile } = useMediaQuery();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
@@ -37,6 +48,7 @@ function CreateProjectForm() {
     price?: number;
     teamMembers: never[];
     Date: DateRange | undefined;
+    priceCurrency: string;
   }>({
     title: "",
     description: "",
@@ -46,6 +58,7 @@ function CreateProjectForm() {
       from: addDays(new Date(), 7),
       to: addDays(new Date(), 14),
     },
+    priceCurrency: "NGN",
   });
   const router = useRouter();
 
@@ -59,12 +72,14 @@ function CreateProjectForm() {
   };
 
   const handleSubmit = async () => {
-    const { title, description, price, teamMembers, Date } = projectData;
+    const { title, description, price, teamMembers, Date, priceCurrency } =
+      projectData;
     const values = {
       title,
       description,
       price,
       teamMembers,
+      priceCurrency,
       startDate: Date?.from ? Date.from.toISOString() : "",
       endDate: Date?.to ? Date.to.toISOString() : "",
     };
@@ -72,10 +87,16 @@ function CreateProjectForm() {
     setError("");
     setSuccess("");
     startTransition(() => {
-      CreateProject(values).then((data) => {
+      CreateProject(values).then(async (data) => {
         setSuccess(data?.success);
         setError(data?.error);
         if (data?.success) {
+          const res = await getProject();
+          if (res?.status === "success") {
+            setProject(res.project);
+          } else {
+            console.error(res?.error);
+          }
           setTimeout(() => {
             router.push(DEFAULT_LOGIN_REDIRECT);
           }, 2000);
@@ -84,9 +105,19 @@ function CreateProjectForm() {
     });
   };
 
+  const currenySymbol = selectCurrencies.find(
+    (c) => c.value === projectData.priceCurrency
+  )?.symbol;
+
+  const handleCurrencyChange = (selectedCurrency: string) => {
+    setProjectData((prevData) => ({
+      ...prevData,
+      priceCurrency: selectedCurrency,
+    }));
+  };
+
   return (
     <>
-      <TOAST status="success" message="Project created successfully" />
       <div>
         <form className="flex flex-col mt-4 z-10 gap-y-2 min-[850px]:gap-y-6 dark:text-white">
           <div className="flex flex-col space-y-4 justify-between ">
@@ -118,16 +149,38 @@ function CreateProjectForm() {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-4 justify-between ">
+          <div className="flex flex-col  gap-y-2 w-full relative">
             <Label>Price:</Label>
-            <FormInput
-              disabled={isLoading}
-              type="number"
-              value={projectData.price}
-              onChange={(e) => handleChange("price", Number(e.target.value))}
-              placeholder="0"
-              className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
-            />
+            <div className="flex relative w-full items-center  ">
+              <span className="absolute left-3 md:left-4 ">
+                {currenySymbol}
+              </span>
+              <FormInput
+                disabled={isLoading}
+                type="number"
+                value={projectData.price}
+                placeholder="0"
+                onChange={(e) => handleChange("price", Number(e.target.value))}
+                className=" w-fulltext-black h-[45px] sm:h-[56px] border py-2 md:py-4 px-2 pl-6 md:pl-8 text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+              />
+              <Select onValueChange={handleCurrencyChange}>
+                <SelectTrigger className="w-[80px] select-none py-1 outline-none bg-[#f8f4f6]  text-header dark:bg-color-dark dark:text-gray-200 rounded-lg px-1 uppercase absolute right-4 font-medium focus-visible:outline focus-visible:outline-primary-light focus-visible:outline-offset-4">
+                  <SelectValue placeholder={projectData.priceCurrency} />
+                </SelectTrigger>
+                <SelectContent position="popper" className="max-w-[80px]">
+                  {selectCurrencies.map((currency) => (
+                    <SelectItem
+                      key={currency.id}
+                      value={currency.value}
+                      className="hover:bg-[#becbd7] px-2 "
+                      disabled={currency.value === projectData.priceCurrency}
+                    >
+                      {currency.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="flex flex-col space-y-4 justify-between ">
