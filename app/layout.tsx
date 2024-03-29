@@ -12,7 +12,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Traverse",
-  description: "Opem source task manager",
+  description: "Starters House - Task management made easy",
+  // icons: {
+  //   icon: [
+  //     {
+  //       url: "./assets/traverseWhite.png",
+  //       href: "./assets/traverseWhite.png",
+  //     },
+  //   ],
+  // },
 };
 
 export default function RootLayout({

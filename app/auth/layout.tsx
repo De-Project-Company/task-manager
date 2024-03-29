@@ -9,7 +9,10 @@ export default function AuthLayout({
 }) {
   return (
     <>
-      <div className="grid lg:grid-cols-2 h-screen grid-cols-1 lg:p-2 bg-greed-700 lg:bg-[#ffffff] dark:bg-primary transition-colors duration-500">
+      <div
+        className="grid lg:grid-cols-2 h-screen grid-cols-1 lg:p-2 bg-greed-700 lg:bg-[#ffffff] dark:bg-primary 
+      transition-colors duration-500"
+      >
         <div className="overflow-y-auto overflow-x-hidden hide-scroll flex flex-col justify-center place-items-center min-h-screen">
           {children}
         </div>

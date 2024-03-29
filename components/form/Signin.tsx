@@ -75,7 +75,10 @@ const SigninForm = () => {
     router.prefetch("/dashboard");
   }, [router]);
   return (
-    <div className="relative py-4 md:py-6 rounded-[16px] bg-white shadow-lg transition-colors duration-500  dark:text-white dark:bg-primary px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
+    <div
+      className="relative py-4 md:py-6 rounded-[16px] bg-white transition-colors duration-500
+     dark:text-white dark:bg-primary px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto"
+    >
       {/* Logo is been removed here  */}
       {/* <Link href="/">
         <Image
