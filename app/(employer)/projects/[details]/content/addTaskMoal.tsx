@@ -9,6 +9,7 @@ import { assignTask } from "@/actions/task";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import Button from "@/components/ui/Button";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import {
   Select,
   SelectContent,
@@ -21,11 +22,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
 import { Calendar } from "@/components/ui/Calendar";
 import { Button as Butt } from "@/components/ui/butt";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { UserWithRole } from "./TaskSesion";
 
 type StatusProps = {
   id?: number;
@@ -34,22 +46,9 @@ type StatusProps = {
 
 export interface AssognTaskProp {
   projectid?: string;
+  teamMembers?: UserWithRole[];
+  endDate?: string;
 }
-
-const STATUSES: StatusProps[] = [
-  {
-    id: 1,
-    label: "pending",
-  },
-  {
-    id: 2,
-    label: "in-progress",
-  },
-  {
-    id: 3,
-    label: "completed",
-  },
-];
 
 interface TaskData {
   title: string;
@@ -64,20 +63,23 @@ interface FormData {
   dueDate: Date;
 }
 
-const AssignTask = ({ projectid }: AssognTaskProp) => {
+const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
   const { addTaskModal, setaddTaskModal } = useStateCtx();
+
+  console.log(endDate);
+
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
-  task: {
-    title: "",
-    description: "",
-    status: "Todo",
-  },
-  email: "",
-  name: "",
-  dueDate: new Date() as Date, // Explicitly specify the type as Date
-});
+    task: {
+      title: "",
+      description: "",
+      status: "Todo",
+    },
+    email: "",
+    name: "",
+    dueDate: new Date(),
+  });
 
   const MAX_DESC = 200;
 
@@ -85,6 +87,16 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
   const [isLoading, startTransition] = useTransition();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+
+  const handleTeamMemberSelect = (name: string, email: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name: name,
+      email: email,
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -135,6 +147,8 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
       ...prevData,
       dueDate: newDueDate,
     }));
+
+    setOpen2(false);
   };
 
   return (
@@ -225,98 +239,121 @@ const AssignTask = ({ projectid }: AssognTaskProp) => {
             />
             <WordCounter word={formData.task.description} length={MAX_DESC} />
           </div>
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="name"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Assigne Name
-            </label>
-            <input
-              type="text"
-              placeholder="Assignee name ..."
-              id="name"
-              name="name"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
-          </div>
+          <div className="md:flex items-center justify-between w-full">
+            <div className="flex flex-col mb-5 gap-y-2 md:mb-0 w-[300px]">
+              <label className="text-sm sm:text-base font-medium dark:text-white">
+                Add Assignee
+              </label>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Butt
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-between text-left font-normal min-h-8 md:py-4 py-2"
+                    )}
+                  >
+                    {formData.name && <>{formData.name}</>}
 
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label
-              htmlFor="email"
-              className="text-sm sm:text-base font-medium dark:text-white"
-            >
-              Assignee Email
-            </label>
-            <input
-              type="text"
-              placeholder="Assignee email ...."
-              id="email"
-              name="email"
-              className="w-full rounded-md border border-gray-200 md:py-4 py-2 px-2 md:px-4 outline-none focus-visible:border focus-visible:border-purple-600 dark:bg-gray-950 dark:text-gray-100 dark:border-purple-600"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
-          </div>
-          <div className="flex flex-col  gap-y-2 w-full">
-            <label className="text-sm sm:text-base font-medium dark:text-white">
-              Task Due Date
-            </label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Butt
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
-                    !formData?.dueDate && "text-muted-foreground"
-                  )}
+                    {!formData.name && <>Enter Assignee</>}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Butt>
+                </PopoverTrigger>
+                <PopoverContent className="flex w-full z-[500]">
+                  <Command className="rounded-lg w-full">
+                    <CommandInput placeholder="Search By Name ...." />
+                    <CommandList className="w-full z-[800]">
+                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandGroup heading="Suggestions">
+                        {teamMembers?.map((teamMember) => (
+                          <CommandItem
+                            key={teamMember.user._id}
+                            value={teamMember.user.name}
+                            onSelect={() => {
+                              handleTeamMemberSelect(
+                                teamMember.user.name,
+                                teamMember.user.email
+                              );
+                              setOpen(false);
+                            }}
+                            className="z-[900]"
+                          >
+                            {teamMember.user.name}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                formData.name === teamMember.user.name
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex flex-col  gap-y-2 w-[300px]">
+              <label className="text-sm sm:text-base font-medium dark:text-white">
+                Task Due Date
+              </label>
+              <Popover open={open2} onOpenChange={setOpen2}>
+                <PopoverTrigger asChild>
+                  <Butt
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
+                      !formData?.dueDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData?.dueDate ? (
+                      format(formData?.dueDate, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Butt>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="flex w-full flex-col space-y-2 p-2 z-[500]"
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData?.dueDate ? (
-                    format(formData?.dueDate, "PPP")
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Butt>
-              </PopoverTrigger>
-              <PopoverContent
-                align="start"
-                className="flex w-full flex-col space-y-2 p-2 z-[500]"
-              >
-                <Select onValueChange={handleDueDateChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Time Frame" />
-                  </SelectTrigger>
-                  <SelectContent position="popper" className="z-[999] bg-white">
-                    <SelectItem value="0">Today</SelectItem>
-                    <SelectItem value="1">Tomorrow</SelectItem>
-                    <SelectItem value="3">In 3 days</SelectItem>
-                    <SelectItem value="7">In a week</SelectItem>
-                  </SelectContent>
-                </Select>
-                <div className="rounded-md border">
-                  <Calendar
-                    mode="single"
-                    selected={formData?.dueDate}
-                    disabled={(date) => date < new Date()}
-                    // initialFocus
-                    onSelect={(date) =>
-                      date &&
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        dueDate: date,
-                      }))
-                    }
-                  />
-                </div>
-              </PopoverContent>
-            </Popover>
+                  <Select onValueChange={handleDueDateChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Time Frame" />
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      className="z-[999] bg-white"
+                    >
+                      <SelectItem value="0">Today</SelectItem>
+                      <SelectItem value="1">Tomorrow</SelectItem>
+                      <SelectItem value="3">In 3 days</SelectItem>
+                      <SelectItem value="7">In a week</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="rounded-md border">
+                    <Calendar
+                      mode="single"
+                      selected={formData?.dueDate}
+                      disabled={(date) =>
+                        date > new Date() || date > new Date(endDate!)
+                      }
+                      initialFocus
+                      onSelect={(date) => {
+                        date &&
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            dueDate: date,
+                          }));
+                        setOpen2(false);
+                      }}
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           <FormError message={error} />

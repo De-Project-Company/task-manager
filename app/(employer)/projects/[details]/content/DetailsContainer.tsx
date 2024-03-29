@@ -51,8 +51,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const fullName = user?.name;
   const [firstName] = fullName!.split(/\s+/);
-  const hours = daysToHours(projectData?.duration!);
-  const time = calculateCountdown(projectData?.endDate!);
   const countDownTIme = useCountdown(projectData?.endDate!);
   const [isDotMenu, setIsDotMenu] = useState(false);
 
@@ -266,6 +264,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             tasks={projectData?.tasks}
             teamMembers={projectData?.teamMembers}
             owner={projectData?.owner}
+            endDate={projectData?.endDate}
           />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
