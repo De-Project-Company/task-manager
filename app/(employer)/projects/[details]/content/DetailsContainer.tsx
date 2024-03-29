@@ -8,13 +8,14 @@ import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
 import { Edit2, More, Trash, Status } from "iconsax-react";
 import TeamSection from "./TeamMembers";
-import { cn, daysToHours, calculateCountdown } from "@/utils";
+import { cn } from "@/utils";
 import useCountdown from "@/hooks/useCountdown";
 import DeletePojectModal from "./DeletePojectModal";
 import { useStateCtx } from "@/context/StateCtx";
 import ChangeProjectStatus from "./ChangeStatusModal";
 import ProjectComments from "./coment";
 import TaskSesion from "./TaskSesion";
+import ProjectDoc from "./Doc";
 import { useProjectCtx } from "@/context/Projectctx";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
@@ -59,6 +60,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const [firstName] = fullName!.split(/\s+/);
   const countDownTIme = useCountdown(projectData?.endDate!);
   const [isDotMenu, setIsDotMenu] = useState(false);
+  const [docsNum, setDocsNum] = useState(5);
 
   useEffect(() => {
     if (isDotMenu) {
@@ -76,6 +78,8 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
+
+  const docs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
     <>
@@ -226,13 +230,40 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         <div className="grid md:grid-cols-2 gap-4 ">
           <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-5 border border-neutral-100  rounded-lg shadow-sm">
             <div className="flex justify-between items-center my-5">
-              <div className="flex space-x-2 items-center">
+              {/* <div className="flex space-x-2 items-center">
                 <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
                   <FaBriefcase />
                 </div>
                 <h5 className="font-bold text-primary text-xl items-center ">
                   Project Images
                 </h5>
+              </div> */}
+              <div className="flex flex-col w-full py-3 sm:p-3  sm:rounded-xl sm:border max-sm:border-t border-[#e1e1e1] dark:border-primary-light dark:bg-gray-950 h-full">
+                <h3 className="text-lg font-semibold text-header dark:text-gray-100  pb-4">
+                  Project Documents
+                </h3>
+                <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
+                  <div className="flex flex-col gap-y-4 px-1">
+                    {docs.slice(0, docsNum).map((num) => (
+                      <ProjectDoc key={num} />
+                    ))}
+                  </div>
+                  <div className="flex">
+                    <button
+                      type="button"
+                      className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
+                      onClick={() => {
+                        if (docsNum === docs.length) {
+                          setDocsNum(5);
+                          return;
+                        }
+                        setDocsNum(docs.length);
+                      }}
+                    >
+                      {docsNum === docs.length ? " See less" : "See All"}
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <p className="block text-primary font-medium hover:font-bold cursor-pointer text-xs md:text-sm">
