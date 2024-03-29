@@ -114,7 +114,7 @@ const config: Config = {
       shimmer: "shimmer 1.5s infinite",
       slideUp: "slideUp 1s 0.2s ease forwards",
       loadspin: "loadspin 1.2s linear infinite",
-      pulsing: "pulsing 1.5s ease infinite",
+      pulse: "pulsing 1.5s ease infinite",
       rotate3d:
         "rotate3d 2s 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite",
       slideDown: "slideDown 1s 0.2s ease forwards",

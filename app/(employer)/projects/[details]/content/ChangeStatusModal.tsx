@@ -8,6 +8,7 @@ import { useStateCtx } from "@/context/StateCtx";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
 import { updateProjectStatus } from "@/actions/project";
+import { useProjectCtx } from "@/context/Projectctx";
 
 type StatusProps = {
   id?: number;
@@ -35,6 +36,8 @@ interface ChanegStatusProps {
 const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
   const { ChangeProjectStatusModal, setChangeProjectStatusModal } =
     useStateCtx();
+  const { setUpdate } = useProjectCtx();
+
   const [selectedStatus, setSelectedStatus] = useState<
     StatusProps["label"] | null
   >(null);
@@ -50,15 +53,12 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
       const result = await updateProjectStatus(projectid!, selectedStatus!);
 
       if (result?.status === "success") {
+        setUpdate(true);
         setSuccess("Project status updated successfully!");
         setTimeout(() => {
           setChangeProjectStatusModal(false);
           router.refresh();
         }, 3000);
-
-        setTimeout(() => {
-          setChangeProjectStatusModal(false);
-        }, 5000);
       } else {
         // console.error("Error updating project status:", result?.error);
         setError(result?.error);

@@ -17,7 +17,7 @@ const Footer = () => {
         <Link href="/request">Request Beta</Link>
       </div>
       <hr />
-      <div className="flex items-center text-white text-sm md:text-base font-normal justify-between py-2">
+      <div className="flex flexitems-center text-white text-sm md:text-base font-normal justify-between py-2">
         <h1>
           &copy; {new Date().getFullYear()} Starters House. All rights reserved.
         </h1>

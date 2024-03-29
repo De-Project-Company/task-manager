@@ -40,6 +40,8 @@ const NotificationDopDown = () => {
     fetchNotifications();
   }, []);
 
+  // console.log(notifications);
+
   return (
     <>
       <div
@@ -57,33 +59,54 @@ const NotificationDopDown = () => {
             : "opacity-0 h-0 duration-200 overflow-hidden pointer-events-none"
         )}
       >
-        <div className="flex flex-col w-[300px] items-center gap-3 pb-3">
-          <div className=" sticky top-0 flex justify-between border-b w-full pb-2 dark:text-white px-4 py-2 bg-white dark:bg-primary">
-            <h1 className="font-[600]">Notifications</h1>
-            <Link href="/notification">View all</Link>
+        <div className="flex flex-col w-[300px] items-center ">
+          <div
+            className=" sticky top-0 flex justify-between border-b w-full pb-2 dark:text-white px-4 py-2 
+          bg-white dark:bg-primary items-center"
+          >
+            <h1 className="font-[600] text-xs  md:text-sm">Notifications</h1>
+            <Link href="/notification " className="text-xs md:text-sm">
+              View all
+            </Link>
           </div>
 
-          <div>
-            <ul className="flex flex-col w-full">
+          <div className="w-full">
+            <ul className="flex flex-col w-full ">
               {notifications?.map((notification) => (
-                <li
-                  key={notification._id}
-                  className={`h-fit py-4 flex flex-col `}
-                >
-                  <div className="flex w-full gap-1 items-center justify-between">
+                <li key={notification._id} className={`h-fit flex flex-col `}>
+                  <div
+                    className="flex w-full gap-1 items-center justify-between px-3 mb-1 last:mb-0 
+                  hover:bg-gray-100 cursor-pointer pt-1 group"
+                  >
                     {/* <div className="m-auto w-fit p-2 rounded-full">
                       <NotificationIcon size="20" />
                     </div> */}
-                    <div className="flex items-center gap-1 pb-1 justify-center flex-col w-full border-b-[1px] border-header dark:border-white">
-                      <span className="font-normal text-[#5B5F5E] dark:text-white text-xs">
-                        {notification.message.length > 50
-                          ? notification.message.slice(0, 40) + "..."
-                          : notification.message}
-                      </span>
 
-                      <p className="text-gray-600 dark:text-white w-full float-left text-sm text-left justify-start items-start align-baseline">
-                        {timeAgo(notification.createdAt)}
-                      </p>
+                    <div className="each_wrapper flex space-x-1">
+                      <div className="status h-2 w-2 rounded-full bg-green-500 block self-start mt-1"></div>
+                      {/* did most tweek here  */}
+                      <div
+                        className="flex items-center space-y-2 justify-center flex-col w-full
+                       border-gray-200 border-b-[1px] pb-1 dark:border-white "
+                      >
+                        <p
+                          className="text-[#5B5F5E] dark:text-white text-xs font-medium
+                       w-fit block group-hover:font-bold "
+                        >
+                          {/* {notification.message.length > 50
+                          ? notification.message.slice(0, 40) + "..."
+                          : notification.message} */}
+
+                          {notification?.message}
+                        </p>
+
+                        <p
+                          className="text-gray-400 dark:text-white w-full float-left text-xs text-left justify-start 
+                      items-start align-baseline"
+                        >
+                          {timeAgo(notification.createdAt)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </li>
