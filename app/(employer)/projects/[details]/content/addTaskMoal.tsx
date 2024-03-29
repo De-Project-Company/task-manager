@@ -79,7 +79,7 @@ const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
     dueDate: new Date(),
   });
 
-  const MAX_DESC = 200;
+  const MAX_DESC = 500;
 
   const isDisabled = !formData.task || !formData.email || !formData.name;
   const [isLoading, startTransition] = useTransition();

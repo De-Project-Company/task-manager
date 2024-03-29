@@ -155,7 +155,7 @@ const Team = ({ projectid }: AssognTaskProp) => {
                   isLoading ? "[&>div>span]:opacity-0" : ""
                 )}
               >
-                Submmit
+                Submit
               </Button>
               {isLoading && (
                 <div className="button--loader absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
