@@ -15,6 +15,7 @@ import { useStateCtx } from "@/context/StateCtx";
 import ChangeProjectStatus from "./ChangeStatusModal";
 import ProjectComments from "./coment";
 import TaskSesion from "./TaskSesion";
+import { useProjectCtx } from "@/context/Projectctx";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -23,26 +24,31 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     setDeleteProjectModal,
     setChangeProjectStatusModal,
   } = useStateCtx();
+  const { setUpdate, Update } = useProjectCtx();
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
-  useEffect(() => {
-    const fetchProjectDetails = async () => {
-      try {
-        const project = await getPojectdetails(id!);
-        if (project?.status === "success") {
-          setProjectData(project.project);
-        }
-      } catch (error) {
-        console.error(
-          "An error occurred while fetching project details:",
-          error
-        );
+  const fetchProjectDetails = async () => {
+    try {
+      const project = await getPojectdetails(id!);
+      if (project?.status === "success") {
+        setProjectData(project.project);
+        setUpdate(false);
       }
-    };
+    } catch (error) {
+      console.error("An error occurred while fetching project details:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchProjectDetails();
   }, [id]);
+
+  useEffect(() => {
+    if (Update) {
+      fetchProjectDetails();
+    }
+  }, [Update]);
 
   const admin = projectData?.teamMembers?.find(
     (member) => member.user._id === projectData?.owner?._id

@@ -29,10 +29,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandDialog,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
+import { useProjectCtx } from "@/context/Projectctx";
 import { Calendar } from "@/components/ui/Calendar";
 import { Button as Butt } from "@/components/ui/butt";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -66,6 +64,7 @@ interface FormData {
 
 const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
   const { addTaskModal, setaddTaskModal } = useStateCtx();
+  const { setUpdate } = useProjectCtx();
 
   const router = useRouter();
 
@@ -116,6 +115,7 @@ const AssignTask = ({ projectid, teamMembers, endDate }: AssognTaskProp) => {
           });
           setTimeout(() => {
             setaddTaskModal(false);
+            setUpdate(true);
             router.refresh();
           }, 3000);
         }
