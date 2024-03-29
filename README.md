@@ -2,7 +2,7 @@
 <p align="center"><img align="center" width="280" src="./public/logo.svg"/></p>
 <!-- <p align="center"><img align="center" width="280" src="./.github/logo-light.svg#gh-light-mode-only"/></p> -->
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=next,ts,sass" />
+  <img src="https://skillicons.dev/icons?i=next,ts,sass,tailwind" />
   <br/>
 </p>
 <br/><br/>
@@ -46,4 +46,6 @@ At Traverse, we believe in empowering teams to work smarter, not harder. Our phi
 This project would not be possible without our amazing contributors and the community. Thanks a lot! Keep rocking 🍻.
 
 [![Contributors](https://contrib.rocks/image?repo=De-Project-Company/task-manager)](https://github.com/De-Project-Company/task-manager/graphs/contributors)
+
+## Ready to enhance your team's productivity? [Sign up for Traverse now!](https://traverse.startershouse.com/)
 
