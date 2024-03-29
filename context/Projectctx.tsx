@@ -25,6 +25,8 @@ interface ProjectContextProps {
   projectCount: number;
   Loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  Update: boolean;
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ProjectContext = createContext({} as ProjectContextProps);
@@ -41,6 +43,7 @@ const ProjectContextProvider = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [projectCount, setprojectCount] = useState(0);
   const [Loading, setLoading] = useState(false);
+  const [Update, setUpdate] = useState(false);
 
   useLayoutEffect(() => {
     const fetchData = async () => {
@@ -76,6 +79,8 @@ const ProjectContextProvider = ({
       setLoading,
       selectedProject,
       setSelectedProject,
+      Update,
+      setUpdate,
     }),
     [
       Project,
@@ -84,6 +89,7 @@ const ProjectContextProvider = ({
       selectedProject,
       projectSearchTerm,
       projectCount,
+      Update,
     ]
   ); //
 

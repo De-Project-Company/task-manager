@@ -20,7 +20,7 @@ interface User {
   __v: number;
 }
 
-interface UserWithRole {
+export interface UserWithRole {
   user: User;
   role: string;
   accepted: boolean;
@@ -47,6 +47,7 @@ interface TasksessionProp {
   tasks?: Task[];
   teamMembers?: UserWithRole[];
   owner?: Owner;
+  endDate?: string;
 }
 
 const TaskSesion = ({
@@ -54,6 +55,7 @@ const TaskSesion = ({
   tasks,
   teamMembers,
   owner,
+  endDate,
 }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTaskModal } = useStateCtx();
@@ -77,7 +79,6 @@ const TaskSesion = ({
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
-
 
   return (
     <>
@@ -161,7 +162,11 @@ const TaskSesion = ({
         )}
 
         {/* Create Task Modal */}
-        <AssignTask projectid={projectid} />
+        <AssignTask
+          projectid={projectid}
+          teamMembers={teamMembers}
+          endDate={endDate}
+        />
       </div>
     </>
   );
