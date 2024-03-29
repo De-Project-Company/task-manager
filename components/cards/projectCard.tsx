@@ -11,7 +11,6 @@ import { encryptString } from "@/utils";
 import { format } from "date-fns";
 import { useUserCtx } from "@/context/UserCtx";
 import { useStateCtx } from "@/context/StateCtx";
-import { useRouter } from "next/navigation";
 import AcceptModal from "../project/AcceptModal";
 
 const ProjectCard = ({
@@ -24,10 +23,9 @@ const ProjectCard = ({
 }: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
-  const { projectSearchTerm } = useProjectCtx();
+  const { projectSearchTerm, setSelectedProject } = useProjectCtx();
   const { user } = useUserCtx();
   const { setInviteModal } = useStateCtx();
-  const { replace } = useRouter();
 
   const isProjectOwner = user.id === owner?._id;
   const desiredTeamMember = teamMembers?.find(
@@ -145,7 +143,7 @@ const ProjectCard = ({
             <button
               onClick={() => {
                 setInviteModal(true);
-                replace(`/dashboard?id=${_id}&project_title=${encryptTitle}`);
+                setSelectedProject(_id!);
               }}
               type="button"
               tabIndex={0}
@@ -156,7 +154,7 @@ const ProjectCard = ({
           )}
         </div>
       </div>
-      <AcceptModal title={title} id={_id} />
+      <AcceptModal />
     </>
   );
 };

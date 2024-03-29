@@ -20,7 +20,6 @@ const ProjectContainer = () => {
     [] as ProjectProps[]
   );
 
-  console.log(Project);
   useEffect(() => {
     const searchTerm =
       projectSearchTerm && projectSearchTerm.trim().toLowerCase();
@@ -79,6 +78,7 @@ const ProjectContainer = () => {
           " w-full min-h-[941px] grid grid-cols-1 min-[929px]:grid-cols-2 gap-x-4 lg:gap-x-6 xl:gap-x-8  place-content-start place-items-center gap-y-16 max-[929px]:gap-y-8"
         )}
       >
+        <ProjectCardSkeleton />
         <ProjectCardSkeleton />
         <ProjectCardSkeleton />
         <ProjectCardSkeleton />
