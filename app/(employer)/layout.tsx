@@ -29,7 +29,7 @@ export default function EmployersLayout({
           <Theme />
         </div>
         <Introduction />
-        <AcceptModal />
+        {/* <AcceptModal /> */}
       </ProjectContextProvider>
     </UserContextProvider>
   );

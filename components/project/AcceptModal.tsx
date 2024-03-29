@@ -4,31 +4,22 @@ import React, { useState, useEffect } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn, encryptString } from "@/utils";
 import { X } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { decryptString } from "@/utils";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
 import Link from "next/link";
 import { acceptInvite } from "@/actions/invite";
 import { useRouter } from "next/navigation";
 
-const AcceptModal = () => {
+const AcceptModal = ({ title, id }: { title?: string; id?: string }) => {
   const { InviteModal, setInviteModal } = useStateCtx();
-  const searchParams = useSearchParams();
-  const projectTitle = searchParams.get("project_title");
   const [inviteAccepted, setInviteAccepted] = useState(false);
-  const projctId = searchParams.get("id");
-  let title = "";
-  if (projectTitle) {
-    title = decryptString(projectTitle);
-  }
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleAcceptInvite = async () => {
     setLoading(true);
-    const response = await acceptInvite(projctId!);
+    const response = await acceptInvite(id!);
     if (response?.success) {
       setLoading(false);
       setInviteAccepted(true);
@@ -48,7 +39,7 @@ const AcceptModal = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        const project = await getPojectdetails(projctId!);
+        const project = await getPojectdetails(id!);
 
         if (project?.status === "success") {
           setProjectData(project.project);
@@ -61,25 +52,30 @@ const AcceptModal = () => {
       }
     };
 
-    if (projctId || InviteModal) {
+    if (id || InviteModal) {
       fetchProjectDetails();
     }
-  }, [projctId, InviteModal]);
+  }, [id, InviteModal]);
 
   let encryptTitle = "";
   if (projectData?.title) {
     encryptTitle = encryptString(projectData?.title!);
   }
 
+  const handleClick = () => {
+    setProjectData(null);
+    setInviteModal(false);
+  };
+
   return (
     <>
       <div
         aria-hidden
         className={cn(
-          " fixed min-h-screen w-full bg-black/40  top-0 left-0  transition-all duration-300 z-[99] backdrop-blur-sm",
+          " fixed min-h-screen w-full bg-black/10  top-0 left-0  transition-all duration-300 z-[99] backdrop-blur-sm",
           InviteModal ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
-        onClick={() => setInviteModal(false)}
+        onClick={handleClick}
       />
       <div
         role="dialog"
@@ -94,16 +90,13 @@ const AcceptModal = () => {
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] dark:border-primary-light pb-4 pl-4 px-4 md:pl-8 ">
           <h3 className="text-sm min-[450px]:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
-            Accept{" "}
-            <span className="font-medium lg:font-bold">
-              {title ? "Project" : projectData?.title}?
-            </span>
+            Accept <span className="font-medium lg:font-bold">{title}?</span>
           </h3>
           <button
             type="button"
             tabIndex={0}
             aria-label="Close"
-            onClick={() => setInviteModal(false)}
+            onClick={handleClick}
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full dark:text-red-500"
           >
             <X size={24} />
