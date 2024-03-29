@@ -228,63 +228,31 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
         {/* Projects Images */}
         <div className="grid md:grid-cols-2 gap-4 ">
-          <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-5 border border-neutral-100  rounded-lg shadow-sm">
-            <div className="flex justify-between items-center my-5">
-              {/* <div className="flex space-x-2 items-center">
-                <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
-                  <FaBriefcase />
-                </div>
-                <h5 className="font-bold text-primary text-xl items-center ">
-                  Project Images
-                </h5>
-              </div> */}
-              <div className="flex flex-col w-full py-3 sm:p-3  sm:rounded-xl sm:border max-sm:border-t border-[#e1e1e1] dark:border-primary-light dark:bg-gray-950 h-full">
-                <h3 className="text-lg font-semibold text-header dark:text-gray-100  pb-4">
-                  Project Documents
-                </h3>
-                <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
-                  <div className="flex flex-col gap-y-4 px-1">
-                    {docs.slice(0, docsNum).map((num) => (
-                      <ProjectDoc key={num} />
-                    ))}
-                  </div>
-                  <div className="flex">
-                    <button
-                      type="button"
-                      className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
-                      onClick={() => {
-                        if (docsNum === docs.length) {
-                          setDocsNum(5);
-                          return;
-                        }
-                        setDocsNum(docs.length);
-                      }}
-                    >
-                      {docsNum === docs.length ? " See less" : "See All"}
-                    </button>
-                  </div>
-                </div>
+          <div className="flex flex-col w-full py-3 sm:p-3 mt-12 sm:rounded-xl h-full">
+            <h3 className="text-lg font-semibold text-header dark:text-gray-100  pb-4">
+              Project Documents
+            </h3>
+            <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
+              <div className="flex flex-col gap-y-4 px-1">
+                {docs.slice(0, docsNum).map((num) => (
+                  <ProjectDoc key={num} />
+                ))}
               </div>
-
-              <p className="block text-primary font-medium hover:font-bold cursor-pointer text-xs md:text-sm">
-                See More
-              </p>
-            </div>
-
-            {/* Images section */}
-            <div className="grid grid-cols-3 gap-2 overflow-hidden">
-              {[1, 2, 3].map((index) => (
-                <div key={index} className="h-[140.69px] w-[167px] relative ">
-                  <Image
-                    key={index}
-                    src="/assets/screenshot/screenshot_showcase.png"
-                    height={400}
-                    width={400}
-                    alt="Project Images"
-                    className="h-full w-full object-fit "
-                  />
-                </div>
-              ))}
+              <div className="flex">
+                <button
+                  type="button"
+                  className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
+                  onClick={() => {
+                    if (docsNum === docs.length) {
+                      setDocsNum(5);
+                      return;
+                    }
+                    setDocsNum(docs.length);
+                  }}
+                >
+                  {docsNum === docs.length ? " See less" : "See All"}
+                </button>
+              </div>
             </div>
           </div>
 
