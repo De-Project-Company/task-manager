@@ -24,10 +24,13 @@ import FormError from "./Error";
 import FormSuccess from "./Success";
 import { register } from "@/actions/auth";
 import Link from "next/link";
+import { Eye, EyeSlash } from "iconsax-react";
 
 function SignupForm() {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPasswod, setShowConfirmPassword] = useState<boolean>(false);
   const { setOTPModal } = useStateCtx();
 
   const [isLoading, startTransition] = useTransition();
@@ -58,23 +61,28 @@ function SignupForm() {
     });
   };
   return (
-    <div className="relative py-4 min-[850px]:py-6 rounded-[16px] transition-colors duration-500  dark:text-white dark:bg-primary shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto">
-      <Link href="/">
-        <Image
-          src="/assets/traverseLogo.png"
-          alt="traverse logo"
-          width={150}
-          height={150}
-          className="dark:hidden block"
-        />
-        <Image
+    <div
+      className="relative py-10 rounded-[16px] transition-colors duration-500  dark:text-white 
+    dark:bg-primary shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto"
+    >
+      <div className="w">
+        <Link href="/">
+          <Image
+            src="/assets/traverseLogo.png"
+            alt="traverse logo"
+            width={150}
+            height={150}
+            className="dark:hidden block"
+          />
+          {/* <Image
           src="/logo.svg"
           alt="traverse logo"
           width={150}
           height={150}
           className="dark:block hidden"
-        />
-      </Link>
+        /> */}
+        </Link>
+      </div>
       <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Signup
       </h1>
@@ -106,7 +114,7 @@ function SignupForm() {
                       {...field}
                       placeholder="Enter Full Name"
                       aria-placeholder="Enter Full Name"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -127,7 +135,7 @@ function SignupForm() {
                       type="email"
                       {...field}
                       placeholder="Enter Business Email Address"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -150,7 +158,7 @@ function SignupForm() {
                       type="text"
                       {...field}
                       placeholder="Enter your company name"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
                 </FormControl>
@@ -163,17 +171,39 @@ function SignupForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold ">Password</FormLabel>
+                <FormLabel className="font-semibold">Password</FormLabel>
                 <FormControl>
-                  <div className="flex w-full relative items-center">
+                  <div
+                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
+                  border-input pr-2"
+                  >
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
+
+                    {showPassword ? (
+                      <EyeSlash
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                    ) : (
+                      <Eye
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      />
+                    )}
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -189,15 +219,36 @@ function SignupForm() {
                   Confirm Password
                 </FormLabel>
                 <FormControl>
-                  <div className="flex w-full relative items-center">
+                  <div
+                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
+                  border-input pr-2 "
+                  >
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type="password"
-                      placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                      type={showConfirmPasswod ? "text" : "password"}
+                      placeholder="Confirm Enter Password"
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
+                    {showConfirmPasswod ? (
+                      <EyeSlash
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowConfirmPassword(!showConfirmPasswod);
+                        }}
+                      />
+                    ) : (
+                      <Eye
+                        size="32"
+                        className="text-grey-300 cursor-pointer"
+                        onClick={() => {
+                          setShowConfirmPassword(!showConfirmPasswod);
+                        }}
+                      />
+                    )}
                   </div>
                 </FormControl>
 
