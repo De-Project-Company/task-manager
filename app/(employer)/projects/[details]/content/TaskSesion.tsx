@@ -8,6 +8,7 @@ import { Add } from "iconsax-react";
 import { Accordion } from "@/components/ui/accordion";
 import SingleTask from "./SingleTask";
 import { Owner } from "@/types";
+import Link from "nex";
 import { useUserCtx } from "@/context/UserCtx";
 
 interface User {

@@ -17,6 +17,9 @@ import ProjectComments from "./coment";
 import TaskSesion from "./TaskSesion";
 import ProjectDoc from "./Doc";
 import { useProjectCtx } from "@/context/Projectctx";
+import ProjectImage from "./ProjectImage";
+import ProjectDesroption from "./ProjectDesroption";
+
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -28,6 +31,8 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { setUpdate, Update } = useProjectCtx();
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
+
+  console.log(projectData)
 
   const fetchProjectDetails = async () => {
     try {
@@ -145,7 +150,8 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
           </span>
         </div>
 
-        {/* project decription section */}
+        <ProjectDesroption {...projectData} />
+
         <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-3 border border-neutral-100  rounded-lg shadow-sm">
           <div className="flex justify-between items-center my-2">
             <div className="flex space-x-2 items-center">
@@ -225,6 +231,8 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             </p>
           </div>
         </div>
+
+        <ProjectImage />
 
         {/* Projects Images */}
         <div className="grid md:grid-cols-2 gap-4 ">
