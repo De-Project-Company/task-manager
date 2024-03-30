@@ -51,7 +51,7 @@ const ChangeTaskStatus = ({
   const { setUpdate, selectedTask, setSelectedTask } = useProjectCtx();
   const { user } = useUserCtx();
 
-  // console.log(selectedTask);
+  console.log(selectedTask);
 
   const isAdmin = owner?._id === user.id;
 

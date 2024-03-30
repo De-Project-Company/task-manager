@@ -214,7 +214,7 @@ export const updateTaskStatus = async (
 
   try {
     const res = await $http.post(
-      `/project/${projectId}/update-task-status??taskId=${taskId}`,
+      `/project/${projectId}/update-task-status?taskId=${taskId}`,
       requestBody,
       config
     );
