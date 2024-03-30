@@ -38,7 +38,7 @@ const ProjectCard = ({
     ? desiredTeamMember.accepted
     : false;
 
-  const encryptTitle = encryptString(title!);
+   const encryptTitle = encryptString(title!);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;

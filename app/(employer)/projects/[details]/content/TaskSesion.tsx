@@ -60,32 +60,15 @@ const TaskSesion = ({
   endDate,
   title,
 }: TasksessionProp) => {
-  const [isMenu, setIsMenu] = useState(false);
-  const { setaddTaskModal } = useStateCtx();
   const { user } = useUserCtx();
   const admin = teamMembers?.find((member) => member.user._id === owner?._id);
   const isNotAdmin = admin?.user._id !== user?.id;
 
   const teamMembersJSON = JSON.stringify(teamMembers);
 
-  useEffect(() => {
-    if (isMenu) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
 
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsMenu(false);
-      }
-    };
 
-    document.addEventListener("keyup", handleKeyUp);
-    return () => document.removeEventListener("keyup", handleKeyUp);
-  }, [isMenu]);
-
-  const encryptTitle = encryptString(title!);
+  const encryptTitle = title ? encryptString(title as string) : "";
   return (
     <>
       <div
@@ -110,38 +93,6 @@ const TaskSesion = ({
             <Add size={24} />
           </Link>
         </div>
-        {/* DOT Menu */}
-        <div
-          className={cn(
-            "fixed min-h-screen w-full bg-black/0 top-0 left-0 z-[99] transition-all duration-300",
-            isMenu ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}
-          onClick={() => setIsMenu(false)}
-        />
-        <div
-          role="dialog"
-          aria-labelledby="add-task"
-          className={cn(
-            "flex w-[190px] h-[56px]  px-4 py-2 absolute right-2 top-[3.5rem] rounded-lg justify-center  border border-gray-200 backdrop-blur-xl bg-white/80 dark:bg-primary dark:border-purple-600 transition-all duration-300 z-[999] shadow-[0_5px_15px_-3px_rgba(0,0,0,0.3)]",
-            {
-              "opacity-100": isMenu,
-              "opacity-0 pointer-events-none": !isMenu,
-            }
-          )}
-        >
-          <button
-            onClick={() => {
-              setaddTaskModal(true);
-              setIsMenu(!isMenu);
-            }}
-            type="button"
-            tabIndex={0}
-            className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 text-black dark:text-white w-full flex items-center gap-x-2 px-2"
-          >
-            <Add size={18} />
-            <span>Add Task</span>
-          </button>
-        </div>
 
         {tasks && tasks.length > 0 ? (
           <Accordion type="multiple" className="w-full">
@@ -161,13 +112,6 @@ const TaskSesion = ({
             No Tasks Assigned yet.
           </p>
         )}
-
-        {/* Create Task Modal */}
-        <AssignTask
-          projectid={projectid}
-          teamMembers={teamMembers}
-          endDate={endDate}
-        />
       </div>
     </>
   );
