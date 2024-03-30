@@ -20,6 +20,8 @@ interface ProjectContextProps {
   setSelectedProjectFilter: React.Dispatch<React.SetStateAction<string>>;
   selectedProject: string;
   setSelectedProject: React.Dispatch<React.SetStateAction<string>>;
+  selectedTask: string;
+  setSelectedTask: React.Dispatch<React.SetStateAction<string>>;
   projectSearchTerm: string;
   setProjectSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   projectCount: number;
@@ -41,6 +43,7 @@ const ProjectContextProvider = ({
   const [projectSearchTerm, setProjectSearchTerm] = useState("");
 
   const [selectedProject, setSelectedProject] = useState("");
+  const [selectedTask, setSelectedTask] = useState("");
   const [projectCount, setprojectCount] = useState(0);
   const [Loading, setLoading] = useState(false);
   const [Update, setUpdate] = useState(false);
@@ -81,6 +84,8 @@ const ProjectContextProvider = ({
       setSelectedProject,
       Update,
       setUpdate,
+      selectedTask,
+      setSelectedTask,
     }),
     [
       Project,
@@ -90,6 +95,7 @@ const ProjectContextProvider = ({
       projectSearchTerm,
       projectCount,
       Update,
+      selectedTask,
     ]
   ); //
 

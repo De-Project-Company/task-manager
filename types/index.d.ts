@@ -141,6 +141,8 @@ export interface StateContextProps {
   setIntroduction: React.Dispatch<React.SetStateAction<boolean>>;
   CreateMeet: boolean;
   setCreateMeet: React.Dispatch<React.SetStateAction<boolean>>;
+  ChangeTaskStatusModal: boolean;
+  setChangeTaskStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
 
   // Added context for CalendarEvent
 

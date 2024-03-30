@@ -83,7 +83,7 @@ const NotificationDopDown = () => {
                     </div> */}
 
                     <div className="each_wrapper flex space-x-1">
-                      <div className="status h-2 w-2 rounded-full bg-green-500 block self-start mt-1"></div>
+                      <div className="status h-2 w-2 rounded-full bg-green-500 block self-start mt-1" />
                       {/* did most tweek here  */}
                       <div
                         className="flex items-center space-y-2 justify-center flex-col w-full
