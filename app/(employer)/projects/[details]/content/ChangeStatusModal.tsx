@@ -58,7 +58,7 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
         setTimeout(() => {
           setChangeProjectStatusModal(false);
           router.refresh();
-        }, 100);
+        }, 1000);
       } else {
         setError(result?.error);
       }

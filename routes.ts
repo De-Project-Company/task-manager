@@ -56,6 +56,7 @@ export const protectedRoutes = [
   "/create-project",
   ...[DEFAULT_LOGIN_REDIRECT],
   "/projects/details",
+  "/projects/task",
   "/chat",
   "/calender",
   "/project/approve",
