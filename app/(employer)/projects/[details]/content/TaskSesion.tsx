@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import AssignTask from "./addTaskMoal";
-import { cn } from "@/utils";
+import { cn, encryptString } from "@/utils";
 import { Add } from "iconsax-react";
 import { Accordion } from "@/components/ui/accordion";
 import SingleTask from "./SingleTask";
@@ -49,6 +49,7 @@ interface TasksessionProp {
   teamMembers?: UserWithRole[];
   owner?: Owner;
   endDate?: string;
+  title?: string;
 }
 
 const TaskSesion = ({
@@ -57,6 +58,7 @@ const TaskSesion = ({
   teamMembers,
   owner,
   endDate,
+  title,
 }: TasksessionProp) => {
   const [isMenu, setIsMenu] = useState(false);
   const { setaddTaskModal } = useStateCtx();
@@ -83,6 +85,7 @@ const TaskSesion = ({
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isMenu]);
 
+  const encryptTitle = encryptString(title!);
   return (
     <>
       <div
@@ -95,7 +98,7 @@ const TaskSesion = ({
             Tasks
           </h3>
           <Link
-            href={`/projects/task?id=${projectid}`}
+            href={`/projects/task?id=${projectid}&project_title=${encryptTitle}`}
             onClick={() => {
               window?.localStorage.setItem("teamMembers", teamMembersJSON);
             }}

@@ -192,6 +192,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             teamMembers={projectData?.teamMembers}
             owner={projectData?.owner}
             endDate={projectData?.endDate}
+            title={projectData?.title}
           />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
