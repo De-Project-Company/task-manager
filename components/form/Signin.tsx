@@ -155,7 +155,7 @@ const SigninForm = () => {
                     />
                     {showPassword ? (
                       <EyeSlash
-                        size="32"
+                  
                         className="text-grey-300 cursor-pointer"
                         onClick={() => {
                           setShowPassword(!showPassword);
@@ -163,7 +163,7 @@ const SigninForm = () => {
                       />
                     ) : (
                       <Eye
-                        size="32"
+                   
                         className="text-grey-300 cursor-pointer"
                         onClick={() => {
                           setShowPassword(!showPassword);
