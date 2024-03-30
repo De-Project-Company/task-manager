@@ -140,11 +140,7 @@ const TaskSesion = ({
         </div>
 
         {tasks && tasks.length > 0 ? (
-          <Accordion
-            type="multiple"
-            // type="single" collapsible
-            className="w-full"
-          >
+          <Accordion type="multiple" className="w-full">
             {tasks &&
               tasks?.map((task) => (
                 <SingleTask
@@ -152,6 +148,7 @@ const TaskSesion = ({
                   task={task}
                   projectid={projectid}
                   teamMembers={teamMembers}
+                  owner={owner}
                 />
               ))}
           </Accordion>

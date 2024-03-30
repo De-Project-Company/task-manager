@@ -6,15 +6,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Add,
-  ArrowDown2,
-  ArrowRight2,
-  AttachSquare,
-  MessageEdit,
-  Trash,
-} from "iconsax-react";
-import Image from "next/image";
+import { MessageEdit, Trash } from "iconsax-react";
+import ChangeTaskStatus from "./TaskStatus";
+import { useStateCtx } from "@/context/StateCtx";
+import { Owner } from "@/types";
+import { useProjectCtx } from "@/context/Projectctx";
 
 interface User {
   _id: string;
@@ -52,9 +48,17 @@ interface TasksessionProp {
   projectid?: string;
   task?: Task;
   teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
+const SingleTask = ({
+  projectid,
+  task,
+  teamMembers,
+  owner,
+}: TasksessionProp) => {
+  const { setChangeTaskStatusModal } = useStateCtx();
+  const { setSelectedTask } = useProjectCtx();
   const taskOwner = teamMembers?.find(
     (member) => member.user._id === task?.assignedTo
   );
@@ -71,38 +75,53 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
     DueDate
   );
 
+  const handleEditButtonClick = (taskId: string) => {
+    setSelectedTask(taskId);
+    setChangeTaskStatusModal(true);
+  };
+
   return (
-    <AccordionItem value={task?._id!}>
-      <AccordionTrigger>{task?.title}</AccordionTrigger>
-      <AccordionContent>
-        <div className="transition-all duration-500 text-sm font-medium">
-          <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
-            <div className="flex items-center gap-x-4 text-header dark:text-gray-200">
-              <p>Assignee: {taskOwner?.user.name}</p>
-              <p className="text-xs text-header dark:text-gray-200 font-normal">
-                Due Date: {formattedDate}
-              </p>
-            </div>
-            <div className="flex items-center gap-x-3">
-              <button className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]">
-                <MessageEdit />
-                <span>Edit</span>
-              </button>
-              {/* <button
+    <>
+      <AccordionItem value={task?._id!}>
+        <AccordionTrigger>{task?.title}</AccordionTrigger>
+        <AccordionContent>
+          <div className="transition-all duration-500 text-sm font-medium">
+            <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
+              <div className="flex items-center gap-x-4 text-header dark:text-gray-200">
+                <p>Assignee: {taskOwner?.user.name}</p>
+                <p className="text-xs text-header dark:text-gray-200 font-normal">
+                  Due Date: {formattedDate}
+                </p>
+              </div>
+              <div className="flex items-center gap-x-3">
+                <button
+                  className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
+                  onClick={() => handleEditButtonClick(task?._id!)}
+                >
+                  <MessageEdit />
+                  <span>Edit</span>
+                </button>
+                {/* <button
 
                 className="flex items-center gap-x-2 text-[#FF3333]"
               >
                 <Trash color={"#FF3333"} variant="Bold" />
                 <span>Delete</span>
               </button> */}
+              </div>
             </div>
+            <p className="py-4 text-justify text-header dark:text-gray-300">
+              Description: {task?.description}
+            </p>
           </div>
-          <p className="py-4 text-justify text-header dark:text-gray-300">
-            Description: {task?.description}
-          </p>
-        </div>
-      </AccordionContent>
-    </AccordionItem>
+        </AccordionContent>
+      </AccordionItem>
+      <ChangeTaskStatus
+        projectid={projectid}
+        owner={owner}
+        prevStatus={task?.status}
+      />
+    </>
   );
 };
 
