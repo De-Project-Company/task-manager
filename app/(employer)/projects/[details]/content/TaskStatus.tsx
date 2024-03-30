@@ -81,7 +81,7 @@ const ChangeTaskStatus = ({
         setTimeout(() => {
           setChangeTaskStatusModal(false);
           router.refresh();
-        }, 100);
+        }, 1000);
       } else {
         setError(result?.error);
       }

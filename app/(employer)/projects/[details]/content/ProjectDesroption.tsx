@@ -5,7 +5,7 @@ import { ProjectProps } from "@/types";
 import { Edit2, More, Status, Trash } from "iconsax-react";
 import { useStateCtx } from "@/context/StateCtx";
 import { useUserCtx } from "@/context/UserCtx";
-import { cn } from "@/utils";
+import { cn, formatPriceWithCurrency } from "@/utils";
 import { format } from "date-fns";
 
 const ProjectDesroption = ({
@@ -56,6 +56,8 @@ const ProjectDesroption = ({
     ? format(new Date(endDate), "LLL dd, y")
     : "";
 
+  const formattedPrice =
+    price && priceCurrency ? formatPriceWithCurrency(price, priceCurrency) : "";
   return (
     <div className="mt-12 flex flex-col w-full sm:px-3 py-6 mb-6 h-full relative">
       <div className="flex w-full items-center justify-between pb-2 md:pb-3 border-b border-[#e1e1e1] dark:border-primary-light">
@@ -139,6 +141,10 @@ const ProjectDesroption = ({
         <p className="text-sm xl:text-base text-header dark:text-gray-200 flex items-center gap-x-1">
           Project End Date:
           <span className="font-medium">{formattedEndDate}</span>
+        </p>
+        <p className="text-sm xl:text-base text-header dark:text-gray-200 flex items-center gap-x-1">
+          Project Price:
+          <span className="font-medium">{formattedPrice}</span>
         </p>
       </div>
       {/* Description */}

@@ -20,7 +20,6 @@ import { useProjectCtx } from "@/context/Projectctx";
 import ProjectImage from "./ProjectImage";
 import ProjectDesroption from "./ProjectDesroption";
 
-
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
   const {
@@ -32,7 +31,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
-  console.log(projectData)
+  console.log(projectData);
 
   const fetchProjectDetails = async () => {
     try {
@@ -55,11 +54,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
       fetchProjectDetails();
     }
   }, [Update]);
-
-  const admin = projectData?.teamMembers?.find(
-    (member) => member.user._id === projectData?.owner?._id
-  );
-  const isNotAdmin = admin?.user._id !== user?.id;
 
   const fullName = user?.name;
   const [firstName] = fullName!.split(/\s+/);
@@ -151,86 +145,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         </div>
 
         <ProjectDesroption {...projectData} />
-
-        <div className="projectDesc mt-12 bg-[#F9F9F9] px-4 py-3 border border-neutral-100  rounded-lg shadow-sm">
-          <div className="flex justify-between items-center my-2">
-            <div className="flex space-x-2 items-center">
-              <div className=" bg-[#ECEBFF] h-10 w-10 rounded-full flex items-center justify-center">
-                <FaBriefcase />
-              </div>
-              <h5 className="font-bold text-primary text-xl items-center ">
-                {title}
-              </h5>
-            </div>
-
-            <button
-              type="button"
-              id="dot-menu"
-              tabIndex={0}
-              aria-haspopup
-              aria-expanded={isDotMenu}
-              onClick={() => setIsDotMenu((prev) => !prev)}
-              className={cn(
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-header",
-                isNotAdmin ? "hidden" : "block"
-              )}
-            >
-              <More />
-            </button>
-          </div>
-          {/* DOT Menu */}
-          <div
-            className={cn(
-              "fixed min-h-screen w-full bg-black/0 top-0 left-0 z-[99] transition-all duration-300",
-              isDotMenu ? "opacity-100" : "opacity-0 pointer-events-none"
-            )}
-            onClick={() => setIsDotMenu(false)}
-          />
-          <div
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="dot-menu"
-            className={cn(
-              "flex w-[190px] h-[106px] flex-col px-4 py-2 absolute right-4  rounded-lg justify-center gap-y-4 border border-gray-200 dark:border-primary backdrop-blur-xl bg-white/80 dark:bg-primary transition-all duration-300 z-[999]",
-              {
-                "opacity-100": isDotMenu,
-                "opacity-0 pointer-events-none": !isDotMenu,
-              }
-            )}
-          >
-            <button
-              onClick={() => {
-                setChangeProjectStatusModal(true);
-                setIsDotMenu(!isDotMenu);
-              }}
-              type="button"
-              tabIndex={0}
-              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
-            >
-              <Status size={18} />
-              <span>Change Status</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setDeleteProjectModal(true);
-                setIsDotMenu(!isDotMenu);
-              }}
-              type="button"
-              tabIndex={0}
-              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
-            >
-              <Trash size={18} />
-              <span>Delete Project</span>
-            </button>
-          </div>
-
-          <div>
-            <p className="text-[#151B28] font-light">
-              {projectData?.description}
-            </p>
-          </div>
-        </div>
 
         <ProjectImage />
 

@@ -8,7 +8,7 @@ import { Add } from "iconsax-react";
 import { Accordion } from "@/components/ui/accordion";
 import SingleTask from "./SingleTask";
 import { Owner } from "@/types";
-import Link from "nex";
+import Link from "next/link";
 import { useUserCtx } from "@/context/UserCtx";
 
 interface User {
@@ -92,20 +92,15 @@ const TaskSesion = ({
           <h3 className="text-lg font-semibold text-header dark:text-white">
             Tasks
           </h3>
-          <button
-            type="button"
-            tabIndex={0}
-            id="add-milestone"
-            aria-haspopup
-            aria-expanded={isMenu}
-            onClick={() => setIsMenu((prev) => !prev)}
+          <Link
+            href={`/projects/task?id=${projectid}`}
             className={cn(
               "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
               isNotAdmin ? "hidden" : "block"
             )}
           >
             <Add size={24} />
-          </button>
+          </Link>
         </div>
         {/* DOT Menu */}
         <div

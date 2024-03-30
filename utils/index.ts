@@ -284,3 +284,40 @@ export const timeTogo = (dateString: string): string => {
   return "just now";
 };
 
+/**
+ * Function to format price with its corresponding currency symbol
+ * @param price The price value
+ * @param currency The currency type (USD, EUR, GBP, or NGN)
+ * @returns The formatted price with currency symbol
+ */
+export function formatPriceWithCurrency(
+  price: number,
+  currency?: "USD" | "EUR" | "GBP" | "NGN"
+): string {
+  let symbol = ""; // Initialize an empty string to store the currency symbol
+
+  // Set default currency to NGN (Nigerian Naira) if currency is undefined
+  if (!currency) {
+    currency = "NGN";
+  }
+
+  // Switch case to determine the currency and assign the corresponding symbol
+  switch (currency) {
+    case "USD":
+      symbol = "$"; // Assign the dollar symbol for USD
+      break;
+    case "EUR":
+      symbol = "€"; // Assign the euro symbol for EUR
+      break;
+    case "GBP":
+      symbol = "£"; // Assign the pound sterling symbol for GBP
+      break;
+    case "NGN":
+      symbol = "₦"; // Assign the naira symbol for NGN
+      break;
+    default:
+      symbol = ""; // Default to empty string if currency is not recognized
+      break;
+  }
+  return `${symbol}${price}`; // Return the formatted price with currency symbol
+}
