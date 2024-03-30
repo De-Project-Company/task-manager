@@ -62,7 +62,7 @@ function CreateProjectForm() {
   });
   const router = useRouter();
 
-  const MAX_DESC_LEN = 1000;
+  const MAX_DESC_LEN = 5000;
 
   const handleChange = (
     field: string,
