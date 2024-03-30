@@ -199,6 +199,8 @@ export const updateTaskStatus = async (
   // @ts-ignore
   const token = session?.user?.token;
 
+  // console.log(taskId);
+
   const config = {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
