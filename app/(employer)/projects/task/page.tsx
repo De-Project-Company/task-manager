@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import AssignTaskPage from "../[details]/content/AssignTaskPage";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <AssignTaskPage />;
+};
 
-export default page
+export default page;

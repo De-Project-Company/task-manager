@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useUserCtx } from "@/context/UserCtx";
-import Image from "next/image";
-import { FaBriefcase } from "react-icons/fa";
 import { ProjectProps } from "@/types";
 import { getPojectdetails } from "@/actions/project";
-import { Edit2, More, Trash, Status } from "iconsax-react";
 import TeamSection from "./TeamMembers";
 import { cn } from "@/utils";
 import useCountdown from "@/hooks/useCountdown";
@@ -31,7 +28,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
-  console.log(projectData);
+
 
   const fetchProjectDetails = async () => {
     try {
@@ -192,6 +189,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
             teamMembers={projectData?.teamMembers}
             owner={projectData?.owner}
             endDate={projectData?.endDate}
+            title={projectData?.title}
           />
           {/* Projects Comment Section */}
           <ProjectComments projectId={id!} />
