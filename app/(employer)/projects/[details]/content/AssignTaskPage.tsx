@@ -101,7 +101,7 @@ const AssignTaskPage = () => {
     dueDate: new Date(),
   });
 
-  const MAX_DESC = 500;
+  const MAX_DESC = 3000;
   const isDisabled = !formData.task || !formData.email || !formData.name;
   const [isLoading, startTransition] = useTransition();
   const [success, setSuccess] = useState<string | undefined>("");
