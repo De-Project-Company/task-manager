@@ -64,6 +64,8 @@ const TaskSesion = ({
   const admin = teamMembers?.find((member) => member.user._id === owner?._id);
   const isNotAdmin = admin?.user._id !== user?.id;
 
+  const teamMembersJSON = JSON.stringify(teamMembers);
+
   useEffect(() => {
     if (isMenu) {
       document.body.style.overflow = "hidden";
@@ -94,6 +96,9 @@ const TaskSesion = ({
           </h3>
           <Link
             href={`/projects/task?id=${projectid}`}
+            onClick={() => {
+              window?.localStorage.setItem("teamMembers", teamMembersJSON);
+            }}
             className={cn(
               "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
               isNotAdmin ? "hidden" : "block"
