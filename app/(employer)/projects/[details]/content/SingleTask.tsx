@@ -6,15 +6,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Add,
-  ArrowDown2,
-  ArrowRight2,
-  AttachSquare,
-  MessageEdit,
-  Trash,
-} from "iconsax-react";
-import Image from "next/image";
+import { MessageEdit, Trash } from "iconsax-react";
+import ChangeTaskStatus from "./TaskStatus";
+import { useStateCtx } from "@/context/StateCtx";
+import { Owner } from "@/types";
+import { cn } from "@/utils";
+import { useProjectCtx } from "@/context/Projectctx";
 
 interface User {
   _id: string;
@@ -52,9 +49,17 @@ interface TasksessionProp {
   projectid?: string;
   task?: Task;
   teamMembers?: UserWithRole[];
+  owner?: Owner;
 }
 
-const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
+const SingleTask = ({
+  projectid,
+  task,
+  teamMembers,
+  owner,
+}: TasksessionProp) => {
+  const { setChangeTaskStatusModal } = useStateCtx();
+  const { setSelectedTask } = useProjectCtx();
   const taskOwner = teamMembers?.find(
     (member) => member.user._id === task?.assignedTo
   );
@@ -71,38 +76,89 @@ const SingleTask = ({ projectid, task, teamMembers }: TasksessionProp) => {
     DueDate
   );
 
+  const handleEditButtonClick = (taskId: string) => {
+    setSelectedTask(taskId);
+    setChangeTaskStatusModal(true);
+  };
+
   return (
-    <AccordionItem value={task?._id!}>
-      <AccordionTrigger>{task?.title}</AccordionTrigger>
-      <AccordionContent>
-        <div className="transition-all duration-500 text-sm font-medium">
-          <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
-            <div className="flex items-center gap-x-4 text-header dark:text-gray-200">
-              <p>Assignee: {taskOwner?.user.name}</p>
-              <p className="text-xs text-header dark:text-gray-200 font-normal">
-                Due Date: {formattedDate}
-              </p>
-            </div>
-            <div className="flex items-center gap-x-3">
-              <button className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]">
-                <MessageEdit />
-                <span>Edit</span>
-              </button>
-              {/* <button
+    <>
+      <AccordionItem value={task?._id!}>
+        <AccordionTrigger>{task?.title}</AccordionTrigger>
+        <AccordionContent>
+          <div className="transition-all duration-500 text-sm font-medium">
+            <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
+              <div className="flex items-center gap-x-4 text-header dark:text-gray-200">
+                <p>Assignee: {taskOwner?.user.name}</p>
+                <p className="text-xs text-header dark:text-gray-200 font-normal">
+                  Due Date: {formattedDate}
+                </p>
+              </div>
+              <div className="flex items-center gap-x-3">
+                <button
+                  className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
+                  onClick={() => handleEditButtonClick(task?._id!)}
+                >
+                  <MessageEdit />
+                  <span>Edit</span>
+                </button>
+                {/* <button
 
                 className="flex items-center gap-x-2 text-[#FF3333]"
               >
                 <Trash color={"#FF3333"} variant="Bold" />
                 <span>Delete</span>
               </button> */}
+              </div>
             </div>
+            <p className="py-4 text-justify text-header dark:text-gray-300">
+              Description: {task?.description}
+            </p>
+
+            <p className="text-sm text-header dark:text-gray-200 flex items-center gap-x-1 xl:gap-x-2">
+              Status:{" "}
+              <span
+                className={cn(
+                  "relative w-[100px] min-[404px]:w-[130px] xl:w-[150px] h-[8px] border  rounded-md",
+                  {
+                    "border-[#eea300] ": task?.status === "InProgress",
+                    "border-[#3182ce] ": task?.status === "InReview",
+                    "border-[#008d36] ": task?.status === "Done",
+                    "border-black/90 dark:border-gray-600/90 ":
+                      task?.status === "Todo",
+                  }
+                )}
+              >
+                <span
+                  className={cn(
+                    "absolute h-full  bg-black rounded-md transition-all duration-1000",
+                    {
+                      "bg-[#eea300] w-1/2": task?.status === "InProgress",
+                      "bg-[#3182ce] w-[75%]": task?.status === "InReview",
+                      "bg-[#008d36] w-full": task?.status === "Done",
+                      "bg-black/90 dark:bg-gray-500 w-[5%]":
+                        task?.status === "Todo",
+                    }
+                  )}
+                />
+              </span>{" "}
+              <span
+                className={cn("text-[11px] xl:text-sm max-lg:text-sm", {
+                  "max-[1158px]-[11px]": task?.status === "InProgress",
+                })}
+              >
+                ({task?.status})
+              </span>
+            </p>
           </div>
-          <p className="py-4 text-justify text-header dark:text-gray-300">
-            Description: {task?.description}
-          </p>
-        </div>
-      </AccordionContent>
-    </AccordionItem>
+        </AccordionContent>
+      </AccordionItem>
+      <ChangeTaskStatus
+        projectid={projectid}
+        owner={owner}
+        prevStatus={task?.status}
+      />
+    </>
   );
 };
 
