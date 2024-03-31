@@ -181,3 +181,53 @@ export const getAllTask = async () => {
     };
   }
 };
+
+export const updateTaskStatus = async (
+  taskId: string,
+  projectId: string,
+  newStatus?: string
+) => {
+  const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
+
+  if (!authToken && !session) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+  // @ts-ignore
+  const token = session?.user?.token;
+
+  // console.log(taskId);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken || token}`,
+    },
+  };
+  const requestBody = {
+    status: newStatus,
+  };
+
+  try {
+    const res = await $http.post(
+      `/project/${projectId}/update-task-status?taskId=${taskId}`,
+      requestBody,
+      config
+    );
+
+    if (res.status === 200) {
+      return {
+        status: "success",
+        project: res.data.project,
+      };
+    }
+  } catch (e: any) {
+    return {
+      error: e.response.data.message,
+    };
+  }
+};

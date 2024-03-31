@@ -79,12 +79,14 @@ export interface ProjectProps {
   description?: string;
   owner?: Owner;
   price?: number;
+  priceCurrency?: "USD" | "EUR" | "GBP" | "NGN";
   duration?: number;
   status?: "to-do" | "in-progress" | "completed";
   startDate?: string;
   endDate?: string;
   teamMembers?: UserWithRole[];
   tasks?: Task[];
+  usersNotRegistered?: string[];
   __v?: number;
 }
 
@@ -141,6 +143,8 @@ export interface StateContextProps {
   setIntroduction: React.Dispatch<React.SetStateAction<boolean>>;
   CreateMeet: boolean;
   setCreateMeet: React.Dispatch<React.SetStateAction<boolean>>;
+  ChangeTaskStatusModal: boolean;
+  setChangeTaskStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
 
   // Added context for CalendarEvent
 

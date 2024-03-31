@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
-import { updateProjectStatus } from "@/actions/project";
 import { useProjectCtx } from "@/context/Projectctx";
+import { updateTaskStatus } from "@/actions/task";
+import { Owner } from "@/types";
+import { useUserCtx } from "@/context/UserCtx";
 
 type StatusProps = {
   id?: number;
@@ -17,46 +19,67 @@ type StatusProps = {
 const STATUSES: StatusProps[] = [
   {
     id: 1,
-    label: "to-do",
+    label: "Todo",
   },
   {
     id: 2,
-    label: "in-progress",
+    label: "InProgress",
   },
   {
     id: 3,
-    label: "completed",
+    label: "InReview",
+  },
+  {
+    id: 4,
+    label: "Done",
   },
 ];
 
 interface ChanegStatusProps {
   projectid?: string;
+  taskid?: string;
+  owner?: Owner;
+  prevStatus?: string;
 }
 
-const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
-  const { ChangeProjectStatusModal, setChangeProjectStatusModal } =
-    useStateCtx();
-  const { setUpdate } = useProjectCtx();
+const ChangeTaskStatus = ({
+  projectid,
+  owner,
+  prevStatus,
+}: ChanegStatusProps) => {
+  const { ChangeTaskStatusModal, setChangeTaskStatusModal } = useStateCtx();
+  const { setUpdate, selectedTask, setSelectedTask } = useProjectCtx();
+  const { user } = useUserCtx();
+
+  console.log(selectedTask);
+
+  const isAdmin = owner?._id === user.id;
 
   const [selectedStatus, setSelectedStatus] = useState<
     StatusProps["label"] | null
-  >(null);
+  >(prevStatus!);
   const [success, setSuccess] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>("");
   const router = useRouter();
 
+  const filteredStatuses = isAdmin ? STATUSES : STATUSES.slice(0, 3);
+
   const handleUpdateStatus = async () => {
     try {
       setLoading(true);
 
-      const result = await updateProjectStatus(projectid!, selectedStatus!);
+      const result = await updateTaskStatus(
+        selectedTask,
+        projectid!,
+        selectedStatus!
+      );
 
       if (result?.status === "success") {
         setUpdate(true);
-        setSuccess("Project status updated successfully!");
+        setSuccess("updated successfully!");
         setTimeout(() => {
-          setChangeProjectStatusModal(false);
+          setChangeTaskStatusModal(false);
           router.refresh();
         }, 1000);
       } else {
@@ -74,11 +97,15 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
         aria-hidden
         className={cn(
           " fixed min-h-screen w-full bg-black/40 top-0 left-0  transition-all duration-300 z-[99] backdrop-blur-sm",
-          ChangeProjectStatusModal
+          ChangeTaskStatusModal
             ? "opacity-100"
             : "opacity-0 pointer-events-none"
         )}
-        onClick={() => setChangeProjectStatusModal(false)}
+        onClick={() => {
+          setChangeTaskStatusModal(false);
+          setSelectedStatus(prevStatus!);
+          setSelectedTask("");
+        }}
       />
 
       <div
@@ -86,7 +113,7 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
         aria-labelledby="make-payment"
         className={cn(
           "py-6   flex flex-col max-[400px]:w-[300px] w-[360px] h-[400px] md:h-[450px] lg:w-[400px]  justify-between items-start bg-white dark:bg-primary backdrop-blur-lg fixed top-1/2 left-1/2  -translate-y-1/2 z-[999]  transition-all opacity-0 select-none -translate-x-1/2",
-          ChangeProjectStatusModal
+          ChangeTaskStatusModal
             ? "scale-100 duration-500 opacity-100 rounded-xl md:rounded-2xl"
             : "scale-0 duration-200 pointer-events-none"
         )}
@@ -99,7 +126,11 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
             type="button"
             tabIndex={0}
             aria-label="Close"
-            onClick={() => setChangeProjectStatusModal(false)}
+            onClick={() => {
+              setChangeTaskStatusModal(false);
+              setSelectedStatus(prevStatus!);
+              setSelectedTask("");
+            }}
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full dark:text-[#e80000]"
           >
             <X size={24} />
@@ -111,7 +142,49 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
             Select Status
           </p>
           <div className="flex flex-col gap-y-4 md:gap-y-6">
-            {STATUSES.map((status) => (
+            {STATUSES.map((status) =>
+              (isAdmin && status.label === "Done") ||
+              (!isAdmin && status?.id! <= 3) ? (
+                <p
+                  key={status.id}
+                  className={cn(
+                    "text-center text-sm md:text-base flex items-center gap-x-2 transition-all duration-300",
+                    selectedStatus === "final" && status.label !== "final"
+                      ? "opacity-40"
+                      : "",
+                    {
+                      "font-medium": status.label === selectedStatus,
+                      "text-[#eea300] ": status.label === "in-progress",
+                      "text-[#008d36] dark:text-[#0ce15d] ":
+                        status.label === "completed",
+                      "text-primary dark:text-white ":
+                        status.label === "pending",
+                    }
+                  )}
+                >
+                  <button
+                    onClick={() => {
+                      setSelectedStatus(status.label);
+                    }}
+                    type="button"
+                    className={cn(
+                      "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary",
+                      {
+                        " p-1": status.label === selectedStatus,
+                      }
+                    )}
+                  >
+                    {selectedStatus === status.label && (
+                      <span className="bg-primary dark:bg-white h-full w-full rounded-full" />
+                    )}
+                  </button>
+                  <span className="capitalize">{status.label} </span>
+                </p>
+              ) : null
+            )}
+          </div>
+          {/* <div className="flex flex-col gap-y-4 md:gap-y-6">
+            {filteredStatuses.map((status) => (
               <p
                 key={status.id}
                 className={cn(
@@ -147,7 +220,7 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
                 <span className="capitalize">{status.label} </span>
               </p>
             ))}
-          </div>
+          </div> */}
           <FormError message={error} />
           <FormSuccess message={success} />
         </div>
@@ -173,4 +246,4 @@ const ChangeProjectStatus = ({ projectid }: ChanegStatusProps) => {
   );
 };
 
-export default ChangeProjectStatus;
+export default ChangeTaskStatus;
