@@ -327,7 +327,7 @@ export function formatPriceWithCurrency(
  * @param text The text to be checked for links
  * @returns The text with clickable links
  */
-const makeLinksClickable = (text: string): string => {
+export const makeLinksClickable = (text: string): string => {
   return text.replace(
     /((https?|ftp):\/\/[^\s/$.?#].[^\s]*)/gi,
     (match) =>

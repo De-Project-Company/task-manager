@@ -77,6 +77,7 @@ const ChangeTaskStatus = ({
         setUpdate(true);
         setSuccess("updated successfully!");
         setTimeout(() => {
+          setSuccess("");
           setChangeTaskStatusModal(false);
           router.refresh();
         }, 1000);

@@ -94,7 +94,9 @@ const SingleTask = ({
   return (
     <>
       <AccordionItem value={task?._id!}>
-        <AccordionTrigger>{task?.title}</AccordionTrigger>
+        <AccordionTrigger className="dark:text-white">
+          {task?.title}
+        </AccordionTrigger>
         <AccordionContent>
           <div className="transition-all duration-500 text-sm font-medium">
             <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
@@ -123,7 +125,7 @@ const SingleTask = ({
               </div>
             </div>
             <p className="py-4 text-justify text-header dark:text-gray-300">
-              Description:
+              Description: <br />
               <p
                 dangerouslySetInnerHTML={{
                   __html: makeLinksClickable(formatText(task.description)),
