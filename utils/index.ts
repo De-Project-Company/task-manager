@@ -327,10 +327,11 @@ export function formatPriceWithCurrency(
  * @param text The text to be checked for links
  * @returns The text with clickable links
  */
-export const makeLinksClickable = (text: string): string => {
+const makeLinksClickable = (text: string): string => {
   return text.replace(
     /((https?|ftp):\/\/[^\s/$.?#].[^\s]*)/gi,
-    (match) => `<a href="${match}" target="_blank">${match}</a>`
+    (match) =>
+      `<a href="${match}" target="_blank" style="color: #007bff; text-decoration: underline;">${match}</a>`
   );
 };
 
