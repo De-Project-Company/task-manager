@@ -51,8 +51,6 @@ const ChangeTaskStatus = ({
   const { setUpdate, selectedTask, setSelectedTask } = useProjectCtx();
   const { user } = useUserCtx();
 
-  console.log(selectedTask);
-
   const isAdmin = owner?._id === user.id;
 
   const [selectedStatus, setSelectedStatus] = useState<
@@ -105,6 +103,7 @@ const ChangeTaskStatus = ({
           setChangeTaskStatusModal(false);
           setSelectedStatus(prevStatus!);
           setSelectedTask("");
+          setSuccess("");
         }}
       />
 
@@ -130,6 +129,7 @@ const ChangeTaskStatus = ({
               setChangeTaskStatusModal(false);
               setSelectedStatus(prevStatus!);
               setSelectedTask("");
+              setSuccess("");
             }}
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full dark:text-[#e80000]"
           >

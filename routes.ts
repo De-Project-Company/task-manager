@@ -63,4 +63,5 @@ export const protectedRoutes = [
   "/notification",
   "/totalProject",
   "/meetings",
+  "/new"
 ];

@@ -9,6 +9,7 @@ import {
 import { MessageEdit, Trash } from "iconsax-react";
 import ChangeTaskStatus from "./TaskStatus";
 import { useStateCtx } from "@/context/StateCtx";
+import { useUserCtx } from "@/context/UserCtx";
 import { Owner } from "@/types";
 import { cn } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
@@ -58,11 +59,15 @@ const SingleTask = ({
   teamMembers,
   owner,
 }: TasksessionProp) => {
+  const { user } = useUserCtx();
   const { setChangeTaskStatusModal } = useStateCtx();
   const { setSelectedTask } = useProjectCtx();
   const taskOwner = teamMembers?.find(
     (member) => member.user._id === task?.assignedTo
   );
+
+  const isTaskowner = task?.assignedTo === user?.id;
+
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "short",
@@ -96,6 +101,7 @@ const SingleTask = ({
               </div>
               <div className="flex items-center gap-x-3">
                 <button
+                  disabled={!isTaskowner}
                   className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
                   onClick={() => handleEditButtonClick(task?._id!)}
                 >
