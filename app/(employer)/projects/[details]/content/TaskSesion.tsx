@@ -66,7 +66,7 @@ const TaskSesion = ({
 
   const teamMembersJSON = JSON.stringify(teamMembers);
 
-
+  console.log(tasks);
 
   const encryptTitle = title ? encryptString(title as string) : "";
   return (

@@ -1,6 +1,38 @@
 import { DocumentDownload, Play, Share } from "iconsax-react";
+import { CldUploadButton } from "next-cloudinary";
 import Link from "next/link";
 
+export interface UploadedAssetData {
+  public_id: string;
+  width: number;
+  height: number;
+  id: string;
+  info: Record<string, unknown>;
+  original_filename: string;
+  url: string;
+  [key: string]: unknown;
+}
+
+export type UploadResult = {
+  info: {
+    public_id: string;
+    original_filename: string;
+  };
+  event: "success";
+};
+
+// // const [result, setResult] = useState<UploadedAssetData | null>(null);
+//  <CldUploadButton
+//    onSuccess={(result) => {
+//      setResult(result?.info as UploadedAssetData);
+//      setformData({
+//        ...formData,
+//        // @ts-ignore
+//        image: result?.info?.url,
+//      });
+//    }}
+//    uploadPreset="ogundigital"
+//  />;
 const ProjectImage = () => {
   return (
     <>
