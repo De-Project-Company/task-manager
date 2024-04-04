@@ -9,8 +9,9 @@ import {
 import { MessageEdit, Trash } from "iconsax-react";
 import ChangeTaskStatus from "./TaskStatus";
 import { useStateCtx } from "@/context/StateCtx";
+import { useUserCtx } from "@/context/UserCtx";
 import { Owner } from "@/types";
-import { cn } from "@/utils";
+import { cn, makeLinksClickable, formatText } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
 
 interface User {
@@ -58,11 +59,20 @@ const SingleTask = ({
   teamMembers,
   owner,
 }: TasksessionProp) => {
+  const { user } = useUserCtx();
   const { setChangeTaskStatusModal } = useStateCtx();
   const { setSelectedTask } = useProjectCtx();
   const taskOwner = teamMembers?.find(
     (member) => member.user._id === task?.assignedTo
   );
+
+  if (!task) {
+    return null;
+  }
+
+  const isTaskowner = task?.assignedTo === user?.id;
+  const isAdmin = owner?._id === user?.id;
+
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "short",
@@ -84,7 +94,9 @@ const SingleTask = ({
   return (
     <>
       <AccordionItem value={task?._id!}>
-        <AccordionTrigger>{task?.title}</AccordionTrigger>
+        <AccordionTrigger className="dark:text-white">
+          {task?.title}
+        </AccordionTrigger>
         <AccordionContent>
           <div className="transition-all duration-500 text-sm font-medium">
             <div className="flex items-center justify-between py-[18px] border-b border-[#E1E1E1] leading-6 font-medium">
@@ -96,6 +108,7 @@ const SingleTask = ({
               </div>
               <div className="flex items-center gap-x-3">
                 <button
+                  disabled={!isTaskowner && !isAdmin}
                   className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
                   onClick={() => handleEditButtonClick(task?._id!)}
                 >
@@ -112,7 +125,12 @@ const SingleTask = ({
               </div>
             </div>
             <p className="py-4 text-justify text-header dark:text-gray-300">
-              Description: {task?.description}
+              Description: <br />
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: makeLinksClickable(formatText(task.description)),
+                }}
+              />
             </p>
 
             <p className="text-sm text-header dark:text-gray-200 flex items-center gap-x-1 xl:gap-x-2">
