@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ProjectProps } from "@/types";
-import { Edit2, More, Status, Trash } from "iconsax-react";
+import { Edit2, More, Status, Trash, Edit } from "iconsax-react";
 import { useStateCtx } from "@/context/StateCtx";
 import { useUserCtx } from "@/context/UserCtx";
 import { cn, formatPriceWithCurrency } from "@/utils";
@@ -20,9 +20,9 @@ const ProjectDesroption = ({
   title,
 }: ProjectProps) => {
   const {
-    DeleteProjectModal,
     setDeleteProjectModal,
     setChangeProjectStatusModal,
+    setEditProjectModal,
   } = useStateCtx();
   const { user } = useUserCtx();
 
@@ -72,7 +72,7 @@ const ProjectDesroption = ({
           aria-expanded={isDotMenu}
           onClick={() => setIsDotMenu((prev) => !prev)}
           className={cn(
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-header",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rotate-90 text-header dark:text-white",
             isNotAdmin ? "hidden" : "block"
           )}
         >
@@ -92,7 +92,7 @@ const ProjectDesroption = ({
         aria-orientation="vertical"
         aria-labelledby="dot-menu"
         className={cn(
-          "flex w-[190px] h-[106px] flex-col px-4 py-2 absolute right-4  rounded-lg justify-center gap-y-4 border border-gray-200 dark:border-primary backdrop-blur-xl bg-white/80 dark:bg-primary transition-all duration-300 z-[999]",
+          "flex w-[190px] h-[126px] flex-col px-4 py-2 absolute right-4  rounded-lg justify-center gap-y-4 border border-gray-200 dark:border-primary backdrop-blur-xl bg-white/80 dark:bg-primary transition-all duration-300 z-[999]",
           {
             "opacity-100": isDotMenu,
             "opacity-0 pointer-events-none": !isDotMenu,
@@ -110,6 +110,19 @@ const ProjectDesroption = ({
         >
           <Status size={18} />
           <span>Change Status</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setEditProjectModal(true);
+            setIsDotMenu(!isDotMenu);
+          }}
+          type="button"
+          tabIndex={0}
+          className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 w-full flex items-center gap-x-2 px-2 text-header dark:text-gray-200"
+        >
+          <Edit size={18} />
+          <span>Edit Project</span>
         </button>
 
         <button
