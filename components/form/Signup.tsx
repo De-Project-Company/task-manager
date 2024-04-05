@@ -29,8 +29,9 @@ import { Eye, EyeSlash } from "iconsax-react";
 function SignupForm() {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPasswod, setShowConfirmPassword] = useState<boolean>(false);
+  const [defaultInpTypeNew, setDefaultInpTypeNew] = useState<
+    "password" | "text"
+  >("password");
   const { setOTPModal } = useStateCtx();
 
   const [isLoading, startTransition] = useTransition();
@@ -173,37 +174,32 @@ function SignupForm() {
               <FormItem>
                 <FormLabel className="font-semibold">Password</FormLabel>
                 <FormControl>
-                  <div
-                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
-                  border-input pr-2"
-                  >
+                  <div className="flex w-full relative items-center">
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type={showPassword ? "text" : "password"}
+                      type={defaultInpTypeNew}
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md border font-medium rounded-md 
                       focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
 
-                    {showPassword ? (
-                      <EyeSlash
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    ) : (
-                      <Eye
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    )}
+                    <span className="absolute right-4 sm:right-2 h-4 w-4 sm:w-6 sm:h-6 sm:p-[2px]">
+                      {defaultInpTypeNew === "text" ? (
+                        <Eye
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("password")}
+                        />
+                      ) : (
+                        <EyeSlash
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("text")}
+                        />
+                      )}
+                    </span>
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -219,36 +215,31 @@ function SignupForm() {
                   Confirm Password
                 </FormLabel>
                 <FormControl>
-                  <div
-                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
-                  border-input pr-2 "
-                  >
+                  <div className="flex w-full relative items-center">
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type={showConfirmPasswod ? "text" : "password"}
+                      type={defaultInpTypeNew}
                       placeholder="Confirm Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md border font-medium rounded-md 
                       focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
-                    {showConfirmPasswod ? (
-                      <EyeSlash
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowConfirmPassword(!showConfirmPasswod);
-                        }}
-                      />
-                    ) : (
-                      <Eye
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowConfirmPassword(!showConfirmPasswod);
-                        }}
-                      />
-                    )}
+                    <span className="absolute right-4 sm:right-2 h-4 w-4 sm:w-6 sm:h-6 sm:p-[2px]">
+                      {defaultInpTypeNew === "text" ? (
+                        <Eye
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("password")}
+                        />
+                      ) : (
+                        <EyeSlash
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("text")}
+                        />
+                      )}
+                    </span>
                   </div>
                 </FormControl>
 

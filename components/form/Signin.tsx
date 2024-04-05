@@ -36,6 +36,9 @@ const SigninForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [defaultInpTypeNew, setDefaultInpTypeNew] = useState<
+    "password" | "text"
+  >("password");
 
   const [isLoading, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -81,23 +84,6 @@ const SigninForm = () => {
       className="relative py-4 md:py-6 rounded-[16px] bg-white transition-colors duration-500
      dark:text-white dark:bg-primary px-4 sm:px-6 z-20 w-full max-w-[600px] mx-auto"
     >
-      {/* Logo is been removed here  */}
-      {/* <Link href="/">
-        <Image
-          src="/assets/traverseLogo.png"
-          alt="traverse logo"
-          width={150}
-          height={150}
-          className="dark:hidden block"
-        />
-        <Image
-          src="/logo.svg"
-          alt="traverse logo"
-          width={150}
-          height={150}
-          className="dark:block hidden"
-        />
-      </Link> */}
       <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Login Into Account
       </h1>
@@ -140,36 +126,31 @@ const SigninForm = () => {
               <FormItem>
                 <FormLabel className="font-semibold ">Password</FormLabel>
                 <FormControl>
-                  <div
-                    className="flex w-full border-2 border-input relative rounded-md items-center  
-                  border-input pr-2"
-                  >
+                  <div className="flex w-full relative items-center">
                     <FormInput
                       disabled={isLoading}
                       {...field}
-                      type={showPassword ? "text" : "password"}
+                      type={defaultInpTypeNew}
                       name="password"
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md border font-medium rounded-md 
                       focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
-                    {showPassword ? (
-                      <EyeSlash
-                  
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    ) : (
-                      <Eye
-                   
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    )}
+                    <span className="absolute right-4 sm:right-2 h-4 w-4 sm:w-6 sm:h-6 sm:p-[2px]">
+                      {defaultInpTypeNew === "text" ? (
+                        <Eye
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("password")}
+                        />
+                      ) : (
+                        <EyeSlash
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("text")}
+                        />
+                      )}
+                    </span>
                   </div>
                 </FormControl>
                 <div className="flex items-center justify-between w-full">
@@ -232,3 +213,5 @@ const SigninForm = () => {
 };
 
 export default SigninForm;
+
+// Already have an account?Log in
