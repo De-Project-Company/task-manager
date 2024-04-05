@@ -213,5 +213,3 @@ const SigninForm = () => {
 };
 
 export default SigninForm;
-
-// Already have an account?Log in
