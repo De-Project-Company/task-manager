@@ -1,5 +1,10 @@
 "use client";
-import { Add, HambergerMenu, Notification, SearchNormal1 } from "iconsax-react";
+import {
+  Add,
+  HambergerMenu,
+  Notification,
+  SearchNormal1,
+} from "iconsax-react";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn, decryptString } from "@/utils";
 import { useSearchParams } from "next/navigation";
@@ -124,6 +129,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
       <div className="rotate-90 hidden md:flex">
         <ThemeButtons />
       </div>
