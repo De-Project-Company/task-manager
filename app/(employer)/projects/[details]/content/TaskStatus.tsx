@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { cn } from "@/utils";
-import { useEffect, useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import FormSuccess from "@/components/form/Success";
@@ -51,8 +51,6 @@ const ChangeTaskStatus = ({
   const { setUpdate, selectedTask, setSelectedTask } = useProjectCtx();
   const { user } = useUserCtx();
 
-  console.log(selectedTask);
-
   const isAdmin = owner?._id === user.id;
 
   const [selectedStatus, setSelectedStatus] = useState<
@@ -79,6 +77,7 @@ const ChangeTaskStatus = ({
         setUpdate(true);
         setSuccess("updated successfully!");
         setTimeout(() => {
+          setSuccess("");
           setChangeTaskStatusModal(false);
           router.refresh();
         }, 1000);
@@ -105,6 +104,7 @@ const ChangeTaskStatus = ({
           setChangeTaskStatusModal(false);
           setSelectedStatus(prevStatus!);
           setSelectedTask("");
+          setSuccess("");
         }}
       />
 
@@ -130,6 +130,7 @@ const ChangeTaskStatus = ({
               setChangeTaskStatusModal(false);
               setSelectedStatus(prevStatus!);
               setSelectedTask("");
+              setSuccess("");
             }}
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full dark:text-[#e80000]"
           >
@@ -138,9 +139,13 @@ const ChangeTaskStatus = ({
         </div>
 
         <div className="flex w-full h-full pt-4 sm:pt-6 items-center flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 md:gap-y-6">
+            {isAdmin && <p>Are you satisfied with the task? Mark as done.</p>}
+          </div>
           <p className="text-center text-base sm:text-lg font-semibold dark:text-gray-200">
             Select Status
           </p>
+
           <div className="flex flex-col gap-y-4 md:gap-y-6">
             {STATUSES.map((status) =>
               (isAdmin && status.label === "Done") ||
@@ -183,44 +188,7 @@ const ChangeTaskStatus = ({
               ) : null
             )}
           </div>
-          {/* <div className="flex flex-col gap-y-4 md:gap-y-6">
-            {filteredStatuses.map((status) => (
-              <p
-                key={status.id}
-                className={cn(
-                  "text-center text-sm md:text-base flex items-center gap-x-2 transition-all duration-300",
-                  selectedStatus === "final" && status.label !== "final"
-                    ? "opacity-40"
-                    : "",
-                  {
-                    " font-medium": status.label === selectedStatus,
-                    "text-[#eea300] ": status.label === "in-progress",
-                    "text-[#008d36] dark:text-[#0ce15d] ":
-                      status.label === "completed",
-                    "text-primary dark:text-white ": status.label === "pending",
-                  }
-                )}
-              >
-                <button
-                  onClick={() => {
-                    setSelectedStatus(status.label);
-                  }}
-                  type="button"
-                  className={cn(
-                    "w-6 h-6 rounded-full border-primary dark:border-white border flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary",
-                    {
-                      " p-1": status.label === selectedStatus,
-                    }
-                  )}
-                >
-                  {selectedStatus === status.label && (
-                    <span className="bg-primary dark:bg-white h-full w-full rounded-full" />
-                  )}
-                </button>
-                <span className="capitalize">{status.label} </span>
-              </p>
-            ))}
-          </div> */}
+
           <FormError message={error} />
           <FormSuccess message={success} />
         </div>

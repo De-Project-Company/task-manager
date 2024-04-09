@@ -321,3 +321,44 @@ export function formatPriceWithCurrency(
   }
   return `${symbol}${price}`; // Return the formatted price with currency symbol
 }
+
+/**
+ * Function to detect and make links clickable
+ * @param text The text to be checked for links
+ * @returns The text with clickable links
+ */
+export const makeLinksClickable = (text: string): string => {
+  return text.replace(
+    /((https?|ftp):\/\/[^\s/$.?#].[^\s]*)/gi,
+    (match) =>
+      `<a href="${match}" target="_blank" style="color: #007bff; text-decoration: underline;">${match}</a>`
+  );
+};
+
+/**
+ * Function to format the text
+ * @param text The text to be formatted
+ * @returns The formatted text
+ */
+export const formatText = (text: string): string => {
+  const lines = text.split("\n");
+  let formattedText = "";
+
+  lines.forEach((line) => {
+    if (line.trim() === "") {
+      // Empty line
+      formattedText += "<br>";
+    } else if (line.startsWith("-") || line.startsWith("*")) {
+      // List item
+      formattedText += `<br>${line}`;
+    } else if (line.endsWith(":")) {
+      // Header
+      formattedText += `<br><h2 style="font-size: 1.2em; font-weight: semibold;">${line}</h2>`;
+    } else {
+      // Normal text
+      formattedText += `${line}<br>`;
+    }
+  });
+
+  return formattedText;
+};
