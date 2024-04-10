@@ -124,7 +124,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <div className="rotate-90 hidden md:flex">
+      <div className=" hidden md:flex">
         <ThemeButtons />
       </div>
       {user && (
