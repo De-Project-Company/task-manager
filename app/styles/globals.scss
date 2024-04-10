@@ -316,3 +316,9 @@ svg circle {
     animation-play-state: paused;
   }
 }
+
+// CommingSoon
+.h-calc {
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}

@@ -34,6 +34,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openCalendarEvent, setOpenCalendarEvent] = useState(false);
   const [Introduction, setIntroduction] = useState(false);
   const [CreateMeet, setCreateMeet] = useState(false);
+   const [openUploadPreviewModal, setOpenUploadPreviewModal] = useState<boolean>(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -248,6 +249,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       // calenderEvent
       openCalendarEvent,
       setOpenCalendarEvent,
+      openUploadPreviewModal,
+      setOpenUploadPreviewModal,
     }),
     [
       openSidebar,
@@ -269,6 +272,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       openCalendarEvent,
       Introduction,
       ChangeTaskStatusModal,
+      openUploadPreviewModal,
+      setOpenUploadPreviewModal
     ]
   );
 
