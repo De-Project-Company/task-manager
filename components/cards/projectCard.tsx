@@ -130,16 +130,7 @@ const ProjectCard = ({
           <p className="text-sm text-header dark:text-gray-200">
             Project end date: <strong>{formattedDate}</strong>
           </p>
-          {hasAccepted || isProjectOwner ? (
-            <Link
-              href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
-              type="button"
-              tabIndex={0}
-              className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
-            >
-              View more
-            </Link>
-          ) : (
+         
             <button
               onClick={() => {
                 setInviteModal(true);
@@ -151,7 +142,7 @@ const ProjectCard = ({
             >
               View Invite
             </button>
-          )}
+       
         </div>
       </div>
       <AcceptModal />
