@@ -46,7 +46,7 @@ export const Nav = () => {
           <div
             tabIndex={0}
             role="button"
-            className="lg:hidden text-2xl cursor-pointer focus:border dark:text-white text-primary  border-primary"
+            className="lg:hidden text-2xl cursor-pointer dark:text-white text-primary "
             onClick={() => setLandingMobileMenu(true)}
           >
             <FaBars />
