@@ -78,6 +78,8 @@ export interface ProjectProps {
   title?: string;
   description?: string;
   owner?: Owner;
+  coverImage?: string;
+  files?: string[];
   price?: number;
   priceCurrency?: "USD" | "EUR" | "GBP" | "NGN";
   duration?: number;

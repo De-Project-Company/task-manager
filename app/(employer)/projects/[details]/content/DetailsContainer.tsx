@@ -28,7 +28,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
-
+  console.log(projectData);
 
   const fetchProjectDetails = async () => {
     try {
