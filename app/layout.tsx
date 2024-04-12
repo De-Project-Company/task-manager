@@ -11,7 +11,7 @@ import { ApprovalModal } from "@/components/ApprovalModal";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASEURL as string),
+  // metadataBase: new URL(process.env.NEXT_PUBLIC_BASEURL as string),
   applicationName: "Traverse",
   authors: [
     {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Traverse",
     description: "Starters House - Task management made easy",
-    url: process.env.NEXT_PUBLIC_BASEURL,
+    // url: process.env.NEXT_PUBLIC_BASEURL,
     siteName: "Traverse",
     locale: "en_US",
     type: "website",
