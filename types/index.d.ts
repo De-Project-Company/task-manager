@@ -129,6 +129,8 @@ export interface StateContextProps {
   setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTeamMemberMoal: boolean;
   setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
+  ViewOwnerModal: boolean;
+  setViewOwnerModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTaskModal: boolean;
   setaddTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
