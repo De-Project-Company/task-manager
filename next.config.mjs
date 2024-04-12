@@ -5,9 +5,9 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
+  // experimental: {
+  //   missingSuspenseWithCSRBailout: false,
+  // },
   images: {
     remotePatterns: [
       { hostname: "lh3.googleusercontent.com" },
