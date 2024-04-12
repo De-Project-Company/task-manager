@@ -11,16 +11,53 @@ import { ApprovalModal } from "@/components/ApprovalModal";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Traverse",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASEURL as string),
+  applicationName: "Traverse",
+  authors: [
+    {
+      name: "starters house team",
+      // url: ""
+    },
+  ],
+  generator: "Next.js,",
+  keywords: [
+    "Next.js",
+    "React",
+    "project-management",
+    "startershouse",
+    "task management",
+  ],
+  referrer: "origin",
+  creator: "starters house team",
+  title: {
+    default: "Traverse",
+    template: `%s - Traverse`,
+  },
+
   description: "Starters House - Task management made easy",
-  // icons: {
-  //   icon: [
-  //     {
-  //       url: "./assets/traverseWhite.png",
-  //       href: "./assets/traverseWhite.png",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "Traverse",
+    description: "Starters House - Task management made easy",
+    url: process.env.NEXT_PUBLIC_BASEURL,
+    siteName: "Traverse",
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  twitter: {
+    title: "OGUN DIGITAL SUMMIT",
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

@@ -71,7 +71,7 @@ export const Nav = () => {
       <div
         className={cn(
           "md:flex hidden flex-col md:flex-row gap-2 lg:justify-between border-t-2 py-8 md:px-16 px-5",
-          scrollHeight > 200 ? "hidden h-0 bg-transparent" : ""
+          scrollHeight > 200 ? "md:hidden h-0 bg-transparent" : ""
         )}
       >
         {NAVLINKS.map((item) => (
