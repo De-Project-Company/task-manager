@@ -35,6 +35,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     try {
       const project = await getPojectdetails(id!);
       if (project?.status === "success") {
+        console.log(project.project);
         setProjectData(project.project);
         setUpdate(false);
       }
