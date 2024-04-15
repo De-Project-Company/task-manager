@@ -29,13 +29,10 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const [projectData, setProjectData] = useState<ProjectProps | null>(null);
 
-  console.log(projectData);
-
   const fetchProjectDetails = async () => {
     try {
       const project = await getPojectdetails(id!);
       if (project?.status === "success") {
-        console.log(project.project);
         setProjectData(project.project);
         setUpdate(false);
       }
@@ -150,7 +147,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         {/* Projects Content */}
         <div className="grid md:grid-cols-2 gap-4 ">
           {/* Projects Docs */}
-          <ProjectDocs projectId={id} />
+          <ProjectDocs projectId={id} files={projectData?.files} />
           {/* Projects Team members */}
           <TeamSection
             projectid={id}

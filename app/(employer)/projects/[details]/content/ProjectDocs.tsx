@@ -2,22 +2,20 @@
 
 import { useState } from "react";
 import ProjectDoc from "./Doc";
-import { uploadFile } from "@/actions/docs";
 import { getCookies } from "@/actions/getToken";
-import { baseUrl } from "@/actions/baseurl";
-import Calls from "@/actions/calls";
 
 interface DocsProps {
   projectId?: string;
   files?: string[];
 }
-const ProjectDocs = ({ projectId }: DocsProps) => {
+const ProjectDocs = ({ projectId, files }: DocsProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadDone, setUploadDone] = useState<boolean>(false);
 
-  const $http = Calls(baseUrl);
+  const url = process.env.NEXT_PUBLIC_BASEURL;
+  console.log(files);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -42,34 +40,27 @@ const ProjectDocs = ({ projectId }: DocsProps) => {
 
     const { token } = await getCookies();
 
-    console.log(token);
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    const formData = new FormData();
+    formData.append("file", file);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      const baseurl = `${url}/project/${projectId}/uploadFile`;
+      const config = {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      };
 
-      const res = await $http.post(
-        `/project/${projectId}/uploadFile`,
-        formData,
-        config
-      );
+      const res = await fetch(baseurl, config);
 
-      console.log(res);
+      if (!res.ok) {
+        throw new Error("Bad request");
+      }
 
-      // const response = await uploadFile(projectId, file);
-      // console.log(response);
-      // if (response?.status === "success") {
-      //   console.log("File uploaded successfully");
-      //   setUploadDone(true);
-      // } else {
-      //   console.error("Error uploading file:", response);
-      // }
+      console.log("File uploaded successfully");
+      setUploadDone(true);
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
@@ -123,8 +114,8 @@ const ProjectDocs = ({ projectId }: DocsProps) => {
       )}
       <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
         <div className="flex flex-col gap-y-4 px-1">
-          {docs.slice(0, docsNum).map((num) => (
-            <ProjectDoc key={num} />
+          {files?.map((fileName, index) => (
+            <ProjectDoc key={index} fileName={fileName} />
           ))}
         </div>
         <div className="flex">
