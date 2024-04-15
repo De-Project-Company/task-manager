@@ -1,7 +1,6 @@
 "use client";
 
 import { DocumentDownload, Play, Share } from "iconsax-react";
-import { CldUploadButton } from "next-cloudinary";
 import Link from "next/link";
 import Image from "next/image";
 
