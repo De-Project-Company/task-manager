@@ -4,10 +4,20 @@ import { X } from "lucide-react";
 import { cn } from "@/utils";
 import { useStateCtx } from "@/context/StateCtx";
 import { useRouter } from "next/navigation";
+import { signOut } from "@/actions/auth";
 
 const UpdateSessionModal = () => {
   const { SessionModal, setSessionModal } = useStateCtx();
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    const result = await signOut();
+    if (result?.success) {
+      router.push("/");
+    } else {
+      console.error(result?.error);
+    }
+  };
 
   return (
     <>
@@ -17,7 +27,7 @@ const UpdateSessionModal = () => {
           " fixed min-h-screen w-full bg-black/40  top-0 left-0  transition-all duration-300 z-[99] backdrop-blur-sm",
           SessionModal ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
-        onClick={() => setSessionModal(false)}
+        // onClick={() => setSessionModal(false)}
       />
 
       <div
@@ -32,9 +42,9 @@ const UpdateSessionModal = () => {
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] dark:border-primary-light pb-4 pl-4 px-4 md:pl-8 ">
           <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
-            Auth Session
+            Auth Session Has expired
           </h3>
-          <button
+          {/* <button
             type="button"
             tabIndex={0}
             aria-label="Close"
@@ -42,7 +52,7 @@ const UpdateSessionModal = () => {
             className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full dark:text-red-500"
           >
             <X size={24} />
-          </button>
+          </button> */}
         </div>
 
         <div className="flex w-full max-w-[546px] h-full  pt-8 sm:pt-16 items-center flex-col gap-y-8 ">
@@ -60,7 +70,8 @@ const UpdateSessionModal = () => {
               type="button"
               tabIndex={0}
               aria-label="Cancel"
-              onClick={() => {
+              onClick={async () => {
+                await handleSignOut();
                 setSessionModal(false);
                 router.push("/");
               }}
@@ -75,9 +86,10 @@ const UpdateSessionModal = () => {
               type="button"
               tabIndex={0}
               aria-label="SignIn"
-              onClick={() => {
+              onClick={async () => {
+                await handleSignOut();
                 setSessionModal(false);
-                router.push("/aauth/signin");
+                router.push("/auth/signin");
               }}
               className={cn(
                 "rounded-lg bg-[#009254] text-white items-center justify-center min-[450px]:w-[178px] min-[450px]:h-[56px] h-[40px] px-2 max-[450px]:px-4 text-base hover:opacity-80 transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-40 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#009254]"
