@@ -5,6 +5,7 @@ import ProjectDoc from "./Doc";
 import { getCookies } from "@/actions/getToken";
 import { Label } from "@/components/ui/Label";
 import { DocumentUpload } from "iconsax-react";
+import { X } from "lucide-react";
 interface DocsProps {
   projectId?: string;
   files?: string[];
@@ -85,7 +86,7 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
       </div>
 
       {previewUrl && (
-        <div>
+        <div className="flex flex-col gap-y-2 h-full w-full relative overflow-hidden rounded-lg object-cover">
           <p>Preview:</p>
           {file?.type.startsWith("image/") && (
             <img src={previewUrl} alt="Preview" style={{ maxWidth: "100%" }} />
@@ -111,6 +112,16 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
             <iframe src={previewUrl} width="100%" height="600px" />
           )}
 
+          <button
+            type="button"
+            tabIndex={0}
+            aria-label="Remove Docs"
+            // onClick={() => setProjectData({ ...projectData, coverImage: "" })}
+            className="text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full bg-white/60 backdrop-blur-sm absolute top-1 right-1 w-8 h-8 flex items-center justify-center hover:text-red-500 hover:bg-white/80 hover:brightness-150 transition-all duration-700 hover:duration-200"
+            title="Remove image"
+          >
+            <X size={18} />
+          </button>
           <button
             className="text-sm font-medium my-2 bg-primary dark:bg-white dark:text-primary  text-white h-[48px] rounded-lg px-4 transition-all duration-300 flex items-center gap-x-2 disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-primary-light"
             onClick={handleUpload}
