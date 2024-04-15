@@ -123,6 +123,11 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
         </div>
       )}
       <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
+        {files && files.length === 0 && (
+        <p className="w-full text-center dark:text-gray-200">
+          There are no files yet for this project
+        </p>
+    )}
         <div className="flex flex-col gap-y-4 px-1">
           {files?.map((fileName, index) => (
             <ProjectDoc key={index} fileName={fileName} />
