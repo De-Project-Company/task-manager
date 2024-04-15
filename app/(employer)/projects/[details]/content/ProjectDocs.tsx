@@ -3,7 +3,8 @@
 import { useState } from "react";
 import ProjectDoc from "./Doc";
 import { getCookies } from "@/actions/getToken";
-
+import { Label } from "@/components/ui/Label";
+import { DocumentUpload } from "iconsax-react";
 interface DocsProps {
   projectId?: string;
   files?: string[];
@@ -68,15 +69,19 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
     }
   };
 
-  const [docsNum, setDocsNum] = useState(5);
-  const docs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <div className="flex flex-col w-full py-3 sm:p-3 mt-12 sm:rounded-xl h-full">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-lg font-semibold text-header dark:text-gray-100  pb-4">
           Project Documents
         </h3>
-        <input type="file" onChange={handleFileChange} />
+        <Label className="cursor-pointer dark:text-white" title="upload doc">
+          <div className="flex items-center justify-between space-x-2">
+            <DocumentUpload size={24} />
+            <span>Add Documents</span>
+          </div>
+          <input type="file" className="sr-only" onChange={handleFileChange} />
+        </Label>
       </div>
 
       {previewUrl && (
@@ -106,8 +111,13 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
             <iframe src={previewUrl} width="100%" height="600px" />
           )}
 
-          <button onClick={handleUpload} disabled={!file || uploading}>
+          <button
+            className="text-sm font-medium my-2 bg-primary dark:bg-white dark:text-primary  text-white h-[48px] rounded-lg px-4 transition-all duration-300 flex items-center gap-x-2 disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-primary-light"
+            onClick={handleUpload}
+            disabled={!file || uploading}
+          >
             {uploading ? "Uploading..." : uploadDone ? "Done" : "Upload File"}
+            <DocumentUpload size={18} values="Outline" />
           </button>
           {/* Add handling for other file types as needed */}
         </div>
@@ -118,7 +128,7 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
             <ProjectDoc key={index} fileName={fileName} />
           ))}
         </div>
-        <div className="flex">
+        {/* <div className="flex">
           <button
             type="button"
             className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
@@ -132,7 +142,7 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
           >
             {docsNum === docs.length ? " See less" : "See All"}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
