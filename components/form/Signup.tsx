@@ -41,6 +41,7 @@ function SignupForm() {
     defaultValues: {
       name: "",
       email: "",
+      stack: "",
       companyName: "",
       password: "",
       passwordConfirm: "",
@@ -135,7 +136,31 @@ function SignupForm() {
                       disabled={isLoading}
                       type="email"
                       {...field}
-                      placeholder="Enter Business Email Address"
+                      placeholder="Enter Email Address"
+                      className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="stack"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold ">
+                  Tell us who you are (frontend, backend design or Project
+                  manager)
+                </FormLabel>
+                <FormControl>
+                  <div className="flex items-center w-full relative">
+                    <FormInput
+                      disabled={isLoading}
+                      type="email"
+                      {...field}
+                      placeholder="Enter your Stack"
                       className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
