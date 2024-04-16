@@ -6,6 +6,10 @@ import { getCookies } from "@/actions/getToken";
 import { Label } from "@/components/ui/Label";
 import { DocumentUpload } from "iconsax-react";
 import { X } from "lucide-react";
+import FormSuccess from "@/components/form/Success";
+import FormError from "@/components/form/Error";
+import { useProjectCtx } from "@/context/Projectctx";
+
 interface DocsProps {
   projectId?: string;
   files?: string[];
@@ -15,9 +19,12 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadDone, setUploadDone] = useState<boolean>(false);
+  const [docsNum, setDocsNum] = useState<number>(5);
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>("");
+  const { setUpdate } = useProjectCtx();
 
   const url = process.env.NEXT_PUBLIC_BASEURL;
-  console.log(files);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -57,19 +64,32 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
 
       const res = await fetch(baseurl, config);
 
-      if (!res.ok) {
-        throw new Error("Bad request");
+      if (res.ok) {
+        setFile(null);
+        setPreviewUrl(null);
+        setUploadDone(true);
+        setUpdate(true);
+        setSuccess("Upload successfully!");
+        setError(undefined);
+        console.log("File uploaded successfully");
       }
-
-      console.log("File uploaded successfully");
-      setUploadDone(true);
-    } catch (error) {
-      console.error("An error occurred:", error);
+    } catch (e: any) {
+      console.log("An error occurred:", e);
+      setError("An error occured. Please try again.");
+      setSuccess(undefined);
     } finally {
       setUploading(false);
     }
   };
 
+  const handleRemoveFile = () => {
+    setFile(null);
+    setPreviewUrl(null);
+  };
+
+  const handleLoadMore = () => {
+    setDocsNum(docsNum + 5);
+  };
   return (
     <div className="flex flex-col w-full py-3 sm:p-3 mt-12 sm:rounded-xl h-full">
       <div className="flex items-center justify-between w-full">
@@ -86,7 +106,7 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
       </div>
 
       {previewUrl && (
-        <div className="flex flex-col gap-y-2 h-full w-full relative overflow-hidden rounded-lg object-cover">
+        <div className="flex flex-col gap-y-2 h-full w-full relative rounded-lg object-cover">
           <p>Preview:</p>
           {file?.type.startsWith("image/") && (
             <img src={previewUrl} alt="Preview" style={{ maxWidth: "100%" }} />
@@ -112,13 +132,16 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
             <iframe src={previewUrl} width="100%" height="600px" />
           )}
 
+          <FormError message={error} />
+          <FormSuccess message={success} />
+
           <button
             type="button"
             tabIndex={0}
             aria-label="Remove Docs"
-            // onClick={() => setProjectData({ ...projectData, coverImage: "" })}
+            onClick={handleRemoveFile}
             className="text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full bg-white/60 backdrop-blur-sm absolute top-1 right-1 w-8 h-8 flex items-center justify-center hover:text-red-500 hover:bg-white/80 hover:brightness-150 transition-all duration-700 hover:duration-200"
-            title="Remove image"
+            title="Remove Docs"
           >
             <X size={18} />
           </button>
@@ -135,30 +158,26 @@ const ProjectDocs = ({ projectId, files }: DocsProps) => {
       )}
       <div className="flex flex-col h-full max-h-[250px] overflow-y-auto sidebar-scroll w-full">
         {files && files.length === 0 && (
-        <p className="w-full text-center dark:text-gray-200">
-          There are no files yet for this project
-        </p>
-    )}
+          <p className="w-full text-center dark:text-gray-200">
+            There are no files yet for this project
+          </p>
+        )}
         <div className="flex flex-col gap-y-4 px-1">
           {files?.map((fileName, index) => (
-            <ProjectDoc key={index} fileName={fileName} />
+            <ProjectDoc key={index} fileName={fileName} projectId={projectId} />
           ))}
         </div>
-        {/* <div className="flex">
-          <button
-            type="button"
-            className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
-            onClick={() => {
-              if (docsNum === docs.length) {
-                setDocsNum(5);
-                return;
-              }
-              setDocsNum(docs.length);
-            }}
-          >
-            {docsNum === docs.length ? " See less" : "See All"}
-          </button>
-        </div> */}
+        <div className="flex">
+          {files && files.length > docsNum && (
+            <button
+              type="button"
+              className="text-primary dark:text-color-dark underline text-sm font-medium pt-4 capitalize"
+              onClick={handleLoadMore}
+            >
+              Load More
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
