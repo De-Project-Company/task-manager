@@ -28,6 +28,7 @@ export const RegistrationSchema = z.object({
   companyName: z
     .string()
     .min(4, { message: "Company name must be at least 4 characters long" }),
+  stack: z.string().min(4, { message: "You forgot to tell us who you are" }),
   password: z
     .string()
     .min(5, { message: "Password must be at least 5 characters long" }),

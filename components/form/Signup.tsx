@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React from "react";
 import * as z from "zod";
 import { RegistrationSchema } from "@/schemas";
@@ -29,8 +28,9 @@ import { Eye, EyeSlash } from "iconsax-react";
 function SignupForm() {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPasswod, setShowConfirmPassword] = useState<boolean>(false);
+  const [defaultInpTypeNew, setDefaultInpTypeNew] = useState<
+    "password" | "text"
+  >("password");
   const { setOTPModal } = useStateCtx();
 
   const [isLoading, startTransition] = useTransition();
@@ -40,6 +40,7 @@ function SignupForm() {
     defaultValues: {
       name: "",
       email: "",
+      stack: "",
       companyName: "",
       password: "",
       passwordConfirm: "",
@@ -65,7 +66,7 @@ function SignupForm() {
       className="relative py-10 rounded-[16px] transition-colors duration-500  dark:text-white 
     dark:bg-primary shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto"
     >
-      <div className="w">
+      {/* <div className="w">
         <Link href="/">
           <Image
             src="/assets/traverseLogo.png"
@@ -74,15 +75,8 @@ function SignupForm() {
             height={150}
             className="dark:hidden block"
           />
-          {/* <Image
-          src="/logo.svg"
-          alt="traverse logo"
-          width={150}
-          height={150}
-          className="dark:block hidden"
-        /> */}
         </Link>
-      </div>
+      </div> */}
       <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Signup
       </h1>
@@ -134,7 +128,31 @@ function SignupForm() {
                       disabled={isLoading}
                       type="email"
                       {...field}
-                      placeholder="Enter Business Email Address"
+                      placeholder="Enter Email Address"
+                      className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="stack"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold ">
+                  Tell us who you are (frontend, backend, designer, project
+                  manager ...)
+                </FormLabel>
+                <FormControl>
+                  <div className="flex items-center w-full relative">
+                    <FormInput
+                      disabled={isLoading}
+                      type="text"
+                      {...field}
+                      placeholder="Enter your Stack"
                       className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
                     />
                   </div>
@@ -173,37 +191,32 @@ function SignupForm() {
               <FormItem>
                 <FormLabel className="font-semibold">Password</FormLabel>
                 <FormControl>
-                  <div
-                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
-                  border-input pr-2"
-                  >
+                  <div className="flex w-full relative items-center">
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type={showPassword ? "text" : "password"}
+                      type={defaultInpTypeNew}
                       placeholder="Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md border font-medium rounded-md 
                       focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
 
-                    {showPassword ? (
-                      <EyeSlash
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    ) : (
-                      <Eye
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      />
-                    )}
+                    <span className="absolute right-4 sm:right-2 h-4 w-4 sm:w-6 sm:h-6 sm:p-[2px]">
+                      {defaultInpTypeNew === "text" ? (
+                        <Eye
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("password")}
+                        />
+                      ) : (
+                        <EyeSlash
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("text")}
+                        />
+                      )}
+                    </span>
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -219,36 +232,31 @@ function SignupForm() {
                   Confirm Password
                 </FormLabel>
                 <FormControl>
-                  <div
-                    className="flex w-full border-2 border-input relative rounded-md hover:border-primary items-center  
-                  border-input pr-2 "
-                  >
+                  <div className="flex w-full relative items-center">
                     <FormInput
                       disabled={isLoading}
                       {...field}
                       name="password"
-                      type={showConfirmPasswod ? "text" : "password"}
+                      type={defaultInpTypeNew}
                       placeholder="Confirm Enter Password"
-                      className=" w-full text-black h-[45px] sm:h-[56px] text-md font-medium rounded-md 
+                      className=" w-full text-black h-[45px] sm:h-[56px] text-md border font-medium rounded-md 
                       focus-visible:ring-primary bg-none outline-none pr-10 sm:pr-9"
                     />
-                    {showConfirmPasswod ? (
-                      <EyeSlash
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowConfirmPassword(!showConfirmPasswod);
-                        }}
-                      />
-                    ) : (
-                      <Eye
-                        size="32"
-                        className="text-grey-300 cursor-pointer"
-                        onClick={() => {
-                          setShowConfirmPassword(!showConfirmPasswod);
-                        }}
-                      />
-                    )}
+                    <span className="absolute right-4 sm:right-2 h-4 w-4 sm:w-6 sm:h-6 sm:p-[2px]">
+                      {defaultInpTypeNew === "text" ? (
+                        <Eye
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("password")}
+                        />
+                      ) : (
+                        <EyeSlash
+                          className="w-full h-full"
+                          color="#777"
+                          onClick={() => setDefaultInpTypeNew("text")}
+                        />
+                      )}
+                    </span>
                   </div>
                 </FormControl>
 

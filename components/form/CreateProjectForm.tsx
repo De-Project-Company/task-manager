@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { Label } from "../ui/Label";
 import React from "react";
 import { FormInput } from "../ui/FormInput";
@@ -10,7 +10,9 @@ import FormError from "./Error";
 import FormSuccess from "./Success";
 import { CreateProject } from "@/actions/project";
 import { TextArea } from "../ui/Textarea";
-import TOAST from "../toast";
+import { CldUploadButton } from "next-cloudinary";
+import Image from "next/image";
+import { UploadedAssetData } from "@/app/(employer)/projects/[details]/content/ProjectImage";
 import {
   Popover,
   PopoverContent,
@@ -35,10 +37,13 @@ import { DateRange } from "react-day-picker";
 import { useProjectCtx } from "@/context/Projectctx";
 import { getProject } from "@/actions/project";
 import { selectCurrencies } from "@/constants";
+import { X } from "lucide-react";
 
 function CreateProjectForm() {
   const { setProject } = useProjectCtx();
   const { isMobile } = useMediaQuery();
+  const [result, setResult] = useState<UploadedAssetData | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isLoading, startTransition] = useTransition();
@@ -49,6 +54,7 @@ function CreateProjectForm() {
     teamMembers: never[];
     Date: DateRange | undefined;
     priceCurrency: string;
+    coverImage?: string;
   }>({
     title: "",
     description: "",
@@ -59,8 +65,10 @@ function CreateProjectForm() {
       to: addDays(new Date(), 14),
     },
     priceCurrency: "NGN",
+    coverImage: undefined,
   });
   const router = useRouter();
+
 
   const MAX_DESC_LEN = 5000;
 
@@ -120,6 +128,63 @@ function CreateProjectForm() {
     <>
       <div>
         <form className="flex flex-col mt-4 z-10 gap-y-2 min-[850px]:gap-y-6 dark:text-white">
+          <div className="flex flex-col space-y-4 justify-between ">
+            <Label>Project Cover Image:</Label>
+            <div
+              ref={scrollRef}
+              className="flex flex-col w-full gap-5 max-md:w-full max-md:justify-center "
+            >
+              {projectData.coverImage ? (
+                <div className="flex flex-col gap-y-2 h-full w-full relative overflow-hidden rounded-lg object-cover">
+                  <Image
+                    width={300}
+                    height={300}
+                    src={projectData.coverImage!}
+                    alt="Cover Image"
+                    className="w-full h-full object-cover rounded-lg transition-all duration-300 hover:duration-700 hover:scale-150"
+                  />
+                  {/* @ts-ignore */}
+                  <span className="absolute bottom-1 left-0 bg-gradient-to-r from-white via-white/50 to-white/5 px-2 w-full text-left font-medium">
+                    {/* @ts-ignore */}
+                    {result?.original_filename!}
+                  </span>
+                  <button
+                    type="button"
+                    tabIndex={0}
+                    aria-label="Remove image"
+                    onClick={() =>
+                      setProjectData({ ...projectData, coverImage: "" })
+                    }
+                    className="text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light rounded-full bg-white/60 backdrop-blur-sm absolute top-1 right-1 w-8 h-8 flex items-center justify-center hover:text-red-500 hover:bg-white/80 hover:brightness-150 transition-all duration-700 hover:duration-200"
+                    title="Remove image"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    "flex w-full h-full min-h-[300px] items-center justify-center bg-[#f6f6f6] px-8",
+                    {
+                      hidden: projectData.coverImage,
+                    }
+                  )}
+                >
+                  <CldUploadButton
+                    onSuccess={(result) => {
+                      setResult(result?.info as UploadedAssetData);
+                      setProjectData({
+                        ...projectData,
+                        // @ts-ignore
+                        coverImage: result?.info?.url,
+                      });
+                    }}
+                    uploadPreset="traverse"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
           <div className="flex flex-col space-y-4 justify-between ">
             <Label>Title:</Label>
             <FormInput

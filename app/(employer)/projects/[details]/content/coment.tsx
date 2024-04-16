@@ -9,6 +9,8 @@ import { timeAgo } from "@/utils";
 import { getcomment, makecomment } from "@/actions/comment";
 import FormSuccess from "@/components/form/Success";
 import FormError from "@/components/form/Error";
+import { ProjectProps } from "@/types";
+import { getPojectdetails } from "@/actions/project";
 
 interface CommentProps {
   _id: string;
@@ -36,6 +38,23 @@ const ProjectComments = ({ projectId }: { projectId: string }) => {
   const [error, setError] = useState<string | undefined>("");
 
   const [Comments, setComments] = useState([] as CommentProps[]);
+
+  const [projectData, setProjectData] = useState<ProjectProps | null>(null);
+
+  const fetchProjectDetails = async () => {
+    try {
+      const project = await getPojectdetails(projectId);
+      if (project?.status === "success") {
+        setProjectData(project.project);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching project details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjectDetails();
+  }, [projectId]);
 
   useEffect(() => {
     const fetchcomments = async () => {

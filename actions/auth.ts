@@ -197,7 +197,7 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
         priority: "high",
       });
       return {
-        success: "Account created successfully, check your email!",
+        success: "Account created successfully!",
       };
     }
   } catch (e: any) {

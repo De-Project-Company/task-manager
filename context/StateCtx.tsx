@@ -20,6 +20,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [landingMobileMenu, setLandingMobileMenu] = useState(false);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
+  const [ViewOwnerModal, setViewOwnerModal] = useState(false);
   const [addTeamMemberMoal, setaddTeamMemberMoal] = useState(false);
   const [DeleteProjectModal, setDeleteProjectModal] = useState(false);
   const [addTaskModal, setaddTaskModal] = useState(false);
@@ -27,6 +28,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [SessionModal, setSessionModal] = useState(false);
   const [InviteModal, setInviteModal] = useState(false);
   const [ApprovalModal, setApprovalModal] = useState(false);
+  const [EditProject, setEditProjectModal] = useState(false);
   const [ChangeTaskStatusModal, setChangeTaskStatusModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
@@ -51,7 +53,9 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     ApprovalModal ||
     Introduction ||
     CreateMeet ||
-    ChangeTaskStatusModal;
+    ChangeTaskStatusModal ||
+    EditProject ||
+    ViewOwnerModal;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -221,8 +225,12 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       swipeIndicator,
       setSwipeIndicator,
       currentPath,
+      ViewOwnerModal,
+      setViewOwnerModal,
       Toast,
       setToast,
+      EditProject,
+      setEditProjectModal,
       addTeamMemberMoal,
       setaddTeamMemberMoal,
       openSidebarMain,
@@ -268,7 +276,9 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ApprovalModal,
       openCalendarEvent,
       Introduction,
+      ViewOwnerModal,
       ChangeTaskStatusModal,
+      EditProject,
     ]
   );
 
