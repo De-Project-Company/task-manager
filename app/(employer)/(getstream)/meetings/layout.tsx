@@ -1,5 +1,7 @@
-import { MeetingProvider } from "../../ClientProvider";
+
+import React from "react";
 import CreateMeet from "./content/createMeet";
+import { MeetingProvider } from "@/app/ClientProvider";
 
 export default function MeetingLayout({
   children,

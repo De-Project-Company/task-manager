@@ -7,13 +7,12 @@ import {
   MemberRequest,
   useStreamVideoClient,
 } from "@stream-io/video-react-sdk";
-import { Input } from "@/components/ui/Input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/Label";
 import { TextArea } from "@/components/ui/Textarea";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn } from "@/utils";
-import { X } from "lucide-react";
+import { Copy, X } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 import {
   Select,
@@ -31,6 +30,7 @@ import { Calendar } from "@/components/ui/Calendar";
 import { Button } from "@/components/ui/butt";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
+import Link from "next/link";
 
 const CreateMeet = () => {
   const { user } = useUserCtx();
@@ -39,10 +39,11 @@ const CreateMeet = () => {
   const [participantsInput, setParticipantsInput] = useState("");
   const [date, setDate] = useState<Date>(new Date());
   const [descriptionInput, setDescriptionInput] = useState("");
-  const [call, setCall] = useState(null);
+  const [call, setCall] = useState<Call>();
 
   const [Adddescription, setAdddescription] = useState(false);
   const [Time, setTime] = useState(false);
+  const [everyone, seteveryone] = useState(true);
 
   if (!CreateMeet) {
     if (Adddescription || Time) {
@@ -51,47 +52,49 @@ const CreateMeet = () => {
     }
   }
 
-  // async function createMeeting() {
-  //   if (!client || !user) {
-  //     return;
-  //   }
+  async function createMeeting() {
+    if (!client || !user) {
+      return;
+    }
 
-  //   try {
-  //     const id = crypto.randomUUID();
+    try {
+      const id = crypto.randomUUID();
 
-  //     const callType = participantsInput ? "private-meeting" : "default";
+      const callType = participantsInput ? "private-meeting" : "default";
 
-  //     const call = client.call(callType, id);
+      const call = client.call(callType, id);
 
-  //     const memberEmails = participantsInput
-  //       .split(",")
-  //       .map((email) => email.trim());
+      const memberEmails = participantsInput
+        .split(",")
+        .map((email) => email.trim());
 
-  //     const memberIds = await getUserIds(memberEmails);
+      // const memberIds = await getUserIds(memberEmails);
 
-  //     const members: MemberRequest[] = memberIds
-  //       .map((id) => ({ user_id: id, role: "call_member" }))
-  //       .concat({ user_id: user.id, role: "call_member" })
-  //       .filter(
-  //         (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
-  //       );
+      const members: MemberRequest[] = memberEmails
+        .filter((email) => email)
+        .map((email) => ({ user_id: email, role: "call_member" }))
+        .concat({ user_id: user.email!, role: "call_member" })
 
-  //     const starts_at = new Date(startTimeInput || Date.now()).toISOString();
+        .filter(
+          (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
+        );
 
-  //     await call.getOrCreate({
-  //       data: {
-  //         starts_at,
-  //         members,
-  //         custom: { description: descriptionInput },
-  //       },
-  //     });
+      const starts_at = new Date(date || Date.now()).toISOString();
 
-  //     setCall(call);
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Something went wrong. Please try again later.");
-  //   }
-  // }
+      await call.getOrCreate({
+        data: {
+          // starts_at,
+          // members,
+          custom: { description: descriptionInput },
+        },
+      });
+
+      setCall(call);
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again later.");
+    }
+  }
 
   return (
     <>
@@ -111,7 +114,9 @@ const CreateMeet = () => {
           CreateMeet
             ? "scale-100 duration-500 opacity-100 rounded-xl md:rounded-2xl"
             : "scale-0 duration-200 pointer-events-none",
-          Adddescription || Time ? "overflow-y-auto overflow-x-hidden" : ""
+          Adddescription || Time || !everyone
+            ? "overflow-y-auto overflow-x-hidden"
+            : ""
         )}
       >
         <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
@@ -160,11 +165,11 @@ const CreateMeet = () => {
           <>
             <p className="text-[16px] md:text-[20px] ">Meeting Time</p>
             <RadioGroup
-              defaultValue="fasle"
+              defaultValue={Time ? "later" : "now"}
               onValueChange={() => setTime(!Time)}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="default" id="r1" />
+                <RadioGroupItem value="now" id="r1" />
                 <Label htmlFor="r1">Start meeting immediately</Label>
               </div>
               <div className="flex items-center space-x-2">
@@ -227,23 +232,36 @@ const CreateMeet = () => {
           </>
           <>
             <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
-            <RadioGroup defaultValue="false">
+            <RadioGroup
+              defaultValue={everyone ? "public" : "private"}
+              onValueChange={() => seteveryone(!everyone)}
+            >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="default" id="r1" />
-                <Label htmlFor="r1">Every One</Label>
+                <RadioGroupItem value="public" id="r3" />
+                <Label htmlFor="r3">Every One</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="comfortable" id="r2" />
-                <Label htmlFor="r2">Private</Label>
+                <RadioGroupItem value="private" id="r4" />
+                <Label htmlFor="r4">Private</Label>
               </div>
             </RadioGroup>
+            {!everyone && (
+              <TextArea
+                value={participantsInput}
+                onChange={(e) => setParticipantsInput(e.target.value)}
+                placeholder="Enter participants email..."
+                className="h-32 resize-none"
+              />
+            )}
           </>
         </div>
+        {call && <MeetingLink call={call} />}
         <div className="flex w-full items-center justify-center pt-8 bottom-0">
           <button
             type="button"
             tabIndex={0}
             aria-label="Close"
+            onClick={createMeeting}
             className={cn(
               "rounded-lg border border-primary text-primary w-[178px] min-[450px]:h-[56px] h-[40px] px-2  text-lg hover:opacity-80 transition-opacity duration-300 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary dark:text-color-dark dark:border-color-dark"
             )}
@@ -257,3 +275,71 @@ const CreateMeet = () => {
 };
 
 export default CreateMeet;
+
+interface MeetingLinkProps {
+  call: Call;
+}
+
+function MeetingLink({ call }: MeetingLinkProps) {
+  const meetingLink = `${process.env.NEXT_PUBLIC_FRONTEND_URL}meetings/id?callId=${call.id}`;
+  const privateCall = call.type === "private-meeting";
+  return (
+    <div className="flex flex-col items-center gap-3 text-center">
+      <div className="flex items-center gap-3">
+        <span>
+          Invitation link:{" "}
+          <Link href={meetingLink} className="font-medium">
+            {meetingLink}
+          </Link>
+        </span>
+        <button
+          title="Copy invitation link"
+          onClick={() => {
+            navigator.clipboard.writeText(meetingLink);
+            alert("Copied to clipboard");
+          }}
+        >
+          <Copy />
+        </button>
+      </div>
+      <a
+        href={getMailToLink(
+          meetingLink,
+          call.state.startsAt,
+          call.state.custom.description
+        )}
+        target="_blank"
+        className="text-blue-500 hover:underline"
+      >
+        Send email invitation
+      </a>
+    </div>
+  );
+}
+
+function getMailToLink(
+  meetingLink: string,
+  startsAt?: Date,
+  description?: string
+) {
+  const startDateFormatted = startsAt
+    ? startsAt.toLocaleString("en-US", {
+        dateStyle: "full",
+        timeStyle: "short",
+      })
+    : undefined;
+
+  const subject =
+    "Join my meeting" + (startDateFormatted ? ` at ${startDateFormatted}` : "");
+
+  const body =
+    `Join my meeting at ${meetingLink}.` +
+    (startDateFormatted
+      ? `\n\nThe meeting starts at ${startDateFormatted}.`
+      : "") +
+    (description ? `\n\nDescription: ${description}` : "");
+
+  return `mailto:?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+}
