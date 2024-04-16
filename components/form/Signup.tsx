@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React from "react";
 import * as z from "zod";
 import { RegistrationSchema } from "@/schemas";
@@ -67,7 +66,7 @@ function SignupForm() {
       className="relative py-10 rounded-[16px] transition-colors duration-500  dark:text-white 
     dark:bg-primary shadow-lg px-4 sm:px-6 md:shadow-none z-20 w-full max-w-[600px] mx-auto"
     >
-      <div className="w">
+      {/* <div className="w">
         <Link href="/">
           <Image
             src="/assets/traverseLogo.png"
@@ -76,15 +75,8 @@ function SignupForm() {
             height={150}
             className="dark:hidden block"
           />
-          {/* <Image
-          src="/logo.svg"
-          alt="traverse logo"
-          width={150}
-          height={150}
-          className="dark:block hidden"
-        /> */}
         </Link>
-      </div>
+      </div> */}
       <h1 className=" text-2xl lg:text-[36px] text-[#1B0354]  font-bold w-full  mb-2 dark:text-white">
         Signup
       </h1>
@@ -151,14 +143,14 @@ function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold ">
-                  Tell us who you are (frontend, backend design or Project
-                  manager)
+                  Tell us who you are (frontend, backend, designer, project
+                  manager ...)
                 </FormLabel>
                 <FormControl>
                   <div className="flex items-center w-full relative">
                     <FormInput
                       disabled={isLoading}
-                      type="email"
+                      type="text"
                       {...field}
                       placeholder="Enter your Stack"
                       className=" focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"

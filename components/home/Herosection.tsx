@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import useInView from "@/hooks/useInView";
 
 export const HeroSection = () => {
   return (
@@ -22,7 +21,7 @@ export const HeroSection = () => {
           Get Started
         </Link>
       </section>
-      <div className="flex items-center justify-center px-5 md:px-0 pb-14 md:pb-28">
+      <div className="flex items-center justify-center px-5 md:px-0 pb-14 md:pb-28 dark:bg-primary">
         <Image
           src="/assets/HeroImage.png"
           alt="Hero Image"
