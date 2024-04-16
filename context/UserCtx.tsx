@@ -13,8 +13,9 @@ import { getUser } from "@/actions/user";
 import { useRouter } from "next/navigation";
 import { DEFAULT_REVALIDATE_REDIRECT } from "@/routes";
 import { useSession } from "next-auth/react";
-import { setCookie } from "cookies-next";
+import { getCookies } from "@/actions/getToken";
 import { useStateCtx } from "./StateCtx";
+import { jwtDecode } from "jwt-decode";
 
 // Add Your Props here
 interface UserContextProps {
@@ -27,7 +28,7 @@ export const UserContext = createContext({} as UserContextProps);
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { Introduction, setIntroduction } = useStateCtx();
+  const { setSessionModal, setIntroduction } = useStateCtx();
 
   const [user, setUser] = useState<User>({
     name: "",
@@ -55,19 +56,35 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   }, [session]);
 
   useLayoutEffect(() => {
-    //@ts-ignore
-    if (!session?.user?.token) return;
-    if (session) {
-      //@ts-ignore
-      setCookie("access_token", session?.user?.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
-    }
-    return;
-  }, [session]);
+    const fetchData = async () => {
+      try {
+        const { token } = await getCookies();
+        if (!token) {
+          return;
+        }
+        const decodedToken = jwtDecode(token);
+        const expiresIn = decodedToken.exp;
+
+        // @ts-ignore
+        const expDate = new Date(expiresIn * 1000);
+
+        const currentDate = new Date();
+
+        const oneDayFromNow = new Date(currentDate);
+        oneDayFromNow.setDate(oneDayFromNow.getDate() + 1);
+
+        const lessThanOneDayLeft = expDate < oneDayFromNow;
+        if (lessThanOneDayLeft) {
+          setSessionModal(true);
+        }
+        console.log("Less than one day left:", lessThanOneDayLeft);
+      } catch (error) {
+        return;
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useLayoutEffect(() => {
     const fetchUserData = async () => {

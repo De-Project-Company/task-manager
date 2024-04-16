@@ -8,7 +8,7 @@ const BaseUrl = process.env.BASEURL;
 
 const $http = Calls(BaseUrl);
 
-export const uploadFile = async (projectId: string, file: File) => {
+export const streamFile = async (projectId: string, fileName: string) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
 
@@ -26,12 +26,8 @@ export const uploadFile = async (projectId: string, file: File) => {
   };
 
   try {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await $http.post(
-      `/project/${projectId}/uploadFile`,
-      formData,
+    const res = await $http.get(
+      `/project/${projectId}/streamFile?fileName=${fileName}`,
       config
     );
 
