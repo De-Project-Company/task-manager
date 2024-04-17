@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/Label";
 import { TextArea } from "@/components/ui/Textarea";
 import { useStateCtx } from "@/context/StateCtx";
 import { cn } from "@/utils";
-import { Copy, X } from "lucide-react";
+import { Copy, X, Check } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 import {
   Select,
@@ -116,159 +116,165 @@ const CreateMeet = () => {
             : "scale-0 duration-200 pointer-events-none",
           Adddescription || Time || !everyone
             ? "overflow-y-auto overflow-x-hidden"
-            : ""
+            : "",
+          call ? "h-full" : ""
         )}
       >
-        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
-          <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
-            Create Meeting
-          </h3>
-          <button
-            type="button"
-            tabIndex={0}
-            aria-label="Close"
-            onClick={() => setCreateMeet(false)}
-            className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
-          >
-            <X size={24} />
-          </button>
-        </div>
-        <div className="flex w-full  pt-3  flex-col gap-y-4 px-4">
+        {!call && (
           <>
-            <div>
-              <p className="text-[16px] md:text-[20px] ">Meeting Info</p>
-              <div className="items-top flex space-x-2">
-                <Checkbox
-                  id="Adddescription"
-                  checked={Adddescription}
-                  onCheckedChange={() => setAdddescription(!Adddescription)}
-                />
-                <div className="items-top flex space-x-2">
-                  <Label
-                    htmlFor="Adddescription"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Add Description
-                  </Label>
-                </div>
-              </div>
+            <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
+              <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
+                Create Meeting
+              </h3>
+              <button
+                type="button"
+                tabIndex={0}
+                aria-label="Close"
+                onClick={() => setCreateMeet(false)}
+                className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
+              >
+                <X size={24} />
+              </button>
             </div>
-            {Adddescription && (
-              <TextArea
-                value={descriptionInput}
-                onChange={(e) => setDescriptionInput(e.target.value)}
-                placeholder="Enter description..."
-                className="h-32 resize-none"
-              />
-            )}
-          </>
-          <>
-            <p className="text-[16px] md:text-[20px] ">Meeting Time</p>
-            <RadioGroup
-              defaultValue={Time ? "later" : "now"}
-              onValueChange={() => setTime(!Time)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="now" id="r1" />
-                <Label htmlFor="r1">Start meeting immediately</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="later" id="r2" />
-                <Label htmlFor="r2"> Start meeting at a later date</Label>
-              </div>
-            </RadioGroup>
-            {Time && (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  align="start"
-                  className="flex w-full flex-col space-y-2 p-2 z-[500]"
-                >
-                  <Select
-                    onValueChange={(value) =>
-                      setDate(addDays(new Date(), parseInt(value)))
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Time Frame" />
-                    </SelectTrigger>
-                    <SelectContent
-                      position="popper"
-                      className="z-[999] bg-white"
-                    >
-                      <SelectItem value="0">Today</SelectItem>
-                      <SelectItem value="1">Tomorrow</SelectItem>
-                      <SelectItem value="3">In 3 days</SelectItem>
-                      <SelectItem value="7">In a week</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <div className="rounded-md border">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={(selectedDate: Date | undefined) => {
-                        if (selectedDate) {
-                          setDate(selectedDate);
-                        }
-                      }}
-                      disabled={(date) => date < new Date()}
-                      // initialFocus
+            <div className="flex w-full  pt-3  flex-col gap-y-4 px-4">
+              <>
+                <div>
+                  <p className="text-[16px] md:text-[20px] ">Meeting Info</p>
+                  <div className="items-top flex space-x-2">
+                    <Checkbox
+                      id="Adddescription"
+                      checked={Adddescription}
+                      onCheckedChange={() => setAdddescription(!Adddescription)}
                     />
+                    <div className="items-top flex space-x-2">
+                      <Label
+                        htmlFor="Adddescription"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Add Description
+                      </Label>
+                    </div>
                   </div>
-                </PopoverContent>
-              </Popover>
-            )}
+                </div>
+                {Adddescription && (
+                  <TextArea
+                    value={descriptionInput}
+                    onChange={(e) => setDescriptionInput(e.target.value)}
+                    placeholder="Enter description..."
+                    className="h-32 resize-none"
+                  />
+                )}
+              </>
+              <>
+                <p className="text-[16px] md:text-[20px] ">Meeting Time</p>
+                <RadioGroup
+                  defaultValue={Time ? "later" : "now"}
+                  onValueChange={() => setTime(!Time)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="now" id="r1" />
+                    <Label htmlFor="r1">Start meeting immediately</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="later" id="r2" />
+                    <Label htmlFor="r2"> Start meeting at a later date</Label>
+                  </div>
+                </RadioGroup>
+                {Time && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal min-h-8 md:py-4 py-2",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="start"
+                      className="flex w-full flex-col space-y-2 p-2 z-[500]"
+                    >
+                      <Select
+                        onValueChange={(value) =>
+                          setDate(addDays(new Date(), parseInt(value)))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Time Frame" />
+                        </SelectTrigger>
+                        <SelectContent
+                          position="popper"
+                          className="z-[999] bg-white"
+                        >
+                          <SelectItem value="0">Today</SelectItem>
+                          <SelectItem value="1">Tomorrow</SelectItem>
+                          <SelectItem value="3">In 3 days</SelectItem>
+                          <SelectItem value="7">In a week</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <div className="rounded-md border">
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={(selectedDate: Date | undefined) => {
+                            if (selectedDate) {
+                              setDate(selectedDate);
+                            }
+                          }}
+                          disabled={(date) => date < new Date()}
+                          // initialFocus
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </>
+              <>
+                <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
+                <RadioGroup
+                  defaultValue={everyone ? "public" : "private"}
+                  onValueChange={() => seteveryone(!everyone)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="public" id="r3" />
+                    <Label htmlFor="r3">Every One</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="private" id="r4" />
+                    <Label htmlFor="r4">Private</Label>
+                  </div>
+                </RadioGroup>
+                {!everyone && (
+                  <TextArea
+                    value={participantsInput}
+                    onChange={(e) => setParticipantsInput(e.target.value)}
+                    placeholder="Enter participants email..."
+                    className="h-32 resize-none"
+                  />
+                )}
+              </>
+            </div>
+
+            <div className="flex w-full items-center justify-center pt-8 bottom-0">
+              <button
+                type="button"
+                tabIndex={0}
+                aria-label="Close"
+                onClick={createMeeting}
+                className={cn(
+                  "rounded-lg border border-primary text-primary w-[178px] min-[450px]:h-[56px] h-[40px] px-2  text-lg hover:opacity-80 transition-opacity duration-300 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary dark:text-color-dark dark:border-color-dark"
+                )}
+              >
+                Create meeting
+              </button>
+            </div>
           </>
-          <>
-            <p className="text-[16px] md:text-[20px] ">Who Can Join</p>
-            <RadioGroup
-              defaultValue={everyone ? "public" : "private"}
-              onValueChange={() => seteveryone(!everyone)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="public" id="r3" />
-                <Label htmlFor="r3">Every One</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="private" id="r4" />
-                <Label htmlFor="r4">Private</Label>
-              </div>
-            </RadioGroup>
-            {!everyone && (
-              <TextArea
-                value={participantsInput}
-                onChange={(e) => setParticipantsInput(e.target.value)}
-                placeholder="Enter participants email..."
-                className="h-32 resize-none"
-              />
-            )}
-          </>
-        </div>
+        )}
         {call && <MeetingLink call={call} />}
-        <div className="flex w-full items-center justify-center pt-8 bottom-0">
-          <button
-            type="button"
-            tabIndex={0}
-            aria-label="Close"
-            onClick={createMeeting}
-            className={cn(
-              "rounded-lg border border-primary text-primary w-[178px] min-[450px]:h-[56px] h-[40px] px-2  text-lg hover:opacity-80 transition-opacity duration-300 font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary dark:text-color-dark dark:border-color-dark"
-            )}
-          >
-            Create meeting
-          </button>
-        </div>
       </div>
     </>
   );
@@ -282,24 +288,32 @@ interface MeetingLinkProps {
 
 function MeetingLink({ call }: MeetingLinkProps) {
   const meetingLink = `${process.env.NEXT_PUBLIC_FRONTEND_URL}meetings/id?callId=${call.id}`;
-  const privateCall = call.type === "private-meeting";
+  const [copied, setCopied] = useState(false);
+
+
+  const handleClick = () => {
+    navigator.clipboard.writeText(meetingLink);
+    setCopied(true);
+  };
   return (
-    <div className="flex flex-col items-center gap-3 text-center">
+    <div className="flex flex-col items-center justify-center h-full gap-3 text-center self-center">
       <div className="flex items-center gap-3">
-        <span>
-          Invitation link:{" "}
-          <Link href={meetingLink} className="font-medium">
+        <div className="flex flex-col w-full ">
+          <span>Meeting link: </span>
+          <Link href={meetingLink} className="font-medium text-xs">
             {meetingLink}
           </Link>
-        </span>
+        </div>
         <button
           title="Copy invitation link"
-          onClick={() => {
-            navigator.clipboard.writeText(meetingLink);
-            alert("Copied to clipboard");
-          }}
+          onClick={handleClick}
+          disabled={copied}
         >
-          <Copy />
+          {copied ? (
+            <Check className="text-emerald-700/10 h-4 w-4" />
+          ) : (
+            <Copy />
+          )}
         </button>
       </div>
       <a
