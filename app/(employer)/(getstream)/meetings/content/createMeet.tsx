@@ -70,29 +70,30 @@ const CreateMeet = () => {
 
       // const memberIds = await getUserIds(memberEmails);
 
-      const members: MemberRequest[] = memberEmails
-        .filter((email) => email)
-        .map((email) => ({ user_id: email, role: "call_member" }))
-        .concat({ user_id: user.email!, role: "call_member" })
-
-        .filter(
-          (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
-        );
+      const members: MemberRequest[] =
+        memberEmails.length > 0
+          ? memberEmails
+              .filter((id) => id)
+              .map((id) => ({ user_id: id, role: "call_member" }))
+              .concat({ user_id: user.id!, role: "host" })
+              .filter(
+                (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
+              )
+          : [{ user_id: user.id!, role: "host" }];
 
       const starts_at = new Date(date || Date.now()).toISOString();
 
       await call.getOrCreate({
         data: {
-          // starts_at,
-          // members,
+          starts_at,
+          members,
           custom: { description: descriptionInput },
         },
       });
 
       setCall(call);
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong. Please try again later.");
+      console.log(error);
     }
   }
 
@@ -120,22 +121,22 @@ const CreateMeet = () => {
           call ? "h-full" : ""
         )}
       >
+        <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
+          <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
+            Create Meeting
+          </h3>
+          <button
+            type="button"
+            tabIndex={0}
+            aria-label="Close"
+            onClick={() => setCreateMeet(false)}
+            className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
+          >
+            <X size={24} />
+          </button>
+        </div>
         {!call && (
           <>
-            <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 sticky top-0 bg-white">
-              <h3 className="sm:text-lg md:text-2xl font-medium text-header dark:text-gray-100">
-                Create Meeting
-              </h3>
-              <button
-                type="button"
-                tabIndex={0}
-                aria-label="Close"
-                onClick={() => setCreateMeet(false)}
-                className="text-header focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:text-[#e80000] rounded-full"
-              >
-                <X size={24} />
-              </button>
-            </div>
             <div className="flex w-full  pt-3  flex-col gap-y-4 px-4">
               <>
                 <div>
@@ -289,7 +290,6 @@ interface MeetingLinkProps {
 function MeetingLink({ call }: MeetingLinkProps) {
   const meetingLink = `${process.env.NEXT_PUBLIC_FRONTEND_URL}meetings/id?callId=${call.id}`;
   const [copied, setCopied] = useState(false);
-
 
   const handleClick = () => {
     navigator.clipboard.writeText(meetingLink);

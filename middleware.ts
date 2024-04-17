@@ -31,7 +31,7 @@ export default async function middleware(request: NextRequest) {
   //   );
   // }
 
-  if ((isLoggedIn && isAuthRoute) || (!isLoggedIn && isPublicRoute)) {
+  if ((isLoggedIn && isAuthRoute) || (isLoggedIn && isPublicRoute)) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url));
   }
 
