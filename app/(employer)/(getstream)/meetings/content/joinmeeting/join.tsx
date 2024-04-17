@@ -165,6 +165,27 @@ function CallUI() {
 
 function UpcomingMeetingScreen() {
   const call = useStreamCall();
+  const { user } = useUserCtx();
+
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center gap-6">
+        <p>
+          This meeting has not started yet. It will start at{" "}
+          <span className="font-bold">
+            {call.state.startsAt?.toLocaleString()}
+          </span>
+        </p>
+        {call.state.custom.description && (
+          <p>
+            Description:{" "}
+            <span className="font-bold">{call.state.custom.description}</span>
+          </p>
+        )}
+        <Link href="/">Go home</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -180,16 +201,30 @@ function UpcomingMeetingScreen() {
           <span className="font-bold">{call.state.custom.description}</span>
         </p>
       )}
-      <Link href="/">Go home</Link>
+      <Link href="/dashboard">Go Back to DashBoard</Link>
     </div>
   );
 }
 
 function MeetingEndedScreen() {
+  const { user } = useUserCtx();
+
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center gap-6">
+        <p className="font-bold">This meeting has ended</p>
+        <Link href="/">Go home</Link>
+        <div className="space-y-3">
+          <h2 className="text-center text-xl font-bold">Recordings</h2>
+          <RecordingsList />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center gap-6">
       <p className="font-bold">This meeting has ended</p>
-      <Link href="/">Go home</Link>
+      <Link href="/dashboard">Go back to Dashboard</Link>
       <div className="space-y-3">
         <h2 className="text-center text-xl font-bold">Recordings</h2>
         <RecordingsList />
