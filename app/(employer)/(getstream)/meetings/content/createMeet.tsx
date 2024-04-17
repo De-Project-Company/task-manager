@@ -70,13 +70,16 @@ const CreateMeet = () => {
 
       // const memberIds = await getUserIds(memberEmails);
 
-      const members: MemberRequest[] = memberEmails
-        .map((email) => ({ user_id: email, role: "call_member" }))
-        .concat({ user_id: user.email!, role: "host" })
-
-        .filter(
-          (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
-        );
+      const members: MemberRequest[] =
+        memberEmails.length > 0
+          ? memberEmails
+              .filter((id) => id)
+              .map((id) => ({ user_id: id, role: "call_member" }))
+              .concat({ user_id: user.id!, role: "host" })
+              .filter(
+                (v, i, a) => a.findIndex((v2) => v2.user_id === v.user_id) === i
+              )
+          : [{ user_id: user.id!, role: "host" }];
 
       const starts_at = new Date(date || Date.now()).toISOString();
 

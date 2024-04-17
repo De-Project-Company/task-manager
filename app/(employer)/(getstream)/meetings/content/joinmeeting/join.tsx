@@ -15,10 +15,10 @@ import {
   VideoPreview,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/butt";
+import LoadingSpinner from "@/components/loader";
 
 interface MeetingPageProps {
   id: string;
@@ -29,7 +29,7 @@ export const JoinMeetingPage = ({ id }: MeetingPageProps) => {
   const { user } = useUserCtx();
 
   if (!user || callLoading) {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return <LoadingSpinner />;
   }
 
   if (!call) {
@@ -157,7 +157,7 @@ function CallUI() {
   const callingState = useCallCallingState();
 
   if (callingState !== CallingState.JOINED) {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return <LoadingSpinner />;
   }
 
   return <FlexibleCallLayout />;

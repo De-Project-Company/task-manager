@@ -2,9 +2,9 @@
 
 import { useUserCtx } from "@/context/UserCtx";
 import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/loader";
 
 export default function MyMeetingsPage() {
   const { user } = useUserCtx();
@@ -22,10 +22,10 @@ export default function MyMeetingsPage() {
       const { calls } = await client.queryCalls({
         sort: [{ field: "starts_at", direction: -1 }],
         filter_conditions: {
-          starts_at: { $exists: true },
+          starts_at: { $exists: false },
           $or: [
-            { created_by_user_id: user.email },
-            { members: { $in: [user.email] } },
+            { created_by_user_id: user.id },
+            { members: { $in: [user.id] } },
           ],
         },
       });
@@ -39,7 +39,7 @@ export default function MyMeetingsPage() {
   return (
     <div className="space-y-3">
       <h1 className="text-center text-2xl font-bold">My Meetings</h1>
-      {!calls && <Loader2 className="mx-auto animate-spin" />}
+      {!calls && <LoadingSpinner />}
       {calls?.length === 0 && <p>No meetings found</p>}
       <ul className="list-inside list-disc space-y-2">
         {calls?.map((call) => (
