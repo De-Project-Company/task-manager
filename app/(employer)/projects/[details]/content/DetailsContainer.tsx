@@ -74,8 +74,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
 
-  const docs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
   return (
     <>
       <DeletePojectModal
@@ -147,7 +145,10 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         {/* Projects Content */}
         <div className="grid md:grid-cols-2 gap-4 ">
           {/* Projects Docs */}
-          <ProjectDocs projectId={id} files={projectData?.files} />
+          <ProjectDocs
+            projectId={projectData?._id}
+            files={projectData?.files}
+          />
           {/* Projects Team members */}
           <TeamSection
             projectid={id}
