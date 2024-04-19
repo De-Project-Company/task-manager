@@ -192,7 +192,7 @@ function CreateProjectForm() {
               type="text"
               value={projectData.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              placeholder="Enter Workspace Name"
+              placeholder="Enter Project Name"
               className=" w-full text-black h-[45px] sm:h-[56px] border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
             />
           </div>
