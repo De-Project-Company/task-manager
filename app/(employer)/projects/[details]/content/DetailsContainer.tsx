@@ -16,7 +16,7 @@ import ProjectDoc from "./Doc";
 import { useProjectCtx } from "@/context/Projectctx";
 import ProjectImage from "./ProjectImage";
 import ProjectDesroption from "./ProjectDesroption";
-import ProjectDocument from "./ProjectDoc";
+import ProjectDocs from "./ProjectDocs";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -74,8 +74,6 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
-
-  const docs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
     <>
@@ -142,14 +140,16 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
         </div>
 
         <ProjectDesroption {...projectData} />
+        {/* Projects CoverImage */}
+        <ProjectImage />
 
-        {/* Projects Images */}
-        {/* <ProjectImage /> */}
-
-        {/* Project Documents */}
-        <ProjectDocument projectId={id!} />
-
+        {/* Projects Content */}
         <div className="grid md:grid-cols-2 gap-4 ">
+          {/* Projects Docs */}
+          <ProjectDocs
+            projectId={projectData?._id}
+            files={projectData?.files}
+          />
           {/* Projects Team members */}
           <TeamSection
             projectid={id}

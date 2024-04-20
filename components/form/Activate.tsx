@@ -22,9 +22,11 @@ import FormSuccess from "./Success";
 import { activateUser } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { DEFAULT_SIGNUP_REDIRECT } from "@/routes";
+import { useStateCtx } from "@/context/StateCtx";
 
 const ActivateForm = () => {
   const router = useRouter();
+  const { setOTPModal } = useStateCtx();
 
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
@@ -50,6 +52,7 @@ const ActivateForm = () => {
             setSuccess("Redirecting....");
           }, 1000);
           setTimeout(() => {
+            setOTPModal(false);
             router.push(DEFAULT_SIGNUP_REDIRECT);
           }, 2000);
         }

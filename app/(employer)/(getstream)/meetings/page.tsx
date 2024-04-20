@@ -1,12 +1,12 @@
 import React from "react";
 import MeetingNav from "./content/Nav";
-import CommingSoon from "@/components/CommingSoon";
+import MyMeetingsPage from "./content/MyMeetings";
 
 const MeetingPage = () => {
   return (
     <div>
-      {/*<MeetingNav />*/}
-      <CommingSoon />
+      <MeetingNav />
+      <MyMeetingsPage />
     </div>
   );
 };

@@ -7,6 +7,7 @@
 @import "react-toastify/dist/ReactToastify.css";
 @import url("https://fonts.cdnfonts.com/css/made-tommy-outline");
 @import url("https://fonts.cdnfonts.com/css/ds-digital");
+@import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 .timmer .timmer-number {
   font-family: "DS-Digital", sans-serif;
@@ -317,8 +318,15 @@ svg circle {
   }
 }
 
-// CommingSoon
-.h-calc {
-  height: calc(100vh - 50px);
-  overflow: hidden;
+
+.str-video__participant-details {
+  color: white;
+}
+
+.str-video__menu-container {
+  color: white;
+}
+
+.str-video__notification {
+  color: white;
 }

@@ -23,9 +23,15 @@ const ProjectCard = ({
 }: ProjectProps) => {
   const projectCardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView({ ref: projectCardRef });
-  const { projectSearchTerm, setSelectedProject } = useProjectCtx();
+  const { projectSearchTerm } = useProjectCtx();
   const { user } = useUserCtx();
-  const { setInviteModal } = useStateCtx();
+  const { setInviteModal, setViewOwnerModal } = useStateCtx();
+
+  const handleViewOwnerClick = () => {
+    const ownerString = JSON.stringify(owner);
+    window?.localStorage.setItem("projectOwner", ownerString);
+    setViewOwnerModal(true);
+  };
 
   const isProjectOwner = user.id === owner?._id;
   const desiredTeamMember = teamMembers?.find(
@@ -38,7 +44,7 @@ const ProjectCard = ({
     ? desiredTeamMember.accepted
     : false;
 
-   const encryptTitle = encryptString(title!);
+  const encryptTitle = encryptString(title!);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;
@@ -123,35 +129,26 @@ const ProjectCard = ({
           </p>
           <p className="text-sm text-header dark:text-gray-200">
             Project Owner: <strong>{owner?.name}</strong>
-            <Link href="" className="text-primary-light dark:text-[#34bae7]">
+            <button
+              title="view owner"
+              onClick={handleViewOwnerClick}
+              className="text-primary-light dark:text-[#34bae7]"
+            >
               (View Profile)
-            </Link>
+            </button>
           </p>
           <p className="text-sm text-header dark:text-gray-200">
             Project end date: <strong>{formattedDate}</strong>
           </p>
-          {hasAccepted || isProjectOwner ? (
-            <Link
-              href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
-              type="button"
-              tabIndex={0}
-              className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
-            >
-              View more
-            </Link>
-          ) : (
-            <button
-              onClick={() => {
-                setInviteModal(true);
-                setSelectedProject(_id!);
-              }}
-              type="button"
-              tabIndex={0}
-              className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
-            >
-              View Invite
-            </button>
-          )}
+
+          <Link
+            href={`/projects/details?_id=${_id}&project_title=${encryptTitle}`}
+            type="button"
+            tabIndex={0}
+            className="text-primary dark:text-white dark:border-white border-primary rounded-lg border h-[32px] px-4 py-2 flex items-center font-medium hover:opacity-70 transition-all duration-300"
+          >
+            View more
+          </Link>
         </div>
       </div>
       <AcceptModal />

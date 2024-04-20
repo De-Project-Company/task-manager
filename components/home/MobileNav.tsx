@@ -76,6 +76,7 @@ const MobileNav = () => {
               aria-label={link.title}
               href={link.link}
               key={link.title}
+              onClick={() => setLandingMobileMenu(false)}
               className={cn(
                 "focus-visible:rounded-md focus-visible:border-2 outline-none focus-visible:p-1 focus-visible:border-primary   text-black dark:text-gray-300  flex justify-center capitalize relative font-medium  before:bg-primary/50 dark:before:bg-white before:w-[0%] before:h-1 before:absolute before:-bottom-2 before:left-0 before:transition-all before:duration-500 text-lg",
                 isActive === link.link ? "before:w-full text-primary/50" : ""
@@ -85,12 +86,14 @@ const MobileNav = () => {
             </Link>
           ))}
           <Link
+            onClick={() => setLandingMobileMenu(false)}
             href="/auth/signin"
             className="rounded-lg shadow shadow-xs bg-purple-900 dark:bg-white dark:text-primary dark:font-semibold text-white px-5 py-3"
           >
             Sign In
           </Link>
           <Link
+            onClick={() => setLandingMobileMenu(false)}
             href="/auth/signup"
             className="rounded-lg shadow shadow-xs bg-purple-900 dark:bg-white dark:text-primary dark:font-semibold text-white px-5 py-3"
           >

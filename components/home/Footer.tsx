@@ -1,4 +1,3 @@
-import traverse from "../../public/assets/traverseWhite.png";
 import Image from "next/image";
 import Link from "next/link";
 

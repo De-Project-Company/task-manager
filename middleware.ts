@@ -25,20 +25,19 @@ export default async function middleware(request: NextRequest) {
   const isApiAuthRoute = request.nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
-  if (!isLoggedIn && isProtectedRoute) {
-    return NextResponse.redirect(
-      new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
-    );
-  }
+  // if (!isLoggedIn && isProtectedRoute) {
+  //   return NextResponse.redirect(
+  //     new URL(DEFAULT_REVALIDATE_REDIRECT, request.url)
+  //   );
+  // }
 
-  if (isLoggedIn && isAuthRoute) {
+  if ((isLoggedIn && isAuthRoute) || (isLoggedIn && isPublicRoute)) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url));
   }
 
   return NextResponse.next();
 }
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

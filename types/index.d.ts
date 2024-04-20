@@ -78,6 +78,8 @@ export interface ProjectProps {
   title?: string;
   description?: string;
   owner?: Owner;
+  coverImage?: string;
+  files?: string[];
   price?: number;
   priceCurrency?: "USD" | "EUR" | "GBP" | "NGN";
   duration?: number;
@@ -127,6 +129,8 @@ export interface StateContextProps {
   setChangeProjectStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTeamMemberMoal: boolean;
   setaddTeamMemberMoal: React.Dispatch<React.SetStateAction<boolean>>;
+  ViewOwnerModal: boolean;
+  setViewOwnerModal: React.Dispatch<React.SetStateAction<boolean>>;
   addTaskModal: boolean;
   setaddTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
   swipeIndicator: boolean;
@@ -145,6 +149,8 @@ export interface StateContextProps {
   setCreateMeet: React.Dispatch<React.SetStateAction<boolean>>;
   ChangeTaskStatusModal: boolean;
   setChangeTaskStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
+  EditProject: boolean;
+  setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
 
   // Added context for CalendarEvent
 
