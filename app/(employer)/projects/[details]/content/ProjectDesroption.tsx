@@ -179,7 +179,7 @@ const ProjectDesroption = ({
         <h3 className="text-lg font-semibold dark:text-gray-100  text-header  pb-4">
           Project Description
         </h3>
-        <div className="flex h-full max-h-[270px] overflow-y-auto sidebar-scroll w-full">
+        <div className="flex h-full max-h-[400px] overflow-y-auto sidebar-scroll w-full">
           <p
             className="ProseMirror whitespace-pre-line text-sm 2xl:text-base text-header dark:text-gray-300"
             style={{ whiteSpace: "pre-line" }}
