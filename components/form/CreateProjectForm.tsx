@@ -12,6 +12,7 @@ import { CreateProject } from "@/actions/project";
 import { TextArea } from "../ui/Textarea";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
+import { Tiptap } from "@/components/ui/texteditor";
 import { UploadedAssetData } from "@/app/(employer)/projects/[details]/content/ProjectImage";
 import {
   Popover,
@@ -69,7 +70,6 @@ function CreateProjectForm() {
   });
   const router = useRouter();
 
-
   const MAX_DESC_LEN = 5000;
 
   const handleChange = (
@@ -77,6 +77,10 @@ function CreateProjectForm() {
     value: string | number | Date | string[] | null
   ) => {
     setProjectData({ ...projectData, [field]: value });
+  };
+
+  const handleContentChange = (reason: any) => {
+    setProjectData({ ...projectData, description: reason });
   };
 
   const handleSubmit = async () => {
@@ -199,14 +203,21 @@ function CreateProjectForm() {
           <div className="flex flex-col space-y-4 justify-between ">
             <Label>Description:</Label>
             <div className="flex w-full flex-col gap-2">
-              <TextArea
+              <Tiptap
+                content={projectData.description}
+                onChange={(newContent: string) =>
+                  handleContentChange(newContent)
+                }
+                  />
+
+              {/* <TextArea
                 disabled={isLoading}
                 value={projectData.description}
                 maxLength={MAX_DESC_LEN}
                 onChange={(e) => handleChange("description", e.target.value)}
                 placeholder="Enter Project Description"
                 className=" w-full text-black md:h-[200px] h-[150px] resize-none border text-md font-medium rounded-md focus-visible:ring-primary outline-none pr-10 sm:pr-9"
-              />
+              /> */}
               <WordCounter
                 word={projectData.description}
                 length={MAX_DESC_LEN}

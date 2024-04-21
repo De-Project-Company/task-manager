@@ -6,13 +6,14 @@ import { Owner } from "@/types";
 
 interface Members {
   name?: string;
+  email?: string;
   accepted?: boolean;
   memberId?: string;
   owner?: Owner;
 }
 
-const Member = ({ name, accepted, memberId, owner }: Members) => {
-  const isCurrentUserAdmin = memberId === owner?._id;
+const Member = ({ name, accepted, memberId, email, owner }: Members) => {
+  const isCurrentUserAdmin = email === owner?.email;
 
   return (
     <div className="flex gap-y-2 w-full h-full max-h-[60px] sm:items-center justify-between border-b border-[#e1e1e1] dark:border-primary-light py-1 sm:py-0">

@@ -51,7 +51,7 @@ const ChangeTaskStatus = ({
   const { setUpdate, selectedTask, setSelectedTask } = useProjectCtx();
   const { user } = useUserCtx();
 
-  const isAdmin = owner?._id === user.id;
+  const isAdmin = owner?.email === user.email;
 
   const [selectedStatus, setSelectedStatus] = useState<
     StatusProps["label"] | null
