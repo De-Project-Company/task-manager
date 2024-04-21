@@ -45,8 +45,10 @@ const ProjectDesroption = ({
     return () => document.removeEventListener("keyup", handleKeyUp);
   }, [isDotMenu]);
 
-  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
-  const isNotAdmin = admin?.user._id !== user?.id;
+  const admin = teamMembers?.find(
+    (member) => member.user.email === owner?.email
+  );
+  const isNotAdmin = admin?.user.email !== user?.email;
 
   const formattedStartDate = startDate
     ? format(new Date(startDate), "LLL dd, y")
@@ -58,6 +60,18 @@ const ProjectDesroption = ({
 
   const formattedPrice =
     price && priceCurrency ? formatPriceWithCurrency(price, priceCurrency) : "";
+
+  if (!description) {
+    return "";
+  }
+
+  const decodeHtml = (html: string): string => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  const decodedDescription = decodeHtml(description);
   return (
     <div className="mt-12 flex flex-col w-full sm:px-3 py-6 mb-6 h-full relative">
       <div className="flex w-full items-center justify-between pb-2 md:pb-3 border-b border-[#e1e1e1] dark:border-primary-light">
@@ -166,9 +180,11 @@ const ProjectDesroption = ({
           Project Description
         </h3>
         <div className="flex h-full max-h-[270px] overflow-y-auto sidebar-scroll w-full">
-          <p className="text-sm 2xl:text-base text-header dark:text-gray-300 ">
-            {description}
-          </p>
+          <p
+            className="ProseMirror whitespace-pre-line text-sm 2xl:text-base text-header dark:text-gray-300"
+            style={{ whiteSpace: "pre-line" }}
+            dangerouslySetInnerHTML={{ __html: decodedDescription }}
+          />
         </div>
       </div>
     </div>

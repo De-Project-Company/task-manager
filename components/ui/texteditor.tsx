@@ -183,7 +183,7 @@ const Toolbar = ({ editor }: Props) => {
   );
 };
 
-const Tiptap = ({ onChange, content }: any) => {
+const Tiptap = ({ onChange }: any) => {
   const handleChange = (newContent: string) => {
     onChange(newContent);
   };
@@ -201,11 +201,11 @@ const Tiptap = ({ onChange, content }: any) => {
   });
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full">
       <Toolbar editor={editor} />
       <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
     </div>
   );
 };
 
-export { Tiptap };
+export { Tiptap, Toolbar };
