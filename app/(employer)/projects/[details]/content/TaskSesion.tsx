@@ -61,11 +61,14 @@ const TaskSesion = ({
   title,
 }: TasksessionProp) => {
   const { user } = useUserCtx();
-  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
-  const isNotAdmin = admin?.user._id !== user?.id;
+  const admin = teamMembers?.find(
+    (member) => member.user.email === owner?.email
+  );
+  const isNotAdmin = admin?.user.email !== user?.email;
+  // console.log(teamMembers);
+  // console.log(tasks);
 
   const teamMembersJSON = JSON.stringify(teamMembers);
-
 
   const encryptTitle = title ? encryptString(title as string) : "";
   return (
@@ -86,7 +89,7 @@ const TaskSesion = ({
             }}
             className={cn(
               "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
-              isNotAdmin ? "hidden" : "block"
+              // isNotAdmin ? "hidden" : "block"
             )}
           >
             <Add size={24} />

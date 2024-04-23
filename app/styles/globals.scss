@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "react-quill/dist/quill.snow.css";
 @import "react-datepicker/dist/react-datepicker.css";
 @import "react-toastify/dist/ReactToastify.css";
 @import url("https://fonts.cdnfonts.com/css/made-tommy-outline");
 @import url("https://fonts.cdnfonts.com/css/ds-digital");
-@import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 .timmer .timmer-number {
   font-family: "DS-Digital", sans-serif;
@@ -318,15 +316,3 @@ svg circle {
   }
 }
 
-
-.str-video__participant-details {
-  color: white;
-}
-
-.str-video__menu-container {
-  color: white;
-}
-
-.str-video__notification {
-  color: white;
-}

@@ -108,7 +108,7 @@ const SingleTask = ({
               </div>
               <div className="flex items-center gap-x-3">
                 <button
-                  disabled={!isTaskowner && !isAdmin}
+                  // disabled={!isTaskowner && !isAdmin}
                   className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
                   onClick={() => handleEditButtonClick(task?._id!)}
                 >

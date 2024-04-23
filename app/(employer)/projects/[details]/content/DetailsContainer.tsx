@@ -141,7 +141,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
         <ProjectDesroption {...projectData} />
         {/* Projects CoverImage */}
-        <ProjectImage />
+        {/* <ProjectImage /> */}
 
         {/* Projects Content */}
         <div className="grid md:grid-cols-2 gap-4 ">
