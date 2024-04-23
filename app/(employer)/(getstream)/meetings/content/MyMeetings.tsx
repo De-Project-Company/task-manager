@@ -69,7 +69,7 @@ function MeetingItem({ call }: MeetingItemProps) {
         {isInFuture && " (Upcoming)"}
         {hasEnded && " (Ended)"}
       </Link>
-      <p className="ml-6s text-gray-500">{call.state.cutom.description}</p>
+      <p className="ml-6s text-gray-500">{call.state.custom.description}</p>
     </li>
   );
 }
