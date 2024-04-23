@@ -34,7 +34,7 @@ const ChatSystem: React.FC = () => {
 
   return (
     <div className=" pt-3 md:pb-1 px-3 h-fit overflow-hidden">
-      <CommingSoon />;
+      <CommingSoon />
     </div>
   );
 };
