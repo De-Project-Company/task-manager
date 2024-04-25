@@ -50,7 +50,7 @@ export const EMPLOYERSSIDEBAR_LINKS: SidebarProps[] = [
   },
   {
     id: 6,
-    label: "settings",
+    label: "Settings",
     icon: Setting2,
     link: "settings",
   },

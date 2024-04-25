@@ -65,4 +65,5 @@ export const protectedRoutes = [
   "/meetings",
   "/meetings/id",
   "/new",
+  "/settings",
 ];

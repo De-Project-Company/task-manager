@@ -44,12 +44,13 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
   const { setaddTeamMemberMoal } = useStateCtx();
   const { user } = useUserCtx();
 
-  const admin = teamMembers?.find((member) => member.user._id === owner?._id);
   const filteredTeamMembers = teamMembers?.filter(
     (member) => member.user._id !== owner?._id
   );
-
-  const isNotAdmin = admin?.user._id !== user?.id;
+  const admin = teamMembers?.find(
+    (member) => member.user.email === owner?.email
+  );
+  const isNotAdmin = admin?.user.email !== user?.email;
 
   useEffect(() => {
     if (isMenu) {
@@ -136,6 +137,7 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
                 accepted={admin.accepted}
                 memberId={admin.user._id}
                 owner={owner}
+                email={admin.user.email}
               />
             )}
             {filteredTeamMembers && filteredTeamMembers.length > 0 && (
@@ -147,6 +149,7 @@ const TeamSection = ({ projectid, teamMembers, owner }: TasksessionProp) => {
                     accepted={member.accepted}
                     memberId={member.user._id}
                     owner={owner}
+                    email={member.user.email}
                   />
                 ))}
               </>
