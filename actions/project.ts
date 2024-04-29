@@ -6,7 +6,9 @@ import { auth } from "@/auth";
 
 const BaseUrl = process.env.BASEURL;
 const $http = Calls(BaseUrl);
-
+{
+  /* Create Project */
+}
 export const CreateProject = async (values: any) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
@@ -40,6 +42,7 @@ export const CreateProject = async (values: any) => {
     };
   }
 };
+
 export const getProject = async () => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
@@ -201,7 +204,10 @@ export const deleteProject = async (projectId: string) => {
   }
 };
 
-export const updateProjectStatus = async (projectId: string, newStatus?: string) => {
+export const updateProjectStatus = async (
+  projectId: string,
+  newStatus?: string
+) => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
 

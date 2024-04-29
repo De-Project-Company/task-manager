@@ -55,7 +55,8 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const [firstName] = fullName!.split(/\s+/);
   const countDownTIme = useCountdown(projectData?.endDate!);
   const [isDotMenu, setIsDotMenu] = useState(false);
-  const [docsNum, setDocsNum] = useState(5);
+
+  const [projectFiles, setProjectFiles] = useState(true);
 
   useEffect(() => {
     if (isDotMenu) {

@@ -116,6 +116,8 @@ const AssignTaskPage = () => {
       name: name,
       email: email,
     }));
+
+    console.log({ name, email });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -268,7 +270,7 @@ const AssignTaskPage = () => {
                   <CommandInput placeholder="Search By Name ...." />
                   <CommandList className="w-full ">
                     <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Suggestions" className="">
+                    <CommandGroup heading="Suggestions" className="cusro-pointer">
                       {teamMembers?.map((teamMember) => (
                         <CommandItem
                           key={teamMember.user._id}
@@ -280,7 +282,7 @@ const AssignTaskPage = () => {
                             );
                             setOpen(false);
                           }}
-                          className="z-[900]"
+                          className="z-[900] "
                         >
                           {teamMember.user.name}
                           <CheckIcon

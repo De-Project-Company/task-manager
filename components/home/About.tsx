@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Aboutdata } from "@/constants";
+import Link from "next/link";
 
 const About = () => {
   return (
@@ -30,9 +31,12 @@ const About = () => {
             </div>
           ))}
         </div>
-        <button className="text-purple-600 my-11 bg-purple-50 px-5 py-3 hover:bg-purple-600 hover:text-purple-50 border border-[#ECEBFF] rounded-lg">
+        <Link
+          href="/about"
+          className="block w-fit text-purple-600 my-11 bg-purple-50 px-5 py-3 hover:bg-purple-600 hover:text-purple-50 border border-[#ECEBFF] rounded-lg"
+        >
           Learn More
-        </button>
+        </Link>
       </div>
       <div>
         <Image

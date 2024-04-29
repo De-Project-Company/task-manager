@@ -15,7 +15,7 @@ export const HeroSection = () => {
           web usage, and seamlessly sync data, even when offline.
         </p>
         <Link
-          href="#"
+          href="/auth/signup"
           className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:bg-white hover:border hover:border-purple-600 hover:text-purple-600 md:text-base text-xs "
         >
           Get Started

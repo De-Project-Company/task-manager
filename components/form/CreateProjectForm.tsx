@@ -96,6 +96,19 @@ function CreateProjectForm() {
       endDate: Date?.to ? Date.to.toISOString() : "",
     };
 
+    // const formData = new FormData();
+    // formData.append("title", title);
+    // formData.append("description", description);
+    // if (price != undefined) formData.append("price", price.toString());
+    // if (teamMembers.length > 0)
+    //   formData.append("teamMembers", teamMembers.join(","));
+    // if (Date?.from) formData.append("startDate", Date.from.toISOString());
+    // if (Date?.to) formData.append("endDate", Date.to.toISOString());
+    // formData.append("priceCurrency", priceCurrency);
+    // if (fileData) {
+    //   formData.append("files", fileData);
+    // }
+
     setError("");
     setSuccess("");
     startTransition(() => {
