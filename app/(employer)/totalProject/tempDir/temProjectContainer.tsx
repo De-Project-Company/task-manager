@@ -16,7 +16,7 @@ const TemProjectContainer = () => {
   const [filteredProjects, setFilteredProjects] = useState(
     [] as ProjectProps[]
   );
-  console.log(Project)
+  // console.log(Project)
   useEffect(() => {
     const searchTerm =
       projectSearchTerm && projectSearchTerm.trim().toLowerCase();

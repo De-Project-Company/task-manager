@@ -5,7 +5,7 @@ import ChatData from "./dummyData";
 import ChatBody from "./ChatBody";
 import { CiMenuKebab } from "react-icons/ci";
 import WorkInProgress from "../CommingSoon";
-import CommingSoon from "../CommingSoon";
+import CommingSoon from "@/components/ComminSoon";
 
 // TODO: We will work on the mobile view when we finally finish this with socket.io
 // FIXME: the dummy data should be deleted and please leave a comment :)

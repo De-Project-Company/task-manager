@@ -5,7 +5,7 @@ const CommingSoon: React.FC = () => {
   return (
     <>
       <div
-        className="page_warppaer h-calc w-full flex flex-col justify-center items-center 
+        className="page_warppaer h-[70vh] w-full flex flex-col justify-center items-center 
       text-center space-y-10"
       >
         <div className="top">

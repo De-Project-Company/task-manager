@@ -151,9 +151,8 @@ export interface StateContextProps {
   setChangeTaskStatusModal: React.Dispatch<React.SetStateAction<boolean>>;
   EditProject: boolean;
   setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
-
-  // Added context for CalendarEvent
-
+  EditTask: boolean;
+  setEditTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
   openCalendarEvent: boolean;
   setOpenCalendarEvent: React.Dispatch<React.SetStateAction<boolean>>;
 }

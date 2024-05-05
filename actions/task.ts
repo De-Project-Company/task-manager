@@ -231,3 +231,61 @@ export const updateTaskStatus = async (
     };
   }
 };
+
+/**
+ * UPDATE TASK
+ * @param {string} projectId - The ID of the project containing the task.
+ * @param {string} taskId - The ID of the task to update.
+ * @param {object} values - The new data to update the task with.
+ * @returns {object} An object indicating success or error message.
+ */
+
+export const UpdateTask = async (
+  projectId: string,
+  taskId: string,
+  values?: any
+) => {
+  const authToken = cookies()?.get("access_token")?.value;
+  const session = await auth();
+
+  if (!authToken && !session) {
+    return {
+      error: "Unauthorized. Missing access token.",
+      status: 401,
+    };
+  }
+
+  // @ts-ignore
+
+  const token = session?.user?.token;
+
+  // console.log(taskId);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${authToken || token}`,
+    },
+  };
+
+  // console.log(values);
+
+  try {
+    const res = await $http.patch(
+      `/project/${projectId}/update-task-details?taskId=${taskId}`,
+      values,
+      config
+    );
+
+    if (res?.status == 200) {
+      return {
+        success: "Task Updated successfully",
+      };
+    }
+  } catch (e: any) {
+    return {
+      error: e.response.data.message,
+    };
+  }
+};
