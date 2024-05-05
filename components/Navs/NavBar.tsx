@@ -124,9 +124,9 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <div className=" hidden md:flex">
+      {/* <div className=" hidden md:flex">
         <ThemeButtons />
-      </div>
+      </div> */}
       {user && (
         <div className="flex items-center gap-x-3 xl:gap-x-5  [&>button]:font-medium [&>button]:text-header dark:[&>button]:text-white ">
           <div className="relative">
