@@ -23,28 +23,31 @@ const ProjectContainer = () => {
   useEffect(() => {
     const searchTerm =
       projectSearchTerm && projectSearchTerm.trim().toLowerCase();
-    const filtered = Project.filter((project) => {
-      if (
-        (!(searchTerm.length > 2) && selectedProjectFilter === "all") ||
-        (searchTerm.length > 2 &&
-          selectedProjectFilter === "all" &&
-          project.title!.toLowerCase().includes(searchTerm))
-      ) {
-        return true;
-      }
-      if (searchTerm.length > 2 && selectedProjectFilter === project.status) {
-        if (!project.title!.toLowerCase().includes(searchTerm)) {
+    const filtered = Project.filter(
+      (project) => {
+        if (
+          (!(searchTerm.length > 2) && selectedProjectFilter === "all") ||
+          (searchTerm.length > 2 &&
+            selectedProjectFilter === "all" &&
+            project.title!.toLowerCase().includes(searchTerm))
+        ) {
+          return true;
+        }
+        if (searchTerm.length > 2 && selectedProjectFilter === project.status) {
+          if (!project.title!.toLowerCase().includes(searchTerm)) {
+            return false;
+          }
+        }
+        if (
+          selectedProjectFilter &&
+          !(project.status === selectedProjectFilter)
+        ) {
           return false;
         }
-      }
-      if (
-        selectedProjectFilter &&
-        !(project.status === selectedProjectFilter)
-      ) {
-        return false;
-      }
-      return true;
-    });
+        return true;
+      },
+      [projectSearchTerm, selectedProjectFilter] //u can remove this later
+    );
 
     setFilteredProjects(filtered);
     const suggestions = Project.map((project) => project.title).filter(

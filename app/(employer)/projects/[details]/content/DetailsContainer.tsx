@@ -17,6 +17,7 @@ import { useProjectCtx } from "@/context/Projectctx";
 import ProjectImage from "./ProjectImage";
 import ProjectDesroption from "./ProjectDesroption";
 import ProjectDocs from "./ProjectDocs";
+import { EditTaskModal } from "./EditTaskModal";
 
 const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
   const { user } = useUserCtx();
@@ -31,7 +32,7 @@ const DetailsContainer = ({ title, id }: { title?: string; id?: string }) => {
 
   const fetchProjectDetails = async () => {
     try {
-      const project = await getPojectdetails(id!);
+      const project: any = await getPojectdetails(id!);
       if (project?.status === "success") {
         setProjectData(project.project);
         setUpdate(false);

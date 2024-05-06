@@ -10,6 +10,7 @@ import SingleTask from "./SingleTask";
 import { Owner } from "@/types";
 import Link from "next/link";
 import { useUserCtx } from "@/context/UserCtx";
+import { EditTaskModal } from "./EditTaskModal";
 
 interface User {
   _id: string;
@@ -73,6 +74,7 @@ const TaskSesion = ({
   const encryptTitle = title ? encryptString(title as string) : "";
   return (
     <>
+
       <div
         className={cn(
           "flex flex-col w-full px-3 py-6 sm:rounded-xl  relative mt-12"
@@ -88,7 +90,7 @@ const TaskSesion = ({
               window?.localStorage.setItem("teamMembers", teamMembersJSON);
             }}
             className={cn(
-              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center",
+              "text-primary dark:text-white rotate-90 h-6 w-6 rounded-full border border-[#090909] flex items-center justify-center"
               // isNotAdmin ? "hidden" : "block"
             )}
           >

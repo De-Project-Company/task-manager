@@ -13,7 +13,7 @@ const page = () => {
         </span>
 
         {/* Project table can come in here */}
-        <p className="mt-4">Project table can come in here </p>
+        <p className="mt-4">Total Project</p>
       </div>
       <TemProjectContainer/>
     </>

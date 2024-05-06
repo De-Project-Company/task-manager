@@ -88,7 +88,7 @@ const AssignTaskPage = () => {
       }
     };
     fetchProjectDetails();
-  }, []);
+  }, [setProjectData, setUpdate, projectid]);
 
   const [formData, setFormData] = useState<FormData>({
     task: {
@@ -183,7 +183,7 @@ const AssignTaskPage = () => {
     };
 
     fetchTeamMembersFromLocalStorage();
-  }, []);
+  }, [setTeamMembers]);
 
   return (
     <div
@@ -249,7 +249,7 @@ const AssignTaskPage = () => {
         <div className="md:flex items-center justify-between w-full">
           <div className="flex flex-col mb-5 gap-y-2 md:mb-0 w-[300px]">
             <label className="text-sm sm:text-base font-medium dark:text-white">
-              Add Assignee
+              Add Assignee and lorem
             </label>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -270,7 +270,10 @@ const AssignTaskPage = () => {
                   <CommandInput placeholder="Search By Name ...." />
                   <CommandList className="w-full ">
                     <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Suggestions" className="cusro-pointer">
+                    <CommandGroup
+                      heading="Suggestions"
+                      className="cusro-pointer"
+                    >
                       {teamMembers?.map((teamMember) => (
                         <CommandItem
                           key={teamMember.user._id}

@@ -1,6 +1,7 @@
+//@ts-nocheck
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   AccordionContent,
   AccordionItem,
@@ -13,6 +14,7 @@ import { useUserCtx } from "@/context/UserCtx";
 import { Owner } from "@/types";
 import { cn, makeLinksClickable, formatText } from "@/utils";
 import { useProjectCtx } from "@/context/Projectctx";
+import { EditTaskModal } from "./EditTaskModal";
 
 interface User {
   _id: string;
@@ -60,11 +62,14 @@ const SingleTask = ({
   owner,
 }: TasksessionProp) => {
   const { user } = useUserCtx();
-  const { setChangeTaskStatusModal } = useStateCtx();
+  const { setChangeTaskStatusModal, EditTask, setEditTaskModal } =
+    useStateCtx();
   const { setSelectedTask } = useProjectCtx();
   const taskOwner = teamMembers?.find(
     (member) => member.user._id === task?.assignedTo
   );
+
+  const [taskToEdit, setTaskToEdit] = useState({} as Task);
 
   if (!task) {
     return null;
@@ -91,8 +96,20 @@ const SingleTask = ({
     setChangeTaskStatusModal(true);
   };
 
+  // handleUpdateTask
+  const handleEditTaskClick = (task: {} | null) => {
+    // Save the task data to localStorage
+    localStorage.setItem("taskToEdit", JSON.stringify(task));
+
+    setTaskToEdit(task!);
+    setEditTaskModal(true);
+  };
+
   return (
     <>
+      {/* update Task modal comes in here */}
+      <EditTaskModal projectid={projectid} />
+
       <AccordionItem value={task?._id!}>
         <AccordionTrigger className="dark:text-white">
           {task?.title}
@@ -106,23 +123,27 @@ const SingleTask = ({
                   Due Date: {formattedDate}
                 </p>
               </div>
-              <div className="flex items-center gap-x-3">
-                <button
-                  // disabled={!isTaskowner && !isAdmin}
-                  className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
-                  onClick={() => handleEditButtonClick(task?._id!)}
-                >
-                  <MessageEdit />
-                  <span>Edit</span>
-                </button>
-                {/* <button
 
-                className="flex items-center gap-x-2 text-[#FF3333]"
-              >
-                <Trash color={"#FF3333"} variant="Bold" />
-                <span>Delete</span>
-              </button> */}
-              </div>
+              {/* if the user is admin, it shows this Edit button, same as the Edit Task button below  */}
+              {isAdmin && (
+                <div className="flex items-center gap-x-3">
+                  <button
+                    // disabled={!isTaskowner && !isAdmin}
+                    className="flex items-center gap-x-2 text-header dark:text-[#23a8d4]"
+                    onClick={() => handleEditButtonClick(task?._id!)}
+                  >
+                    <MessageEdit />
+                    <span>Edit</span>
+                  </button>
+                  {/* <button
+
+                  className="flex items-center gap-x-2 text-[#FF3333]"
+                  >
+                  <Trash color={"#FF3333"} variant="Bold" />
+                  <span>Delete</span>
+                  </button> */}
+                </div>
+              )}
             </div>
             <p className="py-4 text-justify text-header dark:text-gray-300">
               Description: <br />
@@ -134,39 +155,50 @@ const SingleTask = ({
             </p>
 
             <p className="text-sm text-header dark:text-gray-200 flex items-center gap-x-1 xl:gap-x-2">
-              Status:{" "}
-              <span
-                className={cn(
-                  "relative w-[100px] min-[404px]:w-[130px] xl:w-[150px] h-[8px] border  rounded-md",
-                  {
-                    "border-[#eea300] ": task?.status === "InProgress",
-                    "border-[#3182ce] ": task?.status === "InReview",
-                    "border-[#008d36] ": task?.status === "Done",
-                    "border-black/90 dark:border-gray-600/90 ":
-                      task?.status === "Todo",
-                  }
-                )}
-              >
+              Status:
+              <div className="wrap flex flex-1 items-center space-x-2">
                 <span
                   className={cn(
-                    "absolute h-full  bg-black rounded-md transition-all duration-1000",
+                    "relative w-[100px] min-[404px]:w-[130px] xl:w-[150px] h-[8px] border  rounded-md",
                     {
-                      "bg-[#eea300] w-1/2": task?.status === "InProgress",
-                      "bg-[#3182ce] w-[75%]": task?.status === "InReview",
-                      "bg-[#008d36] w-full": task?.status === "Done",
-                      "bg-black/90 dark:bg-gray-500 w-[5%]":
+                      "border-[#eea300] ": task?.status === "InProgress",
+                      "border-[#3182ce] ": task?.status === "InReview",
+                      "border-[#008d36] ": task?.status === "Done",
+                      "border-black/90 dark:border-gray-600/90 ":
                         task?.status === "Todo",
                     }
                   )}
-                />
-              </span>{" "}
-              <span
-                className={cn("text-[11px] xl:text-sm max-lg:text-sm", {
-                  "max-[1158px]-[11px]": task?.status === "InProgress",
-                })}
-              >
-                ({task?.status})
-              </span>
+                >
+                  <span
+                    className={cn(
+                      "absolute h-full  bg-black rounded-md transition-all duration-1000",
+                      {
+                        "bg-[#eea300] w-1/2": task?.status === "InProgress",
+                        "bg-[#3182ce] w-[75%]": task?.status === "InReview",
+                        "bg-[#008d36] w-full": task?.status === "Done",
+                        "bg-black/90 dark:bg-gray-500 w-[5%]":
+                          task?.status === "Todo",
+                      }
+                    )}
+                  />
+                </span>
+                <span
+                  className={cn("text-[11px] xl:text-sm max-lg:text-sm", {
+                    "max-[1158px]-[11px]": task?.status === "InProgress",
+                  })}
+                >
+                  ({task?.status})
+                </span>
+              </div>
+              {isAdmin && (
+                <button
+                  className="flex  space-x-2 items-center cursor-pointer"
+                  onClick={() => handleEditTaskClick(task)}
+                >
+                  <MessageEdit className="text-md" />
+                  Edit Task
+                </button>
+              )}
             </p>
           </div>
         </AccordionContent>

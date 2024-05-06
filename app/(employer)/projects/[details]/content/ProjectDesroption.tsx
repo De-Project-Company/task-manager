@@ -170,7 +170,7 @@ const ProjectDesroption = ({
           <span className="font-medium">{formattedEndDate}</span>
         </p>
         <p className="text-sm xl:text-base text-header dark:text-gray-200 flex items-center gap-x-1">
-          Project Price:
+          Project Budget:
           <span className="font-medium">{formattedPrice}</span>
         </p>
       </div>

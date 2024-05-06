@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
   const cookie = cookies();
 
   // console.log(session);
-  console.log("LOGGED IN?: ", isLoggedIn);
+  // console.log("LOGGED IN?: ", isLoggedIn); // u can un-comment this later
 
   const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
   const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);

@@ -80,14 +80,15 @@ const ProjectDoc = ({ fileName, projectId }: DocsProps) => {
         <span className="text-base max-[359px]:text-sm ">{update}</span>
       </div>
       <div className="flex gap-y-2 flex-col sm:flex-row items-start sm:items-center justify-between gap-x-4">
-        <button
+        {/* This should be included when the preview  is ready */}
+        {/* <button
           type="button"
           // onClick={handleViewFile}
           className="flex items-center gap-x-1 text-sm max-[359px]:text-xs dark:text-gray-200"
         >
           <FolderOpen size={16} />
           <span>Open</span>
-        </button>
+        </button> */}
 
         <button
           type="button"

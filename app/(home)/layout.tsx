@@ -13,7 +13,7 @@ export default function HomeLayout({
     <>
       <Nav />
       {children}
-      <Theme />
+      {/* <Theme /> */}
       <GotoTop />
       <Footer />
     </>
