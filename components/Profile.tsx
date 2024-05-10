@@ -57,7 +57,7 @@ const SpringModal = () => {
                   onClick={() => setOpenProfileModal(false)}
                   className="bg-transparent hover:bg-white/10 transition-colors text-white font-semibold w-full py-2 rounded"
                 >
-                  I&appos;ll do it later
+                  I&apos;ll do it later
                 </button>
 
                 <Button
