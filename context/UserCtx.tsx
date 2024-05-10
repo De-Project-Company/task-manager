@@ -4,6 +4,7 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useState,
@@ -28,7 +29,8 @@ export const UserContext = createContext({} as UserContextProps);
 const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { setSessionModal, setIntroduction } = useStateCtx();
+  const { setSessionModal, setIntroduction, setOpenProfileModal } =
+    useStateCtx();
 
   const [user, setUser] = useState<User>({
     name: "",
@@ -108,6 +110,18 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const openAddprofile = () => {
+      const addedP = localStorage.getItem("added-profile");
+      if (!addedP) {
+        setOpenProfileModal(true);
+        localStorage.setItem("added-profile", "true");
+      }
+    };
+
+    openAddprofile();
   }, []);
 
   useLayoutEffect(() => {

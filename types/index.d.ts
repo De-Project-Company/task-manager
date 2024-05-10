@@ -153,8 +153,12 @@ export interface StateContextProps {
   setEditProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
   EditTask: boolean;
   setEditTaskModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openProfileModal: boolean;
+  setOpenProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
   openCalendarEvent: boolean;
   setOpenCalendarEvent: React.Dispatch<React.SetStateAction<boolean>>;
+  profileSheet: boolean;
+  setprofileSheet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navs/NavBar";
 import UserContextProvider from "@/context/UserCtx";
 import AcceptModal from "@/components/project/AcceptModal";
 import { Introduction } from "@/components/WelcomeNote";
+import { SpringModal, Profile } from "@/components/Profile";
 
 export default function EmployersLayout({
   children,
@@ -25,11 +26,14 @@ export default function EmployersLayout({
             {children}
           </div>
         </section>
+        <Profile />
         <div className="flex md:hidden">
           <Theme />
         </div>
         <Introduction />
+
         <AcceptModal />
+        <SpringModal />
       </ProjectContextProvider>
     </UserContextProvider>
   );

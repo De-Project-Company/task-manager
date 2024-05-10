@@ -7,6 +7,7 @@ import SwipeIndicator from "@/components/SwiperIndicator";
 import AuthProvider from "./Providers";
 import UpdateSessionModal from "@/components/SessionModal";
 import { ApprovalModal } from "@/components/ApprovalModal";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -74,6 +75,7 @@ export default function RootLayout({
               className={`${inter.className}  dark:bg-primary/90 transition-colors duration-500`}
             >
               {children}
+              <Toaster />
               <SwipeIndicator />
               <UpdateSessionModal />
               <ApprovalModal />
