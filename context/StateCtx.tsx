@@ -29,6 +29,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [InviteModal, setInviteModal] = useState(false);
   const [ApprovalModal, setApprovalModal] = useState(false);
   const [EditProject, setEditProjectModal] = useState(false);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
   const [ChangeTaskStatusModal, setChangeTaskStatusModal] = useState(false);
   const [ChangeProjectStatusModal, setChangeProjectStatusModal] =
     useState(false);
@@ -39,6 +40,7 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openUploadPreviewModal, setOpenUploadPreviewModal] =
     useState<boolean>(false);
   const [EditTask, setEditTaskModal] = useState(false);
+  const [profileSheet, setprofileSheet] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -58,7 +60,9 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     CreateMeet ||
     ChangeTaskStatusModal ||
     EditProject ||
-    ViewOwnerModal;
+    ViewOwnerModal ||
+    openProfileModal ||
+    profileSheet;
   const anyMobileSidebarOpen =
     openSidebarMain || openSidebar || landingMobileMenu;
 
@@ -262,10 +266,16 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setOpenUploadPreviewModal,
       setEditTaskModal,
       EditTask,
+      openProfileModal,
+      setOpenProfileModal,
+      profileSheet,
+      setprofileSheet,
     }),
     [
       openSidebar,
       landingMobileMenu,
+      profileSheet,
+      setprofileSheet,
       OTPModal,
       swipeIndicator,
       addTaskModal,
@@ -286,6 +296,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       ChangeTaskStatusModal,
       EditProject,
       EditTask,
+      openUploadPreviewModal,
+      openProfileModal,
     ]
   );
 

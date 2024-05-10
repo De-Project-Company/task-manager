@@ -36,10 +36,11 @@ const words = `Welcome to TRAVERSE our task management platform!`;
 const buutowrds = `Get ready to streamline your workflow, collaborate effectively, and achieve your goals with ease. Explore our features and let's make productivity simple and enjoyable!`;
 
 export function Introduction() {
-  const { Introduction, setIntroduction } = useStateCtx();
+  const { Introduction, setIntroduction, setOpenProfileModal } = useStateCtx();
   const handleClose = () => {
     localStorage.setItem("onboarded", "true");
     setIntroduction(false);
+    setOpenProfileModal(true);
   };
   return (
     <div className="w-full h-[60vh] flex items-center justify-center">
