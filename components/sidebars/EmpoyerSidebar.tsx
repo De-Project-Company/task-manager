@@ -5,26 +5,18 @@ import { useEffect, useState } from "react";
 import { LogoutCurve, Setting2 } from "iconsax-react";
 import { cn } from "@/utils";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useUserCtx } from "@/context/UserCtx";
+import { usePathname } from "next/navigation";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import Image from "next/image";
-import { signOut as logOut } from "@/actions/auth";
-import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
 
 const EmployerSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
-  const { user } = useUserCtx();
-  const router = useRouter();
+
   const pathname = usePathname();
 
   const handleSignOut = async () => {
-    const result = await logOut();
-    if (result?.success) {
-      router.push("/");
-    } else {
-      console.error(result?.error);
-    }
+    await signOut();
   };
 
   useEffect(() => {

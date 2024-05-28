@@ -25,10 +25,9 @@ import { login } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { useStateCtx } from "@/context/StateCtx";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { SetToSessionStorage } from "@/utils";
-import { authenticate } from "@/actions/authenticate";
 import { Eye, EyeSlash } from "iconsax-react";
 import { signIn } from "next-auth/react";
+import { useToast } from "../ui/use-toast";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -36,7 +35,7 @@ const SigninForm = () => {
 
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
   const [defaultInpTypeNew, setDefaultInpTypeNew] = useState<
     "password" | "text"
   >("password");
@@ -55,25 +54,21 @@ const SigninForm = () => {
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
+      login(values).then(async (data) => {
         setSuccess(data?.success);
         setError(data?.error);
         const loginva = JSON.stringify(values);
-        signIn("credentials", { loginva, redirect: false });
+        toast({
+          title: data.success ? "Login successful" : "Authentication failed",
+          description: data.error ? error : success,
+        });
+        await signIn("credentials", { loginva, redirect: false });
         if (data?.success) {
-          // authenticate(values);
-          setCookie("access_token", data?.token, {
-            maxAge: 60 * 60 * 24 * 30, // 30 days
-            httpOnly: true,
-            path: "/",
-            priority: "high",
-          });
-          SetToSessionStorage("access_token", data?.user.id);
           setTimeout(() => {
             setSuccess("Redirecting....");
           }, 1000);
           setTimeout(() => {
-            // router.push(DEFAULT_LOGIN_REDIRECT);
+            router.push(DEFAULT_LOGIN_REDIRECT);
           }, 2000);
         }
       });
@@ -180,8 +175,6 @@ const SigninForm = () => {
               </FormItem>
             )}
           />
-          <FormError message={error} />
-          <FormSuccess message={success} />
 
           <div className="flex relative items-center [perspective:300px] transform-gpu max-sm:w-full">
             <Button
