@@ -19,7 +19,7 @@ export const getcomment = async (id: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -54,7 +54,7 @@ export const makecomment = async (id: string, comment: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {

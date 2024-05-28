@@ -1,4 +1,5 @@
 import { baseUrl } from "../actions/baseurl";
+import { User } from "@/types";
 
 export const signinUser = async ({
   email,
@@ -23,12 +24,16 @@ export const signinUser = async ({
     });
 
     const res = await data.json();
-    const user = res.data && res.token;
+    const userdata = JSON.stringify({
+      ...res.data,
+      accessToken: res.token,
+    });
+
+    const user = userdata;
     if (data.status === 200 || res.ok) {
       return {
         success: "Login successful!",
         user,
-        res,
       };
     }
     if (data.status === 400) {

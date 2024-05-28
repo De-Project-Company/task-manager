@@ -20,7 +20,7 @@ export const CreateProject = async (values: any) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -46,17 +46,6 @@ export const CreateProject = async (values: any) => {
 export const getProject = async () => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
-  // session?.user?.token!;
-
-  if (session) {
-    // @ts-ignore
-    cookies()?.set("access_token", session?.user?.token, {
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-      httpOnly: true,
-      path: "/",
-      priority: "high",
-    });
-  }
 
   if (!authToken && !session) {
     return {
@@ -65,7 +54,7 @@ export const getProject = async () => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -105,7 +94,7 @@ export const AddMembers = async (
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -144,7 +133,7 @@ export const getPojectdetails = async (id: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -179,7 +168,7 @@ export const deleteProject = async (projectId: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -218,7 +207,7 @@ export const updateProjectStatus = async (
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {

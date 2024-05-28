@@ -19,7 +19,7 @@ export const searchTeam = async (query?: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {

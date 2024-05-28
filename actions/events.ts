@@ -19,7 +19,7 @@ export const createEvent = async (values: {} | any) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -54,7 +54,7 @@ export const getAllEvents = async () => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
