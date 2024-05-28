@@ -28,6 +28,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { SetToSessionStorage } from "@/utils";
 import { authenticate } from "@/actions/authenticate";
 import { Eye, EyeSlash } from "iconsax-react";
+import { signIn } from "next-auth/react";
 
 const SigninForm = () => {
   const router = useRouter();
@@ -57,8 +58,10 @@ const SigninForm = () => {
       login(values).then((data) => {
         setSuccess(data?.success);
         setError(data?.error);
+        const loginva = JSON.stringify(values);
+        signIn("credentials", { loginva, redirect: false });
         if (data?.success) {
-          authenticate(values);
+          // authenticate(values);
           setCookie("access_token", data?.token, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             httpOnly: true,
@@ -70,7 +73,7 @@ const SigninForm = () => {
             setSuccess("Redirecting....");
           }, 1000);
           setTimeout(() => {
-            router.push(DEFAULT_LOGIN_REDIRECT);
+            // router.push(DEFAULT_LOGIN_REDIRECT);
           }, 2000);
         }
       });

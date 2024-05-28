@@ -32,7 +32,7 @@ export const assignTask = async (
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -82,7 +82,7 @@ export const CreateTask = async (
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -122,7 +122,7 @@ export const getTask = async (projectId?: string) => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -157,7 +157,7 @@ export const getAllTask = async () => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -197,7 +197,7 @@ export const updateTaskStatus = async (
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   // console.log(taskId);
 
@@ -257,7 +257,7 @@ export const UpdateTask = async (
 
   // @ts-ignore
 
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   // console.log(taskId);
 

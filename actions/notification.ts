@@ -12,16 +12,6 @@ export const getnotifications = async () => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
 
-  if (session) {
-    // @ts-ignore
-    cookies()?.set("access_token", session?.user?.token, {
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-      httpOnly: true,
-      path: "/",
-      priority: "high",
-    });
-  }
-
   if (!authToken && !session) {
     return {
       error: "Unauthorized. Missing access token.",
@@ -29,7 +19,7 @@ export const getnotifications = async () => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {
@@ -49,7 +39,7 @@ export const getnotifications = async () => {
     }
   } catch (e: any) {
     return {
-      error: e.response.data.message,
+      error: e.response?.data?.message,
     };
   }
 };

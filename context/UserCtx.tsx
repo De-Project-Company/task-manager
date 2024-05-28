@@ -32,6 +32,9 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { setSessionModal, setIntroduction, setOpenProfileModal } =
     useStateCtx();
 
+  //@ts-ignore
+  console.log(session?.user?.user);
+
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
@@ -45,12 +48,19 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useLayoutEffect(() => {
-    if (!session?.user?.email) return;
+    // @ts-expect-error
+    if (!session?.user?.user?.email) return;
     setUser({
-      ...session?.user,
-      name: session?.user?.name!,
-      image: session?.user?.image!,
-      email: session?.user?.email!,
+      // @ts-expect-error
+      ...session?.user?.user,
+      // @ts-expect-error
+      name: session?.user?.user?.name!,
+      image:
+        // @ts-expect-error
+        session?.user?.user?.image! ??
+        `https://ui-avatars.com/api/?name=${user.name!}&background=random`,
+      // @ts-expect-error
+      email: session?.user?.user?.email!,
       type: "authenticated",
     });
 
@@ -88,29 +98,29 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, []);
 
-  useLayoutEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = await getUser();
+  // useLayoutEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const user = await getUser();
 
-        if (user?.status === "success") {
-          setUser({
-            ...user.user,
-            id: user.user._id,
-            type: "authenticated",
-            image:
-              `https://ui-avatars.com/api/?name=${user.user
-                .name!}&background=random` ?? "/facemoji.png",
-          });
-        } else if (user?.status === 401) {
-          router.push(DEFAULT_REVALIDATE_REDIRECT);
-        } else {
-        }
-      } catch (err) {}
-    };
+  //       if (user?.status === "success") {
+  //         setUser({
+  //           ...user.user,
+  //           id: user.user._id,
+  //           type: "authenticated",
+  //           image:
+  //             `https://ui-avatars.com/api/?name=${user.user
+  //               .name!}&background=random` ?? "/facemoji.png",
+  //         });
+  //       } else if (user?.status === 401) {
+  //         router.push(DEFAULT_REVALIDATE_REDIRECT);
+  //       } else {
+  //       }
+  //     } catch (err) {}
+  //   };
 
-    fetchUserData();
-  }, []);
+  //   fetchUserData();
+  // }, []);
 
   useEffect(() => {
     const openAddprofile = () => {

@@ -117,6 +117,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         companyName: res.data.user.companyName,
         website: res.data.user.website,
         role: res.data.user.role,
+        token: res.token,
         // createdAt: res.user.createdAt,
       };
 
@@ -207,7 +208,9 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
   }
 };
 
-export const ForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
+export const ForgetPassword = async (
+  values: z.infer<typeof ForgetPasswordSchema>
+) => {
   const validatedFields = ForgetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {

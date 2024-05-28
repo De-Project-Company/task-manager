@@ -11,10 +11,11 @@ const $http = Calls(BaseUrl);
 export const getUser = async () => {
   const authToken = cookies()?.get("access_token")?.value;
   const session = await auth();
+  // @ts-ignore
 
   if (session) {
     // @ts-ignore
-    cookies()?.set("access_token", session?.user?.token, {
+    cookies()?.set("access_token", session.user.accessToken, {
       maxAge: 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
       path: "/",
@@ -29,7 +30,7 @@ export const getUser = async () => {
     };
   }
   // @ts-ignore
-  const token = session?.user?.token;
+  const token = session.user.accessToken;
 
   const config = {
     headers: {

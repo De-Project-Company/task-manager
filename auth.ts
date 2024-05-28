@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import authConfig from "./auth.config";
 import { jwtDecode } from "jwt-decode";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+export const BASE_PATH = "/api/auth";
 
 export const {
   handlers: { GET, POST },
@@ -19,6 +20,8 @@ export const {
   },
 
   ...authConfig,
+  basePath: BASE_PATH,
+  secret: process.env.NEXT_PUBLIC_SECRET as string,
 });
 
 /**
