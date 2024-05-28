@@ -13,11 +13,6 @@ export const {
   pages: {
     signIn: "/auth/signin",
   },
-  events: {
-    async signIn({ user }) {
-      console.log("signIn", user.email);
-    },
-  },
 
   ...authConfig,
   basePath: BASE_PATH,

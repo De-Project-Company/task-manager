@@ -11,8 +11,7 @@ import { cn } from "@/utils";
 import { LogoutCurve, Setting2 } from "iconsax-react";
 import { EMPLOYERSSIDEBAR_LINKS } from "@/constants";
 import { useRouter } from "next/navigation";
-import { signOut as logOut } from "@/actions/auth";
-// import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
 
 const MobileSidebar = () => {
   const { openSidebarMain, setOpenSidebarMain } = useStateCtx();
@@ -28,14 +27,8 @@ const MobileSidebar = () => {
   }, [pathname]);
 
   const handleSignOut = async () => {
-    const result = await logOut();
-    if (result?.success) {
-      router.push("/");
-    } else {
-      console.error(result?.error);
-    }
+    await signOut();
   };
-
   return (
     <>
       <div

@@ -39,6 +39,11 @@ export default {
       console.log(session);
       return session;
     },
+    authorized({ auth }) {
+      const isAuthenticated = !!auth?.user;
+      console.log(isAuthenticated);
+      return isAuthenticated;
+    },
   },
   secret: process.env.NEXT_PUBLIC_SECRET as string,
 } satisfies NextAuthConfig;
