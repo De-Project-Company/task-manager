@@ -1,0 +1,25 @@
+name: Label Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Add labels based on template
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const labels = issue.title.includes("[FEATURE]") ? ['feature'] : ['bug'];
+            const result = await github.issues.addLabels({
+              ...context.repo,
+              issue_number: issue.number,
+              labels: ['to be approved', ...labels]
+            });
+            console.log(result);
