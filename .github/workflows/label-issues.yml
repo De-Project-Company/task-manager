@@ -17,7 +17,7 @@ jobs:
           script: |
             const issue = context.payload.issue;
             const labels = issue.title.includes("[FEATURE]") ? ['feature'] : ['bug'];
-            const result = await github.issues.addLabels({
+            const result = await context.github.issues.addLabels({
               ...context.repo,
               issue_number: issue.number,
               labels: ['to be approved', ...labels]
