@@ -86,30 +86,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const res = await data.json();
 
     if (data.status === 200 || res.ok) {
-      cookie.set("access_token", res.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
-      cookies()?.set("access_token", res.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
-      setCookie("access_token", res.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
-      cookie.set("access_token", res.token, {
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-        httpOnly: true,
-        path: "/",
-        priority: "high",
-      });
       const user = {
         id: res.data.user._id,
         name: res.data.user.name,
@@ -123,7 +99,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       const token = res.token;
 
       cookie.set("user", JSON.stringify(user), {
-        maxAge: 60 * 60 * 24 * 1, // 1 day
+        maxAge: 60 * 60 * 24 * 1,
         httpOnly: true,
         path: "/",
         priority: "high",
@@ -136,7 +112,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
           token: res.token,
         };
         cookie.set("userId", JSON.stringify(userId), {
-          maxAge: 60 * 60 * 24 * 1, // 1 day
+          maxAge: 60 * 60 * 24 * 1,
           path: "/",
           priority: "high",
         });
@@ -148,7 +124,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         res,
         token,
         success: "Login successful!",
-        // redirect: DEFAULT_LOGIN_REDIRECT,
       };
     }
     if (data.status === 400) {
@@ -207,7 +182,9 @@ export const activateUser = async (values: z.infer<typeof activateASchema>) => {
   }
 };
 
-export const ForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
+export const ForgetPassword = async (
+  values: z.infer<typeof ForgetPasswordSchema>
+) => {
   const validatedFields = ForgetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, {
@@ -51,16 +52,12 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     // @ts-expect-error
     if (!session?.user?.user?.email) return;
     setUser({
-      // @ts-expect-error
-      ...session?.user?.user,
-      // @ts-expect-error
-      name: session?.user?.user?.name!,
+      ...session?.user,
+      name: session?.user?.name!,
       image:
-        // @ts-expect-error
-        session?.user?.user?.image! ??
+        session?.user?.image! ??
         `https://ui-avatars.com/api/?name=${user.name!}&background=random`,
-      // @ts-expect-error
-      email: session?.user?.user?.email!,
+      email: session?.user?.email!,
       type: "authenticated",
     });
 

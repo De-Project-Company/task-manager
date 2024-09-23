@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 import authConfig from "./auth.config";
 import { jwtDecode } from "jwt-decode";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
@@ -34,4 +34,22 @@ export async function getCredentials(req: ReadonlyRequestCookies) {
   const decodedToken = jwtDecode(tokens);
   const credentials = { token: tokens, expires: decodedToken.exp };
   return credentials;
+}
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id?: string;
+      name?: string;
+      email?: string;
+      companyName?: string;
+      website?: string;
+      role?: string;
+      createdAt?: string;
+      image?: string;
+      token?: string;
+      type?: "authenticated" | "guest" | "anonymous" | "unauthenticated";
+    } & DefaultSession["user"];
+    access_token?: string;
+  }
 }
